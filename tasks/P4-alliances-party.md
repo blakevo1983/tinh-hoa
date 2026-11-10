@@ -35,10 +35,10 @@
 - [x] Unit tests và property tests cho buff ngũ hành.
 
 ### T4.6 — Giao diện Liên minh & Party UI
-- [ ] Component `apps/web/src/components/alliance-panel.ts`: danh sách thành viên, trạng thái kho chung, nút hành động theo vai trò.
-- [ ] Component `apps/web/src/components/party-panel.ts`: tạo/gia nhập nhóm, danh sách thành viên và điểm đóng góp.
-- [ ] Tuân thủ Rule 25: min touch target 44px, tương phản cao, aria attributes.
-- [ ] Unit tests cho giao diện.
+- [x] Component `apps/web/src/components/alliance-panel.ts`: danh sách thành viên, trạng thái kho chung, nút hành động theo vai trò.
+- [x] Component `apps/web/src/components/party-panel.ts`: tạo/gia nhập nhóm, danh sách thành viên và điểm đóng góp.
+- [x] Tuân thủ Rule 25: min touch target 44px, tương phản cao, aria attributes.
+- [x] Unit tests cho giao diện.
 
 ### T4.7 — Kiểm thử đối kháng an ninh (Security Exploits)
 - [ ] Test race condition khi 2 người cùng rút kho chung hoặc rút quá số dư.
