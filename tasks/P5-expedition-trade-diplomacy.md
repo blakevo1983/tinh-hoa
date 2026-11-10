@@ -38,11 +38,11 @@
 - [x] Unit tests cho các component giao diện.
 
 ### T5.7 — Kiểm thử đối kháng an ninh (Security Exploits)
-- [ ] Test arbitrage exploit: chu trình giao dịch liên hoàn nhiều bước $A \to B \to C \to A$ luôn luôn chịu hao hụt.
-- [ ] Test vượt hạn mức giao thương ngày.
-- [ ] Test gian lận thời gian nhận thưởng viễn chinh trước khi `finish_at`.
-- [ ] Test double-claim phần thưởng thăm dò.
-- [ ] Test thành viên thường/officer cố tình gửi đề xuất ngoại giao hoặc tuyên bố chiến tranh.
+- [x] Test arbitrage exploit: chu trình giao dịch liên hoàn nhiều bước $A \to B \to C \to A$ luôn luôn chịu hao hụt.
+- [x] Test vượt hạn mức giao thương ngày.
+- [x] Test gian lận thời gian nhận thưởng viễn chinh trước khi `finish_at`.
+- [x] Test double-claim phần thưởng thăm dò.
+- [x] Test thành viên thường/officer cố tình gửi đề xuất ngoại giao hoặc tuyên bố chiến tranh.
 
 ### T5.8 — Security Review & Đóng Phase P5
 - [ ] Báo cáo đánh giá an ninh tại `docs/security-reviews/P5.md`.
