@@ -27,10 +27,10 @@
 **Acceptance:** tạo được một hành tinh; tạo lần hai bị từ chối; không thể ép seed từ client (test).
 
 ### T1.4 — Tài nguyên "lười" và offline
-- [ ] Hàm thuần `settleResources(balance, now, offlineCapSec)`.
-- [ ] Đọc trạng thái luôn kết toán theo giờ server; trần offline mặc định 8 giờ.
-- [ ] Client hiển thị ước lượng tăng dần, định kỳ đồng bộ với server.
-- [ ] Test: đổi giờ máy client **không** ảnh hưởng; offline vượt trần chỉ nhận đến trần.
+- [x] Hàm thuần `settleResources(balance, now, offlineCapSec)`.
+- [x] Đọc trạng thái luôn kết toán theo giờ server; trần offline mặc định 8 giờ.
+- [x] Client hiển thị ước lượng tăng dần, định kỳ đồng bộ với server.
+- [x] Test: đổi giờ máy client **không** ảnh hưởng; offline vượt trần chỉ nhận đến trần.
 
 **Acceptance:** thu thập đúng sau 1 phút/1 giờ/24 giờ giả lập (fakeClock).
 

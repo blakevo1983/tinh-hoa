@@ -32,3 +32,5 @@ export function createFakeClock(initialTime = 0): FakeClock {
     },
   };
 }
+
+export const fakeClock = createFakeClock;
