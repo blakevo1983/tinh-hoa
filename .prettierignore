@@ -6,3 +6,5 @@ pnpm-lock.yaml
 *.sql.dump
 *.sql
 *.md
+supabase/functions/_shared/
+supabase/.temp/
