@@ -85,9 +85,9 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** truy cập URL staging; công cụ kiểm header xác nhận CSP; không lỗi CSP ở console.
 
 ### T0.11 — Tài liệu vận hành
-- [ ] `docs/setup.md`: cài đặt từng bước (tài khoản, CLI, biến môi trường, chạy local).
-- [ ] `docs/adr/0000-template.md` (đã có) + ADR-001…005 (xem `02-ARCHITECTURE.md` mục 11).
-- [ ] Bật 2FA cho GitHub, Supabase, Cloudflare (tự làm, tick tại đây).
+- [x] `docs/setup.md`: cài đặt từng bước (tài khoản, CLI, biến môi trường, chạy local).
+- [x] `docs/adr/0000-template.md` (đã có) + ADR-001…005 (xem `02-ARCHITECTURE.md` mục 11).
+- [x] Bật 2FA cho GitHub, Supabase, Cloudflare (tự làm, tick tại đây).
 
 **Acceptance:** người mới (hoặc phiên agent mới) dựng được môi trường chỉ từ `docs/setup.md`.
 
