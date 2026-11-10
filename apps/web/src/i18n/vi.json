@@ -214,5 +214,35 @@
     "defeat": "Thất Bại Thảo Phạt",
     "lootGained": "Chiến lợi phẩm cướp được: {loot}",
     "geneAssimilated": "Đồng hóa được nguồn gen: {element} (+{val} {stat})"
+  },
+  "moderation": {
+    "title": "Bảng Kiểm Duyệt & Vận Hành",
+    "subtitle": "Xử lý báo cáo vi phạm cộng đồng và bảo vệ trật tự liên hành tinh",
+    "tabReports": "Báo Cáo Vi Phạm",
+    "tabMuted": "Danh Sách Đang Mute",
+    "noReports": "Hiện không có báo cáo vi phạm nào cần xử lý.",
+    "reporter": "Người báo cáo",
+    "reportedUser": "Người bị báo cáo",
+    "reason": "Lý do",
+    "reportedMessage": "Tin nhắn vi phạm",
+    "statusPending": "Chờ xử lý",
+    "statusResolved": "Đã xử lý",
+    "statusDismissed": "Đã bỏ qua",
+    "btnDismiss": "Bỏ qua",
+    "btnMute1h": "Cấm chat 1 giờ",
+    "btnMute24h": "Cấm chat 24 giờ",
+    "btnBan": "Khóa tài khoản",
+    "actionSuccess": "Đã thực thi quyết định xử phạt thành công.",
+    "confirmBan": "Bạn có chắc chắn muốn khóa tài khoản này vĩnh viễn không?"
+  },
+  "systemStatus": {
+    "title": "Trạng Thái Máy Chủ",
+    "statusOnline": "Hoạt Động Bình Thường",
+    "statusDegraded": "Hiệu Năng Suy Giảm",
+    "statusOffline": "Mất Kết Nối",
+    "ping": "Độ trễ: {ms}ms",
+    "fps": "FPS: {fps}",
+    "edgeRegion": "Edge Node: sin1 (Singapore)",
+    "zeroBudget": "Hạ tầng 0đ: Vận hành tối ưu"
   }
 }

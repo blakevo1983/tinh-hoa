@@ -214,5 +214,35 @@
     "defeat": "Crushing Defeat",
     "lootGained": "Spoils pillaged: {loot}",
     "geneAssimilated": "Assimilated alien gene strain: {element} (+{val} {stat})"
+  },
+  "moderation": {
+    "title": "Moderation & Operations",
+    "subtitle": "Review community reports and enforce interplanetary peace",
+    "tabReports": "Violation Reports",
+    "tabMuted": "Muted Users",
+    "noReports": "No pending violation reports at this time.",
+    "reporter": "Reporter",
+    "reportedUser": "Reported User",
+    "reason": "Reason",
+    "reportedMessage": "Reported Message",
+    "statusPending": "Pending",
+    "statusResolved": "Resolved",
+    "statusDismissed": "Dismissed",
+    "btnDismiss": "Dismiss",
+    "btnMute1h": "Mute 1 Hour",
+    "btnMute24h": "Mute 24 Hours",
+    "btnBan": "Permanent Ban",
+    "actionSuccess": "Moderation action executed successfully.",
+    "confirmBan": "Are you sure you want to permanently ban this account?"
+  },
+  "systemStatus": {
+    "title": "System Status",
+    "statusOnline": "Operational",
+    "statusDegraded": "Degraded Performance",
+    "statusOffline": "Offline",
+    "ping": "Latency: {ms}ms",
+    "fps": "FPS: {fps}",
+    "edgeRegion": "Edge Node: sin1 (Singapore)",
+    "zeroBudget": "$0 Infrastructure: Optimized"
   }
 }

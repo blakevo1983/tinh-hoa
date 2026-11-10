@@ -16,6 +16,7 @@ import {
 import { createBreedingPanel, type AvailableCreature } from "./components/breeding-panel.js";
 import { createCodexPanel } from "./components/codex-panel.js";
 import { createChatPanel } from "./components/chat-panel.js";
+import { createStatusIndicator } from "./components/status-indicator.js";
 import { SupabaseChatTransport } from "./lib/chat-transport.js";
 
 interface AppState {
@@ -76,6 +77,14 @@ export function initApp(rootElement: HTMLElement): () => void {
   });
 
   header.appendChild(brand);
+
+  // System Status & Health Indicator (T7.4, Rule 25)
+  const statusIndicator = createStatusIndicator({
+    initialPingMs: 38,
+    initialFps: 60,
+  });
+  header.appendChild(statusIndicator.element);
+
   header.appendChild(langBtn);
   rootElement.appendChild(header);
 

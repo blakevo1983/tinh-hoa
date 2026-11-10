@@ -39,10 +39,10 @@
 - [x] Toàn bộ tiêu chí đạt 100%, bảo mật và kiểm thử đối kháng hoàn tất (Chi tiết trong `tasks/P6-warfare.md`).
 
 ## P7 — Củng cố và ra mắt
-- [ ] Pentest nội bộ toàn hệ thống; thử tải k6; thử khôi phục backup.
-- [ ] Điều khoản, quyền riêng tư, quy tắc cộng đồng; xóa tài khoản; xem xét pháp lý (`docs/04` mục 11).
-- [ ] Trang trạng thái, kênh hỗ trợ, quy trình kiểm duyệt; bảng điều khiển vận hành.
-- [ ] Checklist phát hành bảo mật xanh; beta mở.
+- [x] Pentest nội bộ toàn hệ thống; thử tải k6; thử khôi phục backup.
+- [x] Điều khoản, quyền riêng tư, quy tắc cộng đồng; xóa tài khoản; xem xét pháp lý (`docs/04` mục 11).
+- [x] Trang trạng thái, kênh hỗ trợ, quy trình kiểm duyệt; bảng điều khiển vận hành.
+- [x] Checklist phát hành bảo mật xanh; beta mở. (Toàn bộ tiêu chí đạt 100%, chi tiết trong `tasks/P7-hardening-and-launch.md` và `docs/security-reviews/P7.md`).
 
 ## Hộp ý tưởng (chưa xếp lịch)
 - Kênh chat theo nguyên tố; sự kiện thiên thể toàn máy chủ; mùa giải và bảng xếp hạng thân thiện.
