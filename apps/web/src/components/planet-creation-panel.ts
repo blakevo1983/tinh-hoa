@@ -1,5 +1,5 @@
 import type { ElementKey, PlanetTile } from "@tinh-hoa/shared";
-import { getSupabase } from "../lib/supabase.js";
+import { getSupabase, supabaseUrl } from "../lib/supabase.js";
 
 export interface CreatedPlanetData {
   id: string;
@@ -121,24 +121,21 @@ export function createPlanetCreationPanel(options: PlanetCreationPanelOptions): 
       }
 
       const idempotencyKey = crypto.randomUUID();
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL || "http://localhost:54321"}/functions/v1/command`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session.access_token}`,
-          },
-          body: JSON.stringify({
-            type: "planet.create",
-            idempotency_key: idempotencyKey,
-            payload: {
-              name,
-              primary_element: options.selectedElement,
-            },
-          }),
+      const response = await fetch(`${supabaseUrl}/functions/v1/command`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
         },
-      );
+        body: JSON.stringify({
+          type: "planet.create",
+          idempotency_key: idempotencyKey,
+          payload: {
+            name,
+            primary_element: options.selectedElement,
+          },
+        }),
+      });
 
       const data = await response.json();
 

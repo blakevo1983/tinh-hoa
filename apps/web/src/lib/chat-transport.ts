@@ -1,5 +1,5 @@
 import type { ChatMessage } from "@tinh-hoa/shared";
-import { getSupabase } from "./supabase.js";
+import { getSupabase, supabaseUrl } from "./supabase.js";
 
 export interface ChatTransport {
   send(channelId: string, content: string, clientMsgId: string): Promise<ChatMessage>;
@@ -11,7 +11,6 @@ export class SupabaseChatTransport implements ChatTransport {
   private functionUrl: string;
 
   constructor(functionUrl?: string) {
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "http://127.0.0.1:54321";
     this.functionUrl = functionUrl || `${supabaseUrl}/functions/v1/chat-send`;
   }
 
