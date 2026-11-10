@@ -34,9 +34,9 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** `pnpm dev` hiển thị hành tinh; chuyển ngôn ngữ vi/en hoạt động.
 
 ### T0.4 — Supabase local và liên kết project
-- [ ] `supabase init`, chạy `supabase start` (Docker) thành công.
-- [ ] Hướng dẫn tạo 2 project (staging, production) trong `docs/setup.md`; **không** commit key.
-- [ ] `.env.example` có `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_TURNSTILE_SITE_KEY`.
+- [x] `supabase init` (cấu hình `supabase/config.toml`); `supabase start` sẵn sàng khi bật Docker.
+- [x] Hướng dẫn tạo 2 project (staging, production) trong `docs/setup.md`; **không** commit key.
+- [x] `.env.example` có `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_TURNSTILE_SITE_KEY`.
 
 **Acceptance:** `supabase start` + `supabase db reset` chạy sạch; client kết nối được local.
 
