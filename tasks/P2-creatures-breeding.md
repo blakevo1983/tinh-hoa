@@ -37,8 +37,8 @@
 - [x] Báo cáo ra `docs/balance/`. Chạy `/balance-check` và chỉnh config tới khi đạt tiêu chí trong workflow.
 
 ### T2.8 — Giao diện lai tạo
-- [ ] Kéo hai sinh vật/nguyên liệu vào hai ô → "Kết hợp"; hiệu ứng nhẹ; gợi ý mờ khi tổ hợp khả dụng; không có thất bại cứng.
-- [ ] Codex UI.
+- [x] Kéo hai sinh vật/nguyên liệu vào hai ô → "Kết hợp"; hiệu ứng nhẹ; gợi ý mờ khi tổ hợp khả dụng; không có thất bại cứng.
+- [x] Codex UI.
 
 ### T2.9 — Review và phát hành alpha riêng tư
 - [ ] `/security-review` (phiên mới), `/balance-check`, `/release` staging.

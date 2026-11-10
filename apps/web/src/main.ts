@@ -13,6 +13,8 @@ import {
   createPlanetCreationPanel,
   type CreatedPlanetData,
 } from "./components/planet-creation-panel.js";
+import { createBreedingPanel, type AvailableCreature } from "./components/breeding-panel.js";
+import { createCodexPanel } from "./components/codex-panel.js";
 
 interface AppState {
   locale: Locale;
@@ -301,6 +303,65 @@ export function initApp(rootElement: HTMLElement): () => void {
     },
   });
   paletteSection.appendChild(creationPanel);
+
+  // Breeding & Codex Section (T2.8)
+  const initialCreatures: AvailableCreature[] = [
+    {
+      id: "demo-c-1",
+      speciesKey: "thiet_giap_thu",
+      name: "Thiết Giáp Thú (Kim)",
+      genome: {
+        primary: "metal",
+        secondary: null,
+        stats: { qi: 30, guard: 50, agility: 20, harmony: 20, chaos: 10 },
+        traits: ["solid_armor"],
+        generation: 1,
+        inbreeding: 0,
+      },
+    },
+    {
+      id: "demo-c-2",
+      speciesKey: "bang_tinh_ngu",
+      name: "Băng Tinh Ngư (Thủy)",
+      genome: {
+        primary: "water",
+        secondary: null,
+        stats: { qi: 35, guard: 25, agility: 40, harmony: 30, chaos: 10 },
+        traits: ["water_skin"],
+        generation: 1,
+        inbreeding: 0,
+      },
+    },
+    {
+      id: "demo-c-3",
+      speciesKey: "thien_loi_dieu",
+      name: "Thiên Lôi Điêu (Lôi)",
+      genome: {
+        primary: "thunder",
+        secondary: null,
+        stats: { qi: 45, guard: 20, agility: 55, harmony: 15, chaos: 30 },
+        traits: ["thunder_wings"],
+        generation: 1,
+        inbreeding: 0,
+      },
+    },
+  ];
+
+  const breedingPanel = createBreedingPanel({
+    planetId: state.activePlanet?.id || "demo-planet",
+    creatures: initialCreatures,
+    onBreed: async () => {
+      // In web demo, provide instant visual response
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    },
+  });
+  paletteSection.appendChild(breedingPanel);
+
+  const codexPanel = createCodexPanel({
+    unlockedSpeciesKeys: ["thiet_giap_thu", "bang_tinh_ngu"],
+    unlockedItemKeys: ["raw_metal_ore", "raw_water_drop", "iron_essence"],
+  });
+  paletteSection.appendChild(codexPanel);
 
   mainStage.appendChild(paletteSection);
   rootElement.appendChild(mainStage);

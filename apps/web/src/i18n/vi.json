@@ -61,5 +61,40 @@
     "selectElement": "Chọn nguyên tố {name}",
     "planetCanvasAlt": "Hình tròn mô phỏng hành tinh xoay tròn theo nguyên tố đã chọn",
     "languageToggle": "Đổi ngôn ngữ giao diện"
+  },
+  "breeding": {
+    "title": "Hồ Giao Hòa — Lai Tạo Sinh Vật",
+    "subtitle": "Kết hợp hai sinh vật để ươm mầm thế hệ kế tiếp theo quy luật ngũ hành",
+    "slotA": "Mẫu thể A",
+    "slotB": "Mẫu thể B",
+    "chooseCreature": "Chọn sinh vật",
+    "selectPlaceholder": "-- Chọn mẫu thể --",
+    "actionBreed": "Giao Hòa Ngũ Hành",
+    "hatchingTime": "Thời gian ấp trứng: {time}s",
+    "cost": "Chi phí: {amount} {resource}",
+    "relation": "Quan hệ ngũ hành",
+    "relationSame": "Cùng Hệ: Tăng độ thuần chủng và chỉ số chính",
+    "relationGenerative": "Tương Sinh: Bổ trợ hòa hợp (+Hòa Khí)",
+    "relationDestructive": "Tương Khắc: Dễ kích hoạt biến dị (+Hỗn Loạn)",
+    "relationPolar": "Đối Cực: Tương phản Quang - Ám, tiềm năng biến dị cực đại",
+    "relationNeutral": "Trung Tính: Lai tạo cân bằng",
+    "inbreedingWarning": "Cảnh báo cận huyết: Chỉ số con non có thể bị suy giảm do trùng dòng dõi!",
+    "hatching": "Đang ấp trứng... Hãy kiên nhẫn đợi mầm sống cựa mình.",
+    "breedSuccess": "Gieo mầm thành công! Trứng sinh vật đang được ươm dưỡng.",
+    "noHarm": "Mọi kết hợp đều tạo nên mầm sống mới, không có thất bại cứng."
+  },
+  "codex": {
+    "title": "Vạn Vật Chí (Codex)",
+    "subtitle": "Kho tàng ghi chép các loài sinh vật và nguyên liệu đã được phát hiện",
+    "speciesProgress": "Loài sinh vật đã khám phá: {count}/{total}",
+    "itemsProgress": "Nguyên liệu đã khám phá: {count}/{total}",
+    "tabCreatures": "Sinh Vật",
+    "tabItems": "Nguyên Liệu",
+    "filterAll": "Tất cả",
+    "unlocked": "Đã khám phá",
+    "locked": "Bí ẩn — Chưa mở khóa",
+    "generation": "Thế hệ {gen}",
+    "inbreedingLevel": "Cận huyết: Cấp {level}",
+    "discoveredOn": "Khám phá lúc: {date}"
   }
 }

@@ -61,5 +61,40 @@
     "selectElement": "Select {name} element",
     "planetCanvasAlt": "Circular canvas simulating the rotating planet based on chosen element",
     "languageToggle": "Toggle interface language"
+  },
+  "breeding": {
+    "title": "Harmony Pool — Creature Breeding",
+    "subtitle": "Fuse two organisms to nurture the next generation guided by elemental laws",
+    "slotA": "Specimen A",
+    "slotB": "Specimen B",
+    "chooseCreature": "Choose creature",
+    "selectPlaceholder": "-- Select specimen --",
+    "actionBreed": "Commence Elemental Fusion",
+    "hatchingTime": "Incubation period: {time}s",
+    "cost": "Cost: {amount} {resource}",
+    "relation": "Elemental Affinity",
+    "relationSame": "Same Element: Strengthens purity and core statistics",
+    "relationGenerative": "Generative: Bolsters synergy (+Harmony)",
+    "relationDestructive": "Destructive: Prompts elemental variance (+Chaos)",
+    "relationPolar": "Polar: Light - Dark polarity, extreme mutation potential",
+    "relationNeutral": "Neutral: Balanced hybridization",
+    "inbreedingWarning": "Inbreeding Warning: Stats may be penalized due to shared lineage!",
+    "hatching": "Incubating egg... Please await the emergence of new life.",
+    "breedSuccess": "Fusion initiated! The egg is safely gestating in the pool.",
+    "noHarm": "All combinations cultivate new vitality; there is no hard failure."
+  },
+  "codex": {
+    "title": "Universal Codex",
+    "subtitle": "Archive documenting discovered biological species and synthesizable items",
+    "speciesProgress": "Species cataloged: {count}/{total}",
+    "itemsProgress": "Materials cataloged: {count}/{total}",
+    "tabCreatures": "Creatures",
+    "tabItems": "Materials",
+    "filterAll": "All",
+    "unlocked": "Cataloged",
+    "locked": "Mysterious — Undiscovered",
+    "generation": "Generation {gen}",
+    "inbreedingLevel": "Inbreeding: Lvl {level}",
+    "discoveredOn": "Discovered at: {date}"
   }
 }
