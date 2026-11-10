@@ -33,9 +33,9 @@
 - [x] Unit test UI Chat.
 
 ### T3.6 — Báo cáo vi phạm & Thông báo offline (Notifications)
-- [ ] Lệnh gửi báo cáo vi phạm lưu vào `chat_reports` kèm ảnh chụp 20 tin xung quanh.
-- [ ] Bảng `notifications`: lưu thông báo sự kiện (lời mời kết bạn, tin nhắn DM mới khi offline).
-- [ ] RPC đánh dấu đã đọc `mark_notification_read`.
+- [x] Lệnh gửi báo cáo vi phạm lưu vào `chat_reports` kèm ảnh chụp 20 tin xung quanh.
+- [x] Bảng `notifications`: lưu thông báo sự kiện (lời mời kết bạn, tin nhắn DM mới khi offline).
+- [x] RPC đánh dấu đã đọc `mark_notification_read`.
 
 ### T3.7 — Kiểm thử đối kháng an ninh (Security Exploits)
 - [ ] Test chống XSS injection trong nội dung chat.
