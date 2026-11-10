@@ -31,11 +31,11 @@
 - [x] Unit tests và property-based tests chứng minh không tồn tại bất kỳ chu trình arbitrage sinh lời vô hạn nào ($A \to B \to C \to A$).
 
 ### T5.6 — Giao diện Thăm dò, Thị trường & Ngoại giao UI
-- [ ] Component `apps/web/src/components/expedition-panel.ts`: danh sách hành tinh NPC, gửi tàu thăm dò, theo dõi tiến độ job.
-- [ ] Component `apps/web/src/components/trade-panel.ts`: giao diện trao đổi tài nguyên, máy tính tỷ giá, hạn mức giao dịch.
-- [ ] Component `apps/web/src/components/diplomacy-panel.ts`: danh sách liên minh và quản lý quan hệ ngoại giao.
-- [ ] Tuân thủ Rule 25: min touch target 44px, tương phản cao, aria attributes.
-- [ ] Unit tests cho các component giao diện.
+- [x] Component `apps/web/src/components/expedition-panel.ts`: danh sách hành tinh NPC, gửi tàu thăm dò, theo dõi tiến độ job.
+- [x] Component `apps/web/src/components/trade-panel.ts`: giao diện trao đổi tài nguyên, máy tính tỷ giá, hạn mức giao dịch.
+- [x] Component `apps/web/src/components/diplomacy-panel.ts`: danh sách liên minh và quản lý quan hệ ngoại giao.
+- [x] Tuân thủ Rule 25: min touch target 44px, tương phản cao, aria attributes.
+- [x] Unit tests cho các component giao diện.
 
 ### T5.7 — Kiểm thử đối kháng an ninh (Security Exploits)
 - [ ] Test arbitrage exploit: chu trình giao dịch liên hoàn nhiều bước $A \to B \to C \to A$ luôn luôn chịu hao hụt.

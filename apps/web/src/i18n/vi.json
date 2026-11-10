@@ -160,5 +160,42 @@
     "activityExploration": "Thăm dò chung",
     "activityBoss": "Săn Boss Thiên Thể",
     "activityPair": "Nhiệm vụ Cặp Đôi"
+  },
+  "expedition": {
+    "title": "Viễn Chinh & Thăm Dò Thiên Hà",
+    "subtitle": "Phóng tàu trinh sát đến các hành tinh NPC khám phá tài nguyên và mẫu gen",
+    "observatoryRequired": "Cần nâng cấp hành tinh lên Giai đoạn 4 và xây dựng Đài Quan Sát.",
+    "btnLaunch": "Phóng Tàu Thăm Dò (50 Năng lượng)",
+    "btnSettle": "Thu Nhận Báo Cáo & Phần Thưởng",
+    "statusInProgress": "Đang bay trong quỹ đạo viễn chinh...",
+    "finishIn": "Dự kiến tới đích sau: {sec}s",
+    "targetPlanet": "Hành tinh đích: {name}",
+    "personality": "Tính cách: {personality}",
+    "rewardsPreview": "Ước tính phần thưởng: {rewards}"
+  },
+  "trade": {
+    "title": "Thị Trường Giao Thương Liên Tinh",
+    "subtitle": "Trao đổi nguyên tố với các thương đoàn hành tinh NPC",
+    "selectNpc": "Chọn đối tác hành tinh NPC",
+    "offerLabel": "Nguyên tố cống nạp",
+    "targetLabel": "Nguyên tố thu nhận",
+    "rateLabel": "Tỷ giá: 1 {offer} = {rate} {target}",
+    "dailyCap": "Hạn mức ngày: {used}/{max} đơn vị",
+    "btnExchange": "Xác Nhận Trao Đổi",
+    "successMessage": "Trao đổi thành công! Đã gửi {offer} và nhận về {receive}."
+  },
+  "diplomacy": {
+    "title": "Ngoại Giao Liên Minh",
+    "subtitle": "Thiết lập bang giao, liên kết đồng minh hoặc tuyên bố thù địch",
+    "statusNeutral": "Trung Lập",
+    "statusAllied": "Đồng Minh",
+    "statusHostile": "Thù Địch",
+    "statusPending": "Chờ Phản Hồi",
+    "btnProposeAlliance": "Đề Xuất Đồng Minh",
+    "btnDeclareHostile": "Tuyên Bố Thù Địch",
+    "btnDeclareNeutral": "Thiết Lập Trung Lập",
+    "btnAccept": "Chấp Thuận",
+    "btnReject": "Từ Chối",
+    "onlyLeaderCanAct": "Chỉ Thủ Lĩnh liên minh mới có quyền thực hiện ngoại giao."
   }
 }

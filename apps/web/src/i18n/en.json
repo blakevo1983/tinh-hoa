@@ -160,5 +160,42 @@
     "activityExploration": "Joint Exploration",
     "activityBoss": "Celestial Boss Raid",
     "activityPair": "Pair Mission"
+  },
+  "expedition": {
+    "title": "Celestial Expeditions",
+    "subtitle": "Launch scout probes to NPC celestial bodies to gather resources and genestrains",
+    "observatoryRequired": "Requires Stage 4 planet evolution and an operational Observatory.",
+    "btnLaunch": "Launch Probe (50 Energy)",
+    "btnSettle": "Retrieve Recon Report & Rewards",
+    "statusInProgress": "Probe currently navigating deep space...",
+    "finishIn": "Arrival in: {sec}s",
+    "targetPlanet": "Destination: {name}",
+    "personality": "Temperament: {personality}",
+    "rewardsPreview": "Estimated returns: {rewards}"
+  },
+  "trade": {
+    "title": "Interstellar Exchange Market",
+    "subtitle": "Barter essential elements with NPC merchant outposts",
+    "selectNpc": "Select Trading Partner",
+    "offerLabel": "Offered Element",
+    "targetLabel": "Requested Element",
+    "rateLabel": "Rate: 1 {offer} = {rate} {target}",
+    "dailyCap": "Daily Quota: {used}/{max} units",
+    "btnExchange": "Confirm Barter",
+    "successMessage": "Barter executed! Dispatched {offer} and received {receive}."
+  },
+  "diplomacy": {
+    "title": "Alliance Diplomacy",
+    "subtitle": "Establish alliances, declare hostility, or broker neutrality",
+    "statusNeutral": "Neutral",
+    "statusAllied": "Allied",
+    "statusHostile": "Hostile",
+    "statusPending": "Proposal Pending",
+    "btnProposeAlliance": "Propose Alliance",
+    "btnDeclareHostile": "Declare Hostility",
+    "btnDeclareNeutral": "Broker Neutrality",
+    "btnAccept": "Accept Proposal",
+    "btnReject": "Decline Proposal",
+    "onlyLeaderCanAct": "Only the Alliance Leader can declare or negotiate diplomacy."
   }
 }
