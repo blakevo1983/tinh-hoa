@@ -17,11 +17,11 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** `pnpm install && pnpm lint && pnpm typecheck && pnpm test && pnpm build` chạy sạch trên máy mới.
 
 ### T0.2 — `packages/shared` khung
-- [ ] Interface `Clock` (`now(): number`) + `systemClock` + `fakeClock` cho test.
-- [ ] Interface `Rng` + cài đặt xác định theo seed (ví dụ mulberry32/xoshiro) + `seededRng(seed)`; **không** dùng `Math.random`.
-- [ ] `Result<T,E>`, `GameError` với mã lỗi cố định (`INSUFFICIENT_RESOURCES`, `COOLDOWN`, `VERSION_CONFLICT`, `NOT_OWNER`, `RATE_LIMITED`, `INVALID_INPUT`).
-- [ ] Config: `elements.ts` (8 nguyên tố, chỉ số, quan hệ sinh/khắc theo GDD mục 3), `limits.ts` (rate limit khởi điểm).
-- [ ] Kiểu + zod schema cho `ElementKey`, `StatKey`, `Genome`, `Command` (khung union).
+- [x] Interface `Clock` (`now(): number`) + `systemClock` + `fakeClock` cho test.
+- [x] Interface `Rng` + cài đặt xác định theo seed (ví dụ mulberry32/xoshiro) + `seededRng(seed)`; **không** dùng `Math.random`.
+- [x] `Result<T,E>`, `GameError` với mã lỗi cố định (`INSUFFICIENT_RESOURCES`, `COOLDOWN`, `VERSION_CONFLICT`, `NOT_OWNER`, `RATE_LIMITED`, `INVALID_INPUT`).
+- [x] Config: `elements.ts` (8 nguyên tố, chỉ số, quan hệ sinh/khắc theo GDD mục 3), `limits.ts` (rate limit khởi điểm).
+- [x] Kiểu + zod schema cho `ElementKey`, `StatKey`, `Genome`, `Command` (khung union).
 
 **Acceptance:** test chứng minh RNG xác định theo seed; ma trận khắc/sinh khớp GDD; kiểu `Genome` từ chối chỉ số ngoài biên.
 
