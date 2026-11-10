@@ -20,6 +20,7 @@ export * from "./schemas/planet.js";
 
 // Generation
 export * from "./generation/planet-generator.js";
+export * from "./generation/planet-expansion.js";
 
 // Economy
 export * from "./economy/resource-settler.js";

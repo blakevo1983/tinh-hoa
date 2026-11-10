@@ -55,11 +55,23 @@ export const BuildingUpgradeCommandSchema = BaseCommandSchema.extend({
 
 export type BuildingUpgradeCommand = z.infer<typeof BuildingUpgradeCommandSchema>;
 
+export const PlanetEvolveCommandSchema = BaseCommandSchema.extend({
+  type: z.literal("planet.evolve"),
+  payload: z
+    .object({
+      planet_id: z.string().uuid(),
+    })
+    .strict(),
+});
+
+export type PlanetEvolveCommand = z.infer<typeof PlanetEvolveCommandSchema>;
+
 export const CommandSchema = z.discriminatedUnion("type", [
   PingCommandSchema,
   PlanetCreateCommandSchema,
   BuildingPlaceCommandSchema,
   BuildingUpgradeCommandSchema,
+  PlanetEvolveCommandSchema,
 ]);
 
 export type Command = z.infer<typeof CommandSchema>;

@@ -58,6 +58,9 @@ function createMockSupabase(overrides?: {
                   owner_id: planetOwnerId,
                   primary_element: "wood",
                   state_version: 0,
+                  stage: 1,
+                  grid_size: 12,
+                  seed: 123456,
                 },
                 error: null,
               }),
@@ -85,23 +88,27 @@ function createMockSupabase(overrides?: {
         return {
           select: vi.fn().mockReturnValue({
             eq: vi.fn().mockReturnValue({
-              eq: vi.fn().mockReturnValue({
-                eq: vi.fn().mockReturnValue({
-                  maybeSingle: vi.fn().mockResolvedValue({
-                    data: existingBuilding,
+              eq: vi.fn().mockImplementation(() => {
+                // If it's a count query for kind
+                return {
+                  count: 1,
+                  eq: vi.fn().mockReturnValue({
+                    maybeSingle: vi.fn().mockResolvedValue({
+                      data: existingBuilding,
+                      error: null,
+                    }),
+                  }),
+                  single: vi.fn().mockResolvedValue({
+                    data: {
+                      id: "building-uuid-1",
+                      kind: "harvester",
+                      level: 1,
+                      tile_x: 2,
+                      tile_y: 2,
+                    },
                     error: null,
                   }),
-                }),
-              }),
-              single: vi.fn().mockResolvedValue({
-                data: {
-                  id: "building-uuid-1",
-                  kind: "harvester",
-                  level: 1,
-                  tile_x: 2,
-                  tile_y: 2,
-                },
-                error: null,
+                };
               }),
             }),
           }),
@@ -137,6 +144,12 @@ function createMockSupabase(overrides?: {
       }
       if (fn === "commit_effects") {
         return Promise.resolve({ data: { success: true, state_version: 1 }, error: null });
+      }
+      if (fn === "evolve_planet") {
+        return Promise.resolve({
+          data: { success: true, new_stage: 2, new_grid_size: 16, state_version: 2 },
+          error: null,
+        });
       }
       return Promise.resolve({ data: null, error: null });
     }),
@@ -511,6 +524,86 @@ describe("Command Gateway (Edge Function handleCommand)", () => {
 
       const body = await res.json();
       expect(body.error.code).toBe("NOT_OWNER");
+    });
+  });
+
+  describe("planet.evolve command", () => {
+    it("successfully evolves planet from stage 1 to stage 2 when conditions are met", async () => {
+      const mockSupabase = createMockSupabase({ resourceBalance: 150 });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "planet.evolve",
+          idempotency_key: "evolve-test-key-1",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(200);
+
+      const body = await res.json();
+      expect(body.ok).toBe(true);
+      expect(body.type).toBe("planet.evolve");
+      expect(body.stage).toBe(2);
+      expect(body.grid_size).toBe(16);
+      expect(body.new_tiles_count).toBe(112);
+    });
+
+    it("rejects evolve command with NOT_OWNER when targeting foreign planet", async () => {
+      const mockSupabase = createMockSupabase({
+        planetOwnerId: "other-user-uuid",
+      });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "planet.evolve",
+          idempotency_key: "evolve-alien-planet",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(403);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("NOT_OWNER");
+    });
+
+    it("rejects evolve command when resource balance is below 100", async () => {
+      const mockSupabase = createMockSupabase({ resourceBalance: 99 });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "planet.evolve",
+          idempotency_key: "evolve-broke",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(400);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("INSUFFICIENT_RESOURCES");
     });
   });
 });

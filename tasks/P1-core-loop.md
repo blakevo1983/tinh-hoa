@@ -58,8 +58,8 @@
 **Acceptance:** chơi liền 15 phút không lỗi; lỗi server hiển thị bằng chuỗi i18n.
 
 ### T1.8 — Mốc tiến hóa 1 → 2
-- [ ] Điều kiện lên mốc theo GDD mục 9; lệnh `planet.evolve`; mở rộng lưới 12 → 16.
-- [ ] Test: không lên mốc khi thiếu điều kiện; mở rộng lưới tạo ô mới **xác định theo seed**.
+- [x] Điều kiện lên mốc theo GDD mục 9; lệnh `planet.evolve`; mở rộng lưới 12 → 16.
+- [x] Test: không lên mốc khi thiếu điều kiện; mở rộng lưới tạo ô mới **xác định theo seed**.
 
 **Acceptance:** lên Sơ khai thành công; dữ liệu cũ không đổi.
 

@@ -3,6 +3,7 @@ import {
   CommandSchema,
   type Command,
   generatePlanet,
+  generateExpandedTiles,
   ELEMENT_KEYS,
   getBuildingCost,
   getBuildingTimeSec,
@@ -482,6 +483,99 @@ export async function handleCommand(
           finish_at: finishAtIso,
         },
         new_version: commitResult.state_version,
+      };
+      break;
+    }
+
+    case "planet.evolve": {
+      const { planet_id } = command.payload;
+
+      // Settle offline jobs and resources first
+      await supabase.rpc("settle_planet_jobs", { p_planet_id: planet_id });
+      await supabase.rpc("settle_planet_resources", { p_planet_id: planet_id });
+
+      const { data: planet } = await supabase
+        .from("planets")
+        .select("id, owner_id, state_version, seed, primary_element, grid_size, stage")
+        .eq("id", planet_id)
+        .single();
+
+      if (!planet || planet.owner_id !== user.id) {
+        return createErrorResponse(403, "NOT_OWNER", "command.not_owner", requestId);
+      }
+
+      if (planet.stage !== 1) {
+        return createErrorResponse(400, "INVALID_STAGE", "evolution.invalid_stage", requestId);
+      }
+
+      // Check harvester and storage
+      const { count: harvesterCount } = await supabase
+        .from("buildings")
+        .select("id", { count: "exact", head: true })
+        .eq("planet_id", planet_id)
+        .eq("kind", "harvester");
+
+      const { count: storageCount } = await supabase
+        .from("buildings")
+        .select("id", { count: "exact", head: true })
+        .eq("planet_id", planet_id)
+        .eq("kind", "storage");
+
+      if (!harvesterCount || harvesterCount < 1 || !storageCount || storageCount < 1) {
+        return createErrorResponse(
+          400,
+          "MISSING_EVOLUTION_REQUIREMENTS",
+          "evolution.requirements_not_met",
+          requestId,
+        );
+      }
+
+      // Check balance >= 100
+      const { data: balance } = await supabase
+        .from("resource_balances")
+        .select("amount")
+        .eq("planet_id", planet_id)
+        .eq("resource_key", planet.primary_element)
+        .single();
+
+      if (!balance || balance.amount < 100) {
+        return createErrorResponse(
+          400,
+          "INSUFFICIENT_RESOURCES",
+          "resource.insufficient",
+          requestId,
+          { required: 100, current: balance?.amount ?? 0 },
+        );
+      }
+
+      // Generate expanded tiles deterministically from original seed
+      const newGridSize = 16;
+      const expandedTiles = generateExpandedTiles({
+        seed: planet.seed,
+        primaryElement: planet.primary_element,
+        currentGridSize: planet.grid_size,
+        newGridSize,
+      });
+
+      const { data: evolveResult, error: evolveError } = await supabase.rpc("evolve_planet", {
+        p_planet_id: planet_id,
+        p_expected_version: command.expected_version ?? planet.state_version,
+        p_new_tiles: expandedTiles,
+        p_idempotency_key: toValidUuid(command.idempotency_key),
+      });
+
+      if (evolveError) {
+        return createErrorResponse(400, "EVOLVE_FAILED", evolveError.message, requestId);
+      }
+
+      responsePayload = {
+        ok: true,
+        type: "planet.evolve",
+        planet_id,
+        stage: evolveResult.new_stage,
+        grid_size: evolveResult.new_grid_size,
+        new_tiles_count: expandedTiles.length,
+        new_version: evolveResult.state_version,
       };
       break;
     }
