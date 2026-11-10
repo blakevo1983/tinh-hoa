@@ -27,6 +27,10 @@ export * from "./schemas/party.js";
 export * from "./schemas/expedition.js";
 export * from "./schemas/trade.js";
 export * from "./schemas/diplomacy.js";
+export * from "./schemas/combat.js";
+
+// Combat Engine
+export * from "./combat/battle-engine.js";
 
 // Alliance & Synergy
 export * from "./alliance/elemental-buff.js";

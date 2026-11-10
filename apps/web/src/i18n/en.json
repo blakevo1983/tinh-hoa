@@ -197,5 +197,22 @@
     "btnAccept": "Accept Proposal",
     "btnReject": "Decline Proposal",
     "onlyLeaderCanAct": "Only the Alliance Leader can declare or negotiate diplomacy."
+  },
+  "warfare": {
+    "title": "War Room & Formations",
+    "subtitle": "Fortify planet defenses and mobilize assaults on hostile planets",
+    "defenseTitle": "Planetary Defense Formation (Max 3 creatures)",
+    "btnSaveDefense": "Save Defense Formation",
+    "scoutTitle": "Target Reconnaissance",
+    "targetPlanetPlaceholder": "Enter Target Planet UUID...",
+    "btnAttack": "Mobilize Assault",
+    "shieldActive": "Target shielded under Peace Shield until: {time}",
+    "noShield": "No shield detected (Vulnerable Target)",
+    "newbieShield": "Target sheltered by Newbie Haven (Stage < 4)",
+    "battleLogTitle": "Battle Transcript",
+    "victory": "Resounding Victory!",
+    "defeat": "Crushing Defeat",
+    "lootGained": "Spoils pillaged: {loot}",
+    "geneAssimilated": "Assimilated alien gene strain: {element} (+{val} {stat})"
   }
 }

@@ -197,5 +197,22 @@
     "btnAccept": "Chấp Thuận",
     "btnReject": "Từ Chối",
     "onlyLeaderCanAct": "Chỉ Thủ Lĩnh liên minh mới có quyền thực hiện ngoại giao."
+  },
+  "warfare": {
+    "title": "Phòng Chiến Tranh & Đội Hình",
+    "subtitle": "Bày trận phòng thủ hành tinh và viễn chinh thảo phạt thế lực thù địch",
+    "defenseTitle": "Đội Hình Phòng Thủ (Tối đa 3 sinh vật)",
+    "btnSaveDefense": "Lưu Đội Hình Thủ",
+    "scoutTitle": "Do Thám Mục Tiêu",
+    "targetPlanetPlaceholder": "Nhập ID hành tinh mục tiêu...",
+    "btnAttack": "Tiến Công Thảo Phạt",
+    "shieldActive": "Hành tinh đang được bảo vệ bởi Lá Chắn Hòa Bình đến: {time}",
+    "noShield": "Không có lá chắn (Mục tiêu khả dụng)",
+    "newbieShield": "Mục tiêu trong vùng bảo vệ Tân Binh (Giai đoạn < 4)",
+    "battleLogTitle": "Diễn Biến Chiến Trận",
+    "victory": "Chiến Thắng Vang Dội!",
+    "defeat": "Thất Bại Thảo Phạt",
+    "lootGained": "Chiến lợi phẩm cướp được: {loot}",
+    "geneAssimilated": "Đồng hóa được nguồn gen: {element} (+{val} {stat})"
   }
 }
