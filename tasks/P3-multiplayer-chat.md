@@ -44,6 +44,6 @@
 - [x] Test gửi tin khi bị đối phương chặn (blocked).
 
 ### T3.8 — Security Review & Đóng Phase P3
-- [ ] Báo cáo đánh giá an ninh tại `docs/security-reviews/P3.md`.
-- [ ] Chạy `pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm secret-scan`.
-- [ ] Cập nhật `tasks/BACKLOG.md` và đóng Phase P3.
+- [x] Báo cáo đánh giá an ninh tại `docs/security-reviews/P3.md`.
+- [x] Chạy `pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm secret-scan`.
+- [x] Cập nhật `tasks/BACKLOG.md` và đóng Phase P3.

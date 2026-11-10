@@ -3,17 +3,17 @@
 Ý tưởng mới ghi vào mục **Hộp ý tưởng**. Khi bắt đầu một phase, tách mục tương ứng thành file `tasks/P<n>-<ten>.md` (cùng định dạng P0–P2) có acceptance criteria, rồi chạy phiên lập kế hoạch với agent.
 
 ## P3 — Nhiều người chơi cơ bản và chat (`docs/05` mục 1, 2, 5, 6)
-- [ ] Hồ sơ công khai (`public_profiles`), tìm người chơi theo tên.
-- [ ] Bảng chat (`/db-migration`), hàm `is_channel_member`, RLS theo thành viên kênh.
-- [ ] Edge Function `chat-send`: JWT → zod → rate limit → quyền kênh → chặn/mute → lọc từ → lưu → broadcast.
-- [ ] `ChatTransport` interface + cài đặt Supabase Realtime; client không phát trực tiếp.
-- [ ] Kênh `planet`, `dm`, `global` (Liên Tinh) với điều kiện mở khóa và hạn mức.
-- [ ] Chặn (block), mute, báo cáo (`chat_reports`), lọc từ cấm tiếng Việt.
-- [ ] Presence cho bạn bè; hệ thống bạn bè.
-- [ ] `notifications` cho sự kiện offline.
-- [ ] Job `pg_cron` xóa tin cũ.
-- [ ] Test: XSS, flood, đọc kênh người khác, bị chặn vẫn nhận tin, tin trùng khi mạng chập chờn.
-- [ ] Bật bằng feature flag `chat_enabled`; `/security-review` + `/release`.
+- [x] Hồ sơ công khai (`public_profiles`), tìm người chơi theo tên.
+- [x] Bảng chat (`/db-migration`), hàm `is_channel_member`, RLS theo thành viên kênh.
+- [x] Edge Function `chat-send`: JWT → zod → rate limit → quyền kênh → chặn/mute → lọc từ → lưu → broadcast.
+- [x] `ChatTransport` interface + cài đặt Supabase Realtime; client không phát trực tiếp.
+- [x] Kênh `planet`, `dm`, `global` (Liên Tinh) với điều kiện mở khóa và hạn mức.
+- [x] Chặn (block), mute, báo cáo (`chat_reports`), lọc từ cấm tiếng Việt.
+- [x] Presence cho bạn bè; hệ thống bạn bè.
+- [x] `notifications` cho sự kiện offline.
+- [x] Job `pg_cron` xóa tin cũ.
+- [x] Test: XSS, flood, đọc kênh người khác, bị chặn vẫn nhận tin, tin trùng khi mạng chập chờn.
+- [x] Bật bằng feature flag `chat_enabled`; `/security-review` + `/release`. (Chi tiết trong `tasks/P3-multiplayer-chat.md`)
 
 ## P4 — Liên minh và Party (`docs/05` mục 3, 4)
 - [ ] Bảng alliance/party (`/db-migration`), RPC theo vai trò, kho chung + `alliance_ledger`.
