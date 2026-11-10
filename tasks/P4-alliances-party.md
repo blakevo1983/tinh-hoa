@@ -41,11 +41,11 @@
 - [x] Unit tests cho giao diện.
 
 ### T4.7 — Kiểm thử đối kháng an ninh (Security Exploits)
-- [ ] Test race condition khi 2 người cùng rút kho chung hoặc rút quá số dư.
-- [ ] Test officer cố kick officer khác hoặc kick leader.
-- [ ] Test member cố rút kho chung hoặc cố thăng chức.
-- [ ] Test thành viên mới gia nhập dưới 24h cố rút kho chung.
-- [ ] Test cố tình gia nhập 2 liên minh cùng lúc.
+- [x] Test race condition khi 2 người cùng rút kho chung hoặc rút quá số dư.
+- [x] Test officer cố kick officer khác hoặc kick leader.
+- [x] Test member cố rút kho chung hoặc cố thăng chức.
+- [x] Test thành viên mới gia nhập dưới 24h cố rút kho chung.
+- [x] Test cố tình gia nhập 2 liên minh cùng lúc.
 
 ### T4.8 — Security Review & Đóng Phase P4
 - [ ] Báo cáo đánh giá an ninh tại `docs/security-reviews/P4.md`.
