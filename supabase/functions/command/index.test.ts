@@ -8,6 +8,9 @@ function createMockSupabase(overrides?: {
   idempotentResponse?: Record<string, unknown> | null;
   rateLimitAllowed?: boolean;
   existingPlanet?: { id: string } | null;
+  planetOwnerId?: string;
+  resourceBalance?: number;
+  existingBuilding?: { id: string } | null;
 }): SupabaseClient {
   const user = overrides?.user !== undefined ? overrides.user : { id: "test-user-uuid" };
   const authError = overrides?.authError ?? null;
@@ -15,6 +18,10 @@ function createMockSupabase(overrides?: {
   const rateLimitAllowed =
     overrides?.rateLimitAllowed !== undefined ? overrides.rateLimitAllowed : true;
   const existingPlanet = overrides?.existingPlanet ?? null;
+  const planetOwnerId = overrides?.planetOwnerId ?? "test-user-uuid";
+  const resourceBalance =
+    overrides?.resourceBalance !== undefined ? overrides.resourceBalance : 100;
+  const existingBuilding = overrides?.existingBuilding ?? null;
 
   const mockClient = {
     auth: {
@@ -45,6 +52,15 @@ function createMockSupabase(overrides?: {
                   error: null,
                 }),
               }),
+              single: vi.fn().mockResolvedValue({
+                data: {
+                  id: "11111111-1111-1111-1111-111111111111",
+                  owner_id: planetOwnerId,
+                  primary_element: "wood",
+                  state_version: 0,
+                },
+                error: null,
+              }),
             }),
           }),
           insert: vi.fn().mockReturnValue({
@@ -65,11 +81,50 @@ function createMockSupabase(overrides?: {
           }),
         };
       }
-      if (
-        table === "planet_tiles" ||
-        table === "resource_balances" ||
-        table === "resource_ledger"
-      ) {
+      if (table === "buildings") {
+        return {
+          select: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              eq: vi.fn().mockReturnValue({
+                eq: vi.fn().mockReturnValue({
+                  maybeSingle: vi.fn().mockResolvedValue({
+                    data: existingBuilding,
+                    error: null,
+                  }),
+                }),
+              }),
+              single: vi.fn().mockResolvedValue({
+                data: {
+                  id: "building-uuid-1",
+                  kind: "harvester",
+                  level: 1,
+                  tile_x: 2,
+                  tile_y: 2,
+                },
+                error: null,
+              }),
+            }),
+          }),
+        };
+      }
+      if (table === "resource_balances") {
+        return {
+          select: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              eq: vi.fn().mockReturnValue({
+                single: vi.fn().mockResolvedValue({
+                  data: {
+                    amount: resourceBalance,
+                  },
+                  error: null,
+                }),
+              }),
+            }),
+          }),
+          insert: vi.fn().mockResolvedValue({ error: null }),
+        };
+      }
+      if (table === "planet_tiles" || table === "resource_ledger") {
         return {
           insert: vi.fn().mockResolvedValue({ error: null }),
         };
@@ -79,6 +134,9 @@ function createMockSupabase(overrides?: {
     rpc: vi.fn().mockImplementation((fn: string) => {
       if (fn === "consume_rate_limit") {
         return Promise.resolve({ data: rateLimitAllowed, error: null });
+      }
+      if (fn === "commit_effects") {
+        return Promise.resolve({ data: { success: true, state_version: 1 }, error: null });
       }
       return Promise.resolve({ data: null, error: null });
     }),
@@ -335,6 +393,124 @@ describe("Command Gateway (Edge Function handleCommand)", () => {
 
       const body = await res.json();
       expect(body.error.code).toBe("INVALID_INPUT");
+    });
+  });
+
+  describe("building.place command (T1.5)", () => {
+    it("successfully places building when resource balance is sufficient", async () => {
+      const mockSupabase = createMockSupabase({ resourceBalance: 100 });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "building.place",
+          idempotency_key: "place-harvester-1",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            kind: "harvester",
+            tile_x: 3,
+            tile_y: 3,
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(200);
+
+      const body = await res.json();
+      expect(body.ok).toBe(true);
+      expect(body.type).toBe("building.place");
+      expect(body.job).toBeDefined();
+      expect(body.job.building_kind).toBe("harvester");
+    });
+
+    it("rejects building.place with INSUFFICIENT_RESOURCES when balance is below cost", async () => {
+      const mockSupabase = createMockSupabase({ resourceBalance: 10 }); // Harvester costs 30
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "building.place",
+          idempotency_key: "place-poor-attempt",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            kind: "harvester",
+            tile_x: 3,
+            tile_y: 3,
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(400);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("INSUFFICIENT_RESOURCES");
+    });
+
+    it("rejects building.place with TILE_OCCUPIED when building already exists at tile", async () => {
+      const mockSupabase = createMockSupabase({
+        resourceBalance: 100,
+        existingBuilding: { id: "existing-building-uuid" },
+      });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "building.place",
+          idempotency_key: "place-occupied-tile",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            kind: "storage",
+            tile_x: 2,
+            tile_y: 2,
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(409);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("TILE_OCCUPIED");
+    });
+
+    it("rejects building.place with NOT_OWNER when caller is not the planet owner", async () => {
+      const mockSupabase = createMockSupabase({
+        planetOwnerId: "other-user-uuid",
+      });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "building.place",
+          idempotency_key: "place-other-planet",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            kind: "harvester",
+            tile_x: 4,
+            tile_y: 4,
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(403);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("NOT_OWNER");
     });
   });
 });

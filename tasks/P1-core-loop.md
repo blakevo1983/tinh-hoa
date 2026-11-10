@@ -35,9 +35,9 @@
 **Acceptance:** thu thập đúng sau 1 phút/1 giờ/24 giờ giả lập (fakeClock).
 
 ### T1.5 — Thu thập và công trình cơ bản
-- [ ] Công trình: Trạm Thu Thập, Kho (theo GDD mục 8). Lệnh `building.place`, `building.upgrade` (tốn tài nguyên, có `finish_at`).
-- [ ] Hoàn tất job theo cơ chế *lazy settlement*.
-- [ ] Hệ số tương sinh/khắc giữa ô kề ảnh hưởng sản lượng theo GDD 3.3.
+- [x] Công trình: Trạm Thu Thập, Kho (theo GDD mục 8). Lệnh `building.place`, `building.upgrade` (tốn tài nguyên, có `finish_at`).
+- [x] Hoàn tất job theo cơ chế *lazy settlement*.
+- [x] Hệ số tương sinh/khắc giữa ô kề ảnh hưởng sản lượng theo GDD 3.3.
 
 **Acceptance:** xây → chờ → nhận; thiếu tài nguyên bị từ chối với `INSUFFICIENT_RESOURCES`.
 

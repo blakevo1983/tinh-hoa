@@ -1,5 +1,13 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { CommandSchema, type Command, generatePlanet, ELEMENT_KEYS } from "@tinh-hoa/shared";
+import {
+  CommandSchema,
+  type Command,
+  generatePlanet,
+  ELEMENT_KEYS,
+  getBuildingCost,
+  getBuildingTimeSec,
+  type BuildingKind,
+} from "@tinh-hoa/shared";
 
 export const MAX_BODY_BYTES = 32 * 1024; // 32 KB payload limit
 
@@ -286,6 +294,194 @@ export async function handleCommand(
         type: "planet.create",
         planet: newPlanet,
         tiles: generated.tiles,
+      };
+      break;
+    }
+
+    case "building.place": {
+      const { planet_id, kind, tile_x, tile_y } = command.payload;
+
+      // 1. Verify planet ownership
+      const { data: planet } = await supabase
+        .from("planets")
+        .select("id, owner_id, primary_element, state_version")
+        .eq("id", planet_id)
+        .single();
+
+      if (!planet || planet.owner_id !== user.id) {
+        return createErrorResponse(403, "NOT_OWNER", "command.not_owner", requestId);
+      }
+
+      // 2. Check tile occupancy
+      const { data: existingBuilding } = await supabase
+        .from("buildings")
+        .select("id")
+        .eq("planet_id", planet_id)
+        .eq("tile_x", tile_x)
+        .eq("tile_y", tile_y)
+        .maybeSingle();
+
+      if (existingBuilding) {
+        return createErrorResponse(409, "TILE_OCCUPIED", "building.tile_occupied", requestId);
+      }
+
+      // 3. Check resource cost
+      const cost = getBuildingCost(kind, 1, planet.primary_element);
+      const { data: balance } = await supabase
+        .from("resource_balances")
+        .select("amount")
+        .eq("planet_id", planet_id)
+        .eq("resource_key", cost.resourceKey)
+        .single();
+
+      if (!balance || balance.amount < cost.amount) {
+        return createErrorResponse(
+          400,
+          "INSUFFICIENT_RESOURCES",
+          "resource.insufficient",
+          requestId,
+          { required: cost.amount, current: balance?.amount ?? 0 },
+        );
+      }
+
+      // 4. Calculate finish_at timestamp
+      const buildTimeSec = getBuildingTimeSec(kind, 1);
+      const finishAtIso = new Date(Date.now() + buildTimeSec * 1000).toISOString();
+
+      // 5. Commit effects via RPC commit_effects
+      const effects = [
+        {
+          type: "resource_delta",
+          resource_key: cost.resourceKey,
+          delta: -cost.amount,
+        },
+        {
+          type: "create_job",
+          kind: "build",
+          payload: { kind, tile_x, tile_y, level: 1 },
+          finish_at: finishAtIso,
+        },
+      ];
+
+      const { data: commitResult, error: commitError } = await supabase.rpc("commit_effects", {
+        p_planet_id: planet_id,
+        p_expected_version: command.expected_version ?? planet.state_version,
+        p_effects: effects,
+        p_idempotency_key: toValidUuid(command.idempotency_key),
+        p_reason: `build_${kind}`,
+      });
+
+      if (commitError) {
+        return createErrorResponse(400, "COMMIT_FAILED", commitError.message, requestId);
+      }
+
+      responsePayload = {
+        ok: true,
+        type: "building.place",
+        job: {
+          kind: "build",
+          tile_x,
+          tile_y,
+          building_kind: kind,
+          finish_at: finishAtIso,
+        },
+        new_version: commitResult.state_version,
+      };
+      break;
+    }
+
+    case "building.upgrade": {
+      const { planet_id, building_id } = command.payload;
+
+      const { data: planet } = await supabase
+        .from("planets")
+        .select("id, owner_id, primary_element, state_version")
+        .eq("id", planet_id)
+        .single();
+
+      if (!planet || planet.owner_id !== user.id) {
+        return createErrorResponse(403, "NOT_OWNER", "command.not_owner", requestId);
+      }
+
+      const { data: building } = await supabase
+        .from("buildings")
+        .select("id, kind, level, tile_x, tile_y")
+        .eq("id", building_id)
+        .eq("planet_id", planet_id)
+        .single();
+
+      if (!building) {
+        return createErrorResponse(404, "NOT_FOUND", "building.not_found", requestId);
+      }
+
+      const nextLevel = building.level + 1;
+      const cost = getBuildingCost(
+        building.kind as BuildingKind,
+        nextLevel,
+        planet.primary_element,
+      );
+
+      const { data: balance } = await supabase
+        .from("resource_balances")
+        .select("amount")
+        .eq("planet_id", planet_id)
+        .eq("resource_key", cost.resourceKey)
+        .single();
+
+      if (!balance || balance.amount < cost.amount) {
+        return createErrorResponse(
+          400,
+          "INSUFFICIENT_RESOURCES",
+          "resource.insufficient",
+          requestId,
+          { required: cost.amount, current: balance?.amount ?? 0 },
+        );
+      }
+
+      const buildTimeSec = getBuildingTimeSec(building.kind as BuildingKind, nextLevel);
+      const finishAtIso = new Date(Date.now() + buildTimeSec * 1000).toISOString();
+
+      const effects = [
+        {
+          type: "resource_delta",
+          resource_key: cost.resourceKey,
+          delta: -cost.amount,
+        },
+        {
+          type: "create_job",
+          kind: "upgrade",
+          payload: {
+            building_id: building.id,
+            tile_x: building.tile_x,
+            tile_y: building.tile_y,
+            level: nextLevel,
+          },
+          finish_at: finishAtIso,
+        },
+      ];
+
+      const { data: commitResult, error: commitError } = await supabase.rpc("commit_effects", {
+        p_planet_id: planet_id,
+        p_expected_version: command.expected_version ?? planet.state_version,
+        p_effects: effects,
+        p_idempotency_key: toValidUuid(command.idempotency_key),
+        p_reason: `upgrade_${building.kind}`,
+      });
+
+      if (commitError) {
+        return createErrorResponse(400, "COMMIT_FAILED", commitError.message, requestId);
+      }
+
+      responsePayload = {
+        ok: true,
+        type: "building.upgrade",
+        job: {
+          kind: "upgrade",
+          building_id: building.id,
+          next_level: nextLevel,
+          finish_at: finishAtIso,
+        },
+        new_version: commitResult.state_version,
       };
       break;
     }

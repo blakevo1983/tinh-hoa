@@ -29,9 +29,37 @@ export const PlanetCreateCommandSchema = BaseCommandSchema.extend({
 
 export type PlanetCreateCommand = z.infer<typeof PlanetCreateCommandSchema>;
 
+export const BuildingPlaceCommandSchema = BaseCommandSchema.extend({
+  type: z.literal("building.place"),
+  payload: z
+    .object({
+      planet_id: z.string().uuid(),
+      kind: z.enum(["harvester", "storage"]),
+      tile_x: z.number().int().min(0).max(63),
+      tile_y: z.number().int().min(0).max(63),
+    })
+    .strict(),
+});
+
+export type BuildingPlaceCommand = z.infer<typeof BuildingPlaceCommandSchema>;
+
+export const BuildingUpgradeCommandSchema = BaseCommandSchema.extend({
+  type: z.literal("building.upgrade"),
+  payload: z
+    .object({
+      planet_id: z.string().uuid(),
+      building_id: z.string().uuid(),
+    })
+    .strict(),
+});
+
+export type BuildingUpgradeCommand = z.infer<typeof BuildingUpgradeCommandSchema>;
+
 export const CommandSchema = z.discriminatedUnion("type", [
   PingCommandSchema,
   PlanetCreateCommandSchema,
+  BuildingPlaceCommandSchema,
+  BuildingUpgradeCommandSchema,
 ]);
 
 export type Command = z.infer<typeof CommandSchema>;

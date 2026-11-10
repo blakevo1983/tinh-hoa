@@ -9,6 +9,7 @@ export * from "./types/result.js";
 export * from "./config/elements.js";
 export * from "./config/limits.js";
 export * from "./config/biomes.js";
+export * from "./config/buildings.js";
 
 // Schemas
 export * from "./schemas/element.js";
@@ -22,3 +23,4 @@ export * from "./generation/planet-generator.js";
 
 // Economy
 export * from "./economy/resource-settler.js";
+export * from "./economy/job-settler.js";

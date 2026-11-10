@@ -1,0 +1,113 @@
+import { type ElementKey, isGenerativeRelation, isOvercomingRelation } from "./elements.js";
+
+export const BUILDING_KINDS = ["harvester", "storage"] as const;
+export type BuildingKind = (typeof BUILDING_KINDS)[number];
+
+export interface BuildingCost {
+  resourceKey: ElementKey;
+  amount: number;
+}
+
+export interface BuildingDefinition {
+  kind: BuildingKind;
+  nameVi: string;
+  nameEn: string;
+  descriptionVi: string;
+  baseBuildTimeSec: number;
+  baseCost: number; // base resource cost
+}
+
+export const BUILDING_DEFINITIONS: Record<BuildingKind, BuildingDefinition> = {
+  harvester: {
+    kind: "harvester",
+    nameVi: "Trạm Thu Thập",
+    nameEn: "Harvester",
+    descriptionVi:
+      "Khai thác tài nguyên từ ô địa hình. Sản lượng tăng khi có ô lân cận tương sinh.",
+    baseBuildTimeSec: 10,
+    baseCost: 30,
+  },
+  storage: {
+    kind: "storage",
+    nameVi: "Kho Chứa",
+    nameEn: "Storage",
+    descriptionVi: "Tăng trần dung lượng tích trữ tối đa của tất cả các tài nguyên trên hành tinh.",
+    baseBuildTimeSec: 15,
+    baseCost: 40,
+  },
+};
+
+/**
+ * Calculates building construction or upgrade cost based on level.
+ */
+export function getBuildingCost(
+  kind: BuildingKind,
+  level: number,
+  primaryElement: ElementKey,
+): BuildingCost {
+  const def = BUILDING_DEFINITIONS[kind];
+  // Cost scales linearly: baseCost * level
+  const amount = Math.floor(def.baseCost * Math.max(1, level));
+  return {
+    resourceKey: primaryElement,
+    amount,
+  };
+}
+
+/**
+ * Calculates build/upgrade duration in seconds.
+ */
+export function getBuildingTimeSec(kind: BuildingKind, level: number): number {
+  const def = BUILDING_DEFINITIONS[kind];
+  // Duration scales: baseBuildTime * level
+  return Math.floor(def.baseBuildTimeSec * Math.max(1, level));
+}
+
+/**
+ * Calculates capacity bonus provided by storage building.
+ * Level 1: +500 cap, Level 2: +1000 cap, etc.
+ */
+export function getStorageCapBonus(level: number): number {
+  return level * 500;
+}
+
+/**
+ * Calculates tile production rate per second based on richness, building level,
+ * and cardinal neighbor affinity (GDD 3.3).
+ *
+ * Base rate = 0.2 * richness * level
+ * Neighbor modifiers:
+ * - Generative neighbor (neighbor generates this tile's element): +20% (+0.2)
+ * - Overcoming neighbor (neighbor overcomes this tile's element): -33% (-0.33)
+ * - Overcome neighbor (this tile's element overcomes neighbor): +15% (+0.15)
+ */
+export function calculateHarvesterProductionRate(
+  tileElement: ElementKey,
+  richness: number,
+  level: number,
+  neighborElements: readonly ElementKey[],
+): number {
+  const baseRate = 0.2 * Math.max(1, richness) * Math.max(1, level);
+
+  let modifier = 1.0;
+
+  for (const neighbor of neighborElements) {
+    // Generative: Neighbor generates tileElement -> +20%
+    if (isGenerativeRelation(neighbor, tileElement)) {
+      modifier += 0.2;
+    }
+    // Overcoming: Neighbor overcomes tileElement -> -33%
+    if (isOvercomingRelation(neighbor, tileElement)) {
+      modifier -= 0.33;
+    }
+    // Overcome: tileElement overcomes neighbor -> +15%
+    if (isOvercomingRelation(tileElement, neighbor)) {
+      modifier += 0.15;
+    }
+  }
+
+  // Minimum multiplier floor 0.2 to avoid complete zero/negative production
+  modifier = Math.max(0.2, modifier);
+
+  return Math.round(baseRate * modifier * 1000) / 1000;
+}
