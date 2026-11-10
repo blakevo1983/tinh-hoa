@@ -66,9 +66,9 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** test tích hợp: thiếu JWT → 401; sai schema → 400; vượt rate → 429; body quá cỡ → 413; `ping` OK.
 
 ### T0.8 — CI và kiểm tra tự động
-- [ ] Dùng `.github/workflows/ci.yml` (đã có sẵn): lint, typecheck, test, build, gitleaks, kiểm bundle không có `service_role`, job DB.
-- [ ] Job `database` chạy `supabase test db`, trong đó có pgTAP kiểm mọi bảng `public` đều bật RLS (T0.6).
-- [ ] Branch protection cho `main` (bắt buộc PR + CI xanh).
+- [x] Dùng `.github/workflows/ci.yml` (đã có sẵn): lint, typecheck, test, build, gitleaks, kiểm bundle không có `service_role`, job DB.
+- [x] Job `database` chạy `supabase test db`, trong đó có pgTAP kiểm mọi bảng `public` đều bật RLS (T0.6).
+- [x] Branch protection cho `main` (bắt buộc PR + CI xanh).
 
 **Acceptance:** PR thử đỏ khi cố tình commit một secret giả/bảng thiếu RLS.
 

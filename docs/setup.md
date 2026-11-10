@@ -113,3 +113,18 @@ pnpm supabase db push
 Để GitHub Actions tự động kiểm tra pgTAP test và quét bảo mật:
 - Vào **Repository Settings → Secrets and variables → Actions**.
 - Cấu hình các secrets cần thiết (khi triển khai tự động ở Task T0.8 / T0.10).
+
+---
+
+## 6. Thiết lập Branch Protection cho nhánh `main`
+
+Để đảm bảo không mã nguồn nào được đẩy thẳng vào nhánh chính mà chưa qua kiểm duyệt:
+1. Vào **Settings → Branches → Add classic branch protection rule** (hoặc Rulesets).
+2. **Branch name pattern:** `main`.
+3. Bật các tùy chọn bắt buộc:
+   - **Require a pull request before merging:** Bắt buộc mở PR, không được push trực tiếp lên `main`.
+   - **Require status checks to pass before merging:**
+     - Tích chọn job `verify` (Lint, Typecheck, Test, Build, Bundle scan, Secret scan).
+     - Tích chọn job `database` (Supabase start, DB reset, pgTAP RLS tests).
+   - **Require branches to be up to date before merging:** Đảm bảo nhánh PR luôn đồng bộ với `main` mới nhất trước khi merge.
+

@@ -2,6 +2,7 @@
   "name": "tinh-hoa",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@12.4.1",
   "type": "module",
   "scripts": {
     "dev": "pnpm --filter @tinh-hoa/web dev",
