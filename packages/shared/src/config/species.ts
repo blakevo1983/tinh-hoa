@@ -1,0 +1,129 @@
+import type { ElementKey } from "./elements.js";
+import type { Stats } from "../schemas/element.js";
+
+export interface SpeciesDefinition {
+  readonly key: string;
+  readonly nameVi: string;
+  readonly nameEn: string;
+  readonly element: ElementKey;
+  readonly stage: number;
+  readonly baseStats: Stats;
+  readonly defaultTraits: readonly string[];
+  readonly descriptionVi: string;
+}
+
+export const BASE_SPECIES: readonly SpeciesDefinition[] = [
+  // 1. Metal
+  {
+    key: "metal_golem",
+    nameVi: "Người Đá Thép",
+    nameEn: "Iron Golem",
+    element: "metal",
+    stage: 1,
+    baseStats: { qi: 20, guard: 35, agility: 10, harmony: 15, chaos: 10 },
+    defaultTraits: ["iron_skin"],
+    descriptionVi: "Sinh vật cấu tạo từ hợp kim thô, di chuyển chậm nhưng phòng thủ cực cao.",
+  },
+  {
+    key: "iron_beetle",
+    nameVi: "Bọ Giáp Sắt",
+    nameEn: "Iron Beetle",
+    element: "metal",
+    stage: 1,
+    baseStats: { qi: 15, guard: 30, agility: 25, harmony: 18, chaos: 8 },
+    defaultTraits: ["sharp_horn"],
+    descriptionVi: "Loài bọ cánh cứng nhai quặng kim loại, vỏ ngoài sáng lóa và cứng cáp.",
+  },
+
+  // 2. Wood
+  {
+    key: "verdant_sprout",
+    nameVi: "Mầm Xanh Nguyên Sơ",
+    nameEn: "Verdant Sprout",
+    element: "wood",
+    stage: 1,
+    baseStats: { qi: 25, guard: 15, agility: 20, harmony: 30, chaos: 5 },
+    defaultTraits: ["photosynthesis"],
+    descriptionVi: "Mầm cây nhỏ đung đưa chứa nguồn năng lượng sinh mệnh dồi dào.",
+  },
+  {
+    key: "vine_crawler",
+    nameVi: "Dây Leo Hoang Dã",
+    nameEn: "Vine Crawler",
+    element: "wood",
+    stage: 1,
+    baseStats: { qi: 22, guard: 18, agility: 32, harmony: 20, chaos: 12 },
+    defaultTraits: ["tangle_grasp"],
+    descriptionVi: "Bò nhanh trên mặt đất ẩm ướt, có thể bện lại để thích nghi địa hình.",
+  },
+
+  // 3. Water
+  {
+    key: "aqua_slime",
+    nameVi: "Thạch Tinh Linh Nước",
+    nameEn: "Aqua Slime",
+    element: "water",
+    stage: 1,
+    baseStats: { qi: 28, guard: 12, agility: 22, harmony: 28, chaos: 6 },
+    defaultTraits: ["fluid_form"],
+    descriptionVi: "Khối chất lỏng linh động biến hình theo dòng chảy tự nhiên.",
+  },
+  {
+    key: "frost_fin",
+    nameVi: "Cá Vây Băng",
+    nameEn: "Frost Fin",
+    element: "water",
+    stage: 1,
+    baseStats: { qi: 24, guard: 16, agility: 35, harmony: 15, chaos: 14 },
+    defaultTraits: ["cold_surge"],
+    descriptionVi: "Bơi lội thoăn thoắt trong các hồ nước lạnh ngắt, tạo vệt sương giá nhỏ.",
+  },
+
+  // 4. Fire
+  {
+    key: "ember_wisp",
+    nameVi: "Đốm Lửa Tàn Tro",
+    nameEn: "Ember Wisp",
+    element: "fire",
+    stage: 1,
+    baseStats: { qi: 35, guard: 10, agility: 30, harmony: 12, chaos: 22 },
+    defaultTraits: ["blazing_spark"],
+    descriptionVi: "Ngọn lửa lập lòe nhảy nhót, bừng sáng rực rỡ khi được tiếp xúc không khí ấm.",
+  },
+  {
+    key: "lava_tortoise",
+    nameVi: "Rùa Mai Dung Nham",
+    nameEn: "Lava Tortoise",
+    element: "fire",
+    stage: 1,
+    baseStats: { qi: 26, guard: 32, agility: 12, harmony: 16, chaos: 18 },
+    defaultTraits: ["molten_shell"],
+    descriptionVi: "Mai rùa mang vân dung nham đỏ rực, tỏa hơi nóng ngăn thú săn mồi.",
+  },
+
+  // 5. Earth
+  {
+    key: "stone_pangolin",
+    nameVi: "Tê Tê Vảy Đá",
+    nameEn: "Stone Pangolin",
+    element: "earth",
+    stage: 1,
+    baseStats: { qi: 18, guard: 34, agility: 18, harmony: 24, chaos: 7 },
+    defaultTraits: ["earth_curl"],
+    descriptionVi: "Cuộn tròn thành tảng đá kiên cố khi gặp hiểm nguy, đào hang nhanh chóng.",
+  },
+  {
+    key: "crystal_mole",
+    nameVi: "Chuột Chũi Pha Lê",
+    nameEn: "Crystal Mole",
+    element: "earth",
+    stage: 1,
+    baseStats: { qi: 20, guard: 26, agility: 24, harmony: 22, chaos: 9 },
+    defaultTraits: ["gem_sense"],
+    descriptionVi: "Có đôi vuốt kết tinh khoáng thạch, chuyên đánh hơi các mạch khoáng giàu có.",
+  },
+] as const;
+
+export const SPECIES_BY_KEY: Record<string, SpeciesDefinition> = Object.fromEntries(
+  BASE_SPECIES.map((s) => [s.key, s]),
+);

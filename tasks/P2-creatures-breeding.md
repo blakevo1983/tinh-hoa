@@ -5,9 +5,9 @@
 ---
 
 ### T2.1 — Genome chung và định nghĩa loài
-- [ ] `Genome` dùng chung sinh vật/nguyên liệu (xem GDD 5, 6). Zod + kiểu; chỉ số kẹp trong biên.
-- [ ] Danh sách ~10 loài gốc và ~15 nguyên liệu trong config (dữ liệu, không code cứng).
-- [ ] Bảng `creatures`, `items`, `inventory`, `codex_entries` (`/db-migration`, RLS, pgTAP).
+- [x] `Genome` dùng chung sinh vật/nguyên liệu (xem GDD 5, 6). Zod + kiểu; chỉ số kẹp trong biên.
+- [x] Danh sách ~10 loài gốc và ~15 nguyên liệu trong config (dữ liệu, không code cứng).
+- [x] Bảng `creatures`, `items`, `inventory`, `codex_entries` (`/db-migration`, RLS, pgTAP).
 
 ### T2.2 — Hàm lai tạo thuần `breed(a, b, catalyst?, rng, clock)`
 - [ ] Theo bảng GDD 7: cùng nguyên tố, tương sinh, tương khắc, đối cực; xác suất nguyên tố lai; truyền trait; đột biến; cận huyết.

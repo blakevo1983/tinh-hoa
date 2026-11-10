@@ -10,6 +10,8 @@ export * from "./config/elements.js";
 export * from "./config/limits.js";
 export * from "./config/biomes.js";
 export * from "./config/buildings.js";
+export * from "./config/species.js";
+export * from "./config/items.js";
 
 // Schemas
 export * from "./schemas/element.js";
