@@ -20,6 +20,7 @@ export * from "./schemas/genome.js";
 export * from "./schemas/command.js";
 export * from "./schemas/auth.js";
 export * from "./schemas/planet.js";
+export * from "./schemas/social.js";
 
 // Generation
 export * from "./generation/planet-generator.js";
