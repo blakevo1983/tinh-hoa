@@ -51,9 +51,9 @@
 **Acceptance:** toàn bộ test exploit xanh.
 
 ### T1.7 — Giao diện chơi
-- [ ] HUD tài nguyên, bảng công trình, chọn ô, hộp xây dựng; hiệu ứng nhẹ; trạng thái chờ/lỗi thân thiện (không chữ đỏ gắt).
-- [ ] Optimistic UI thay bằng kết quả server khi trả về.
-- [ ] Hỗ trợ mobile web; kiểm tra bằng Playwright viewport nhỏ.
+- [x] HUD tài nguyên, bảng công trình, chọn ô, hộp xây dựng; hiệu ứng nhẹ; trạng thái chờ/lỗi thân thiện (không chữ đỏ gắt).
+- [x] Optimistic UI thay bằng kết quả server khi trả về.
+- [x] Hỗ trợ mobile web; kiểm tra bằng Playwright viewport nhỏ.
 
 **Acceptance:** chơi liền 15 phút không lỗi; lỗi server hiển thị bằng chuỗi i18n.
 
