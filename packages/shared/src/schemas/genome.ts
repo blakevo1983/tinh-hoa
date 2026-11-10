@@ -43,3 +43,4 @@ export const ItemGenomeSchema = z.object({
 });
 
 export type ItemGenome = z.infer<typeof ItemGenomeSchema>;
+export type { Stats };

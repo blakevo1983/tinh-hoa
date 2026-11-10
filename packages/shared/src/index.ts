@@ -27,3 +27,6 @@ export * from "./generation/planet-expansion.js";
 // Economy
 export * from "./economy/resource-settler.js";
 export * from "./economy/job-settler.js";
+
+// Breeding
+export * from "./breeding/breed.js";

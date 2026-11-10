@@ -10,9 +10,9 @@
 - [x] Bảng `creatures`, `items`, `inventory`, `codex_entries` (`/db-migration`, RLS, pgTAP).
 
 ### T2.2 — Hàm lai tạo thuần `breed(a, b, catalyst?, rng, clock)`
-- [ ] Theo bảng GDD 7: cùng nguyên tố, tương sinh, tương khắc, đối cực; xác suất nguyên tố lai; truyền trait; đột biến; cận huyết.
-- [ ] **Property test (fast-check):** chỉ số con trong biên; không NaN/âm; tổng xác suất hợp lệ; cùng seed → cùng kết quả; chuỗi 20 thế hệ cùng dòng không tăng vô hạn và bị phạt cận huyết.
-- [ ] Hàm trả `Effect[]` (tạo sinh vật, trừ nguyên liệu, tạo job ấp).
+- [x] Theo bảng GDD 7: cùng nguyên tố, tương sinh, tương khắc, đối cực; xác suất nguyên tố lai; truyền trait; đột biến; cận huyết.
+- [x] **Property test (fast-check):** chỉ số con trong biên; không NaN/âm; tổng xác suất hợp lệ; cùng seed → cùng kết quả; chuỗi 20 thế hệ cùng dòng không tăng vô hạn và bị phạt cận huyết.
+- [x] Hàm trả `Effect[]` (tạo sinh vật, trừ nguyên liệu, tạo job ấp).
 
 ### T2.3 — Lệnh `breed.start` / hoàn tất ấp
 - [ ] Điều kiện: cùng giai đoạn, `harmony ≥ 3`, có Hồ Giao Hòa, đủ tài nguyên.
