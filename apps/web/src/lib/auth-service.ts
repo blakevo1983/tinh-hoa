@@ -46,6 +46,7 @@ export async function signUpUser(
         locale: parsed.data.locale,
       },
       captchaToken: input.turnstileToken,
+      emailRedirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
     },
   });
 
