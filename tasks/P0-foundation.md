@@ -56,12 +56,12 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** `pnpm test:db` xanh; thêm bảng mới không RLS làm test đỏ.
 
 ### T0.7 — Cổng lệnh `command` (Edge Function)
-- [ ] Pipeline cố định: JWT → giới hạn kích thước body → zod → rate limit → kiểm quyền → logic → trả lời chuẩn.
-- [ ] Định dạng lỗi chuẩn `{ error: { code, message_key } }`, không lộ stack.
-- [ ] `request_id` sinh ở function, ghi log, trả về header.
-- [ ] Rate limit token-bucket bằng bảng `rate_limits` (hàm RPC nguyên tử).
-- [ ] Lệnh mẫu `system.ping` để kiểm pipeline.
-- [ ] Idempotency: khung lưu/kiểm `idempotency_key` (dùng thật ở P1).
+- [x] Pipeline cố định: JWT → giới hạn kích thước body → zod → rate limit → kiểm quyền → logic → trả lời chuẩn.
+- [x] Định dạng lỗi chuẩn `{ error: { code, message_key } }`, không lộ stack.
+- [x] `request_id` sinh ở function, ghi log, trả về header.
+- [x] Rate limit token-bucket bằng bảng `rate_limits` (hàm RPC nguyên tử).
+- [x] Lệnh mẫu `system.ping` để kiểm pipeline.
+- [x] Idempotency: khung lưu/kiểm `idempotency_key` (dùng thật ở P1).
 
 **Acceptance:** test tích hợp: thiếu JWT → 401; sai schema → 400; vượt rate → 429; body quá cỡ → 413; `ping` OK.
 
