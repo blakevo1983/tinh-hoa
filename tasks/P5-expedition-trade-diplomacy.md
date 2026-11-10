@@ -45,6 +45,6 @@
 - [x] Test thành viên thường/officer cố tình gửi đề xuất ngoại giao hoặc tuyên bố chiến tranh.
 
 ### T5.8 — Security Review & Đóng Phase P5
-- [ ] Báo cáo đánh giá an ninh tại `docs/security-reviews/P5.md`.
-- [ ] Chạy `pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm secret-scan`.
-- [ ] Cập nhật `tasks/BACKLOG.md` và đóng Phase P5.
+- [x] Báo cáo đánh giá an ninh tại `docs/security-reviews/P5.md`.
+- [x] Chạy `pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm secret-scan`.
+- [x] Cập nhật `tasks/BACKLOG.md` và đóng Phase P5.

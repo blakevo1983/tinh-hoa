@@ -25,10 +25,11 @@
 - [x] Toàn bộ tiêu chí đạt 100%, bảo mật và kiểm thử đối kháng hoàn tất (Chi tiết trong `tasks/P4-alliances-party.md`).
 
 ## P5 — Thăm dò, giao thương, ngoại giao
-- [ ] Hành tinh NPC sinh theo seed, tính cách theo nguyên tố; Đài Quan Sát; lệnh `expedition.start` (job, kết quả lưu).
-- [ ] Giao thương NPC (giá do server, có spread, có hạn mức); giao thương người–người có hạn mức tuổi tài khoản.
-- [ ] Ngoại giao liên minh (trung lập/đồng minh/thù địch).
-- [ ] Test chống vòng lợi nhuận vô hạn; `/balance-check` kinh tế.
+- [x] Hành tinh NPC sinh theo seed, tính cách theo nguyên tố; Đài Quan Sát; lệnh `expedition.start` (job, kết quả lưu).
+- [x] Giao thương NPC (giá do server, có spread, có hạn mức); giao thương người–người có hạn mức tuổi tài khoản.
+- [x] Ngoại giao liên minh (trung lập/đồng minh/thù địch).
+- [x] Test chống vòng lợi nhuận vô hạn; `/balance-check` kinh tế.
+- [x] Toàn bộ tiêu chí đạt 100%, bảo mật và kiểm thử đối kháng hoàn tất (Chi tiết trong `tasks/P5-expedition-trade-diplomacy.md`).
 
 ## P6 — Chiến tranh
 - [ ] Bộ máy chiến đấu tự động theo lượt, hàm thuần + property test; sinh vật lai tham chiến.
