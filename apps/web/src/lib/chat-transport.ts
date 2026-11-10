@@ -1,5 +1,5 @@
 import type { ChatMessage } from "@tinh-hoa/shared";
-import { getSupabase, supabaseUrl } from "./supabase.js";
+import { getSupabase } from "./supabase.js";
 
 export interface ChatTransport {
   send(channelId: string, content: string, clientMsgId: string): Promise<ChatMessage>;
@@ -8,11 +8,7 @@ export interface ChatTransport {
 }
 
 export class SupabaseChatTransport implements ChatTransport {
-  private functionUrl: string;
-
-  constructor(functionUrl?: string) {
-    this.functionUrl = functionUrl || `${supabaseUrl}/functions/v1/chat-send`;
-  }
+  constructor() {}
 
   async send(channelId: string, content: string, clientMsgId: string): Promise<ChatMessage> {
     const supabase = getSupabase();
@@ -27,22 +23,16 @@ export class SupabaseChatTransport implements ChatTransport {
       throw new Error("UNAUTHENTICATED");
     }
 
-    const response = await fetch(this.functionUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session.access_token}`,
-      },
-      body: JSON.stringify({
+    const { data, error } = await supabase.functions.invoke("chat-send", {
+      body: {
         channelId,
         content,
         clientMsgId,
-      }),
+      },
     });
 
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data?.error?.code || "CHAT_SEND_FAILED");
+    if (error || !data?.success) {
+      throw new Error(data?.error?.code || error?.message || "CHAT_SEND_FAILED");
     }
 
     return data.message;

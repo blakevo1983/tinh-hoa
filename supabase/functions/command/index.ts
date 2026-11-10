@@ -17,6 +17,13 @@ import {
 
 export const MAX_BODY_BYTES = 32 * 1024; // 32 KB payload limit
 
+export const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-request-id",
+};
+
 export interface CommandHandlerOptions {
   supabaseClient?: SupabaseClient;
   jwtSecret?: string;
@@ -40,6 +47,7 @@ export function createErrorResponse(
     {
       status,
       headers: {
+        ...CORS_HEADERS,
         "Content-Type": "application/json",
         "X-Request-Id": requestId,
       },
@@ -69,6 +77,14 @@ export async function handleCommand(
   options?: CommandHandlerOptions,
 ): Promise<Response> {
   const requestId = req.headers.get("x-request-id") || crypto.randomUUID();
+
+  // 0. Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: CORS_HEADERS,
+    });
+  }
 
   // 1. HTTP Method validation (POST only)
   if (req.method !== "POST") {
@@ -167,6 +183,7 @@ export async function handleCommand(
     return new Response(JSON.stringify(existingIdempotency.response), {
       status: 200,
       headers: {
+        ...CORS_HEADERS,
         "Content-Type": "application/json",
         "X-Request-Id": requestId,
         "X-Cache": "HIT",
@@ -1015,6 +1032,7 @@ export async function handleCommand(
   return new Response(JSON.stringify(responsePayload), {
     status: 200,
     headers: {
+      ...CORS_HEADERS,
       "Content-Type": "application/json",
       "X-Request-Id": requestId,
     },

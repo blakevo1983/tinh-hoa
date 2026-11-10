@@ -3,6 +3,13 @@ import { ChatSendRequestSchema, filterProfanity, CHAT_LIMITS } from "@tinh-hoa/s
 
 export const MAX_CHAT_BODY_BYTES = 10 * 1024; // 10 KB
 
+export const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-request-id",
+};
+
 export interface ChatSendHandlerOptions {
   supabaseClient?: SupabaseClient;
 }
@@ -25,6 +32,7 @@ export function createErrorResponse(
     {
       status,
       headers: {
+        ...CORS_HEADERS,
         "Content-Type": "application/json",
         "X-Request-Id": requestId,
       },
@@ -37,6 +45,14 @@ export async function handleChatSend(
   options: ChatSendHandlerOptions = {},
 ): Promise<Response> {
   const requestId = req.headers.get("X-Request-Id") || crypto.randomUUID();
+
+  // 0. Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: CORS_HEADERS,
+    });
+  }
 
   // 1. Method check
   if (req.method !== "POST") {
@@ -147,6 +163,7 @@ export async function handleChatSend(
       {
         status: 200,
         headers: {
+          ...CORS_HEADERS,
           "Content-Type": "application/json",
           "X-Request-Id": requestId,
         },
@@ -291,6 +308,7 @@ export async function handleChatSend(
     {
       status: 200,
       headers: {
+        ...CORS_HEADERS,
         "Content-Type": "application/json",
         "X-Request-Id": requestId,
       },

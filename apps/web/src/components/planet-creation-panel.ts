@@ -1,5 +1,5 @@
 import type { ElementKey, PlanetTile } from "@tinh-hoa/shared";
-import { getSupabase, supabaseUrl } from "../lib/supabase.js";
+import { getSupabase } from "../lib/supabase.js";
 
 export interface CreatedPlanetData {
   id: string;
@@ -121,25 +121,22 @@ export function createPlanetCreationPanel(options: PlanetCreationPanelOptions): 
       }
 
       const idempotencyKey = crypto.randomUUID();
-      const response = await fetch(`${supabaseUrl}/functions/v1/command`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.access_token}`,
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke("command", {
+        body: {
           type: "planet.create",
           idempotency_key: idempotencyKey,
           payload: {
             name,
             primary_element: options.selectedElement,
           },
-        }),
+        },
       });
 
-      const data = await response.json();
+      if (error) {
+        throw new Error(error.message || "Gieo mầm thất bại.");
+      }
 
-      if (!response.ok) {
+      if (data?.error) {
         if (data.error?.code === "ALREADY_EXISTS") {
           throw new Error("Bạn đã sở hữu một hành tinh chính rồi!");
         }
