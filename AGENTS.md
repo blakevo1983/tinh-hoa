@@ -6,7 +6,7 @@ File này được Antigravity đọc tự động. Luật chi tiết nằm tron
 
 ## 1. Cách làm việc (bắt buộc)
 
-1. **Đọc trước khi code.** Luôn đọc phần liên quan của `docs/00-GDD.md` và `docs/02-ARCHITECTURE.md`. Nếu đụng tới server, DB, chat, liên minh, tiền tệ trong game: đọc thêm `docs/04-SECURITY.md`.
+1. **Đọc trước khi code.** Luôn đọc phần liên quan của `docs/00-GDD.md` và `docs/02-ARCHITECTURE.md`. Nếu đụng tới server, DB, chat, liên minh, tiền tệ trong game: đọc thêm `docs/04-SECURITY.md`. Nếu đụng tới giao diện/client: đọc và tuân thủ `.agents/rules/25-ui-ux.md`.
 2. **Mỗi lần một task.** Lấy task từ `tasks/`. Không làm lan sang task khác. Task mơ hồ thì hỏi lại, không đoán.
 3. **Quy trình mỗi task:** Plan ngắn → viết test trước hoặc cùng lúc → code → chạy `pnpm lint && pnpm typecheck && pnpm test` → tự review theo `/security-review` nếu đụng server → cập nhật tick checkbox trong `tasks/` và docs nếu hành vi đổi.
 4. **Giải thích bằng tiếng Việt**, code và tên biến bằng tiếng Anh, comment giải thích *vì sao* (không giải thích *cái gì*).

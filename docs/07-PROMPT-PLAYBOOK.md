@@ -4,7 +4,7 @@ Dán nguyên văn các prompt dưới đây vào Agent Manager / khung chat củ
 
 ## 0. Chuẩn bị một lần
 1. Giải nén bộ tài liệu, `git init`, mở thư mục bằng Antigravity (**Open Folder**).
-2. Mở *Customizations → Rules*: kiểm tra thấy `00-project-context`, `10-security`, `20-code-style`, `30-database` (Antigravity ưu tiên thư mục `.agents/rules`, vẫn đọc được `.agent/rules` cũ). Đặt `00` và `10` ở chế độ **Always On**; `20` kích hoạt theo glob `**/*.ts, **/*.tsx`; `30` theo glob `supabase/**` (nếu giao diện của bạn có tùy chọn này).
+2. Mở *Customizations → Rules*: kiểm tra thấy `00-project-context`, `10-security`, `20-code-style`, `25-ui-ux`, `30-database` (Antigravity ưu tiên thư mục `.agents/rules`, vẫn đọc được `.agent/rules` cũ). Đặt `00` và `10` ở chế độ **Always On**; `20` và `25` kích hoạt theo glob `**/*.ts, **/*.tsx`; `30` theo glob `supabase/**` (nếu giao diện của bạn có tùy chọn này).
 3. Mở *Customizations → Workflows*: kiểm tra có `/new-feature`, `/db-migration`, `/security-review`, `/balance-check`, `/release`.
 4. Cài sẵn: Node 22+, pnpm, Git, Docker Desktop (cho Supabase local), Supabase CLI.
 
