@@ -92,6 +92,18 @@ export const CraftStartCommandSchema = BaseCommandSchema.extend({
 
 export type CraftStartCommand = z.infer<typeof CraftStartCommandSchema>;
 
+export const CreatureHarvestCommandSchema = BaseCommandSchema.extend({
+  type: z.literal("creature.harvest"),
+  payload: z
+    .object({
+      planet_id: z.string().uuid(),
+      creature_id: z.string().uuid(),
+    })
+    .strict(),
+});
+
+export type CreatureHarvestCommand = z.infer<typeof CreatureHarvestCommandSchema>;
+
 export const CommandSchema = z.discriminatedUnion("type", [
   PingCommandSchema,
   PlanetCreateCommandSchema,
@@ -100,6 +112,7 @@ export const CommandSchema = z.discriminatedUnion("type", [
   PlanetEvolveCommandSchema,
   BreedStartCommandSchema,
   CraftStartCommandSchema,
+  CreatureHarvestCommandSchema,
 ]);
 
 export type Command = z.infer<typeof CommandSchema>;

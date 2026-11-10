@@ -25,8 +25,8 @@
 - [x] Test: không có vòng chế → lợi nhuận dương vô hạn.
 
 ### T2.5 — Sinh vật trên hành tinh
-- [ ] Sinh vật xuất hiện theo mốc tiến hóa và biome; hệ sinh thái cân bằng (quá đông → suy thoái ô).
-- [ ] Sản phẩm sinh vật → nguyên liệu (theo nguyên tố, sinh vật lai cho nguyên liệu lai).
+- [x] Sinh vật xuất hiện theo mốc tiến hóa và biome; hệ sinh thái cân bằng (quá đông → suy thoái ô).
+- [x] Sản phẩm sinh vật → nguyên liệu (theo nguyên tố, sinh vật lai cho nguyên liệu lai).
 
 ### T2.6 — Hình dáng tự tạo
 - [ ] Vẽ sinh vật bằng Canvas từ genome: khối cơ bản + màu pha + họa tiết trait; biểu tượng nguyên tố.

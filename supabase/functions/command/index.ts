@@ -6,6 +6,7 @@ import {
   generateExpandedTiles,
   breed,
   seededRng,
+  getCreatureDrop,
   ITEMS_BY_KEY,
   RECIPES_BY_KEY,
   ELEMENT_KEYS,
@@ -901,6 +902,104 @@ export async function handleCommand(
         craft_time_sec: recipe.craftTimeSec,
         finish_at: finishAtIso,
         new_version: commitResult.state_version,
+      };
+      break;
+    }
+
+    case "creature.harvest": {
+      const { planet_id, creature_id } = command.payload;
+
+      // Settle offline jobs and resources first
+      await supabase.rpc("settle_planet_jobs", { p_planet_id: planet_id });
+      await supabase.rpc("settle_planet_resources", { p_planet_id: planet_id });
+
+      const { data: planet } = await supabase
+        .from("planets")
+        .select("id, owner_id, state_version")
+        .eq("id", planet_id)
+        .single();
+
+      if (!planet || planet.owner_id !== user.id) {
+        return createErrorResponse(403, "NOT_OWNER", "command.not_owner", requestId);
+      }
+
+      const { data: creature } = await supabase
+        .from("creatures")
+        .select(
+          "id, species_key, primary_element, secondary_element, stats, traits, generation, inbreeding",
+        )
+        .eq("id", creature_id)
+        .eq("planet_id", planet_id)
+        .single();
+
+      if (!creature) {
+        return createErrorResponse(404, "CREATURE_NOT_FOUND", "creature.not_found", requestId);
+      }
+
+      // Calculate drop item
+      const drop = getCreatureDrop({
+        primary: creature.primary_element,
+        secondary: creature.secondary_element,
+        stats: creature.stats,
+        traits: creature.traits,
+        generation: creature.generation,
+        inbreeding: creature.inbreeding,
+      });
+
+      // Ensure item exists in items table
+      let itemId: string;
+      const { data: existingItem } = await supabase
+        .from("items")
+        .select("id")
+        .eq("def_key", drop.itemKey)
+        .maybeSingle();
+
+      if (existingItem) {
+        itemId = existingItem.id;
+      } else {
+        const { data: newItem } = await supabase
+          .from("items")
+          .insert({ def_key: drop.itemKey })
+          .select("id")
+          .single();
+        itemId = newItem?.id || crypto.randomUUID();
+      }
+
+      // Add to inventory
+      const { data: invRow } = await supabase
+        .from("inventory")
+        .select("qty")
+        .eq("planet_id", planet_id)
+        .eq("item_id", itemId)
+        .maybeSingle();
+
+      if (invRow) {
+        await supabase
+          .from("inventory")
+          .update({ qty: invRow.qty + drop.qty })
+          .eq("planet_id", planet_id)
+          .eq("item_id", itemId);
+      } else {
+        await supabase.from("inventory").insert({ planet_id, item_id: itemId, qty: drop.qty });
+      }
+
+      // Record in codex
+      await supabase
+        .from("codex_entries")
+        .insert({
+          player_id: user.id,
+          kind: "item",
+          entry_key: drop.itemKey,
+        })
+        .select();
+
+      responsePayload = {
+        ok: true,
+        type: "creature.harvest",
+        creature_id,
+        item_key: drop.itemKey,
+        qty: drop.qty,
+        is_hybrid: drop.isHybridDrop,
       };
       break;
     }

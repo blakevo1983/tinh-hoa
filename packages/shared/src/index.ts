@@ -31,3 +31,8 @@ export * from "./economy/job-settler.js";
 
 // Breeding
 export * from "./breeding/breed.js";
+
+// Ecosystem
+export * from "./ecosystem/spawner.js";
+export * from "./ecosystem/balance.js";
+export * from "./ecosystem/drops.js";

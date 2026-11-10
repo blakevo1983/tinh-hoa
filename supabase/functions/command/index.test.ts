@@ -165,6 +165,21 @@ function createMockSupabase(overrides?: {
                 ],
                 error: null,
               }),
+              eq: vi.fn().mockReturnValue({
+                single: vi.fn().mockResolvedValue({
+                  data: {
+                    id: "11111111-2222-3333-4444-555555555551",
+                    species_key: "verdant_sprout",
+                    primary_element: "wood",
+                    secondary_element: null,
+                    stats: { qi: 30, guard: 20, agility: 25, harmony: 5, chaos: 10 },
+                    traits: ["photosynthesis"],
+                    generation: 1,
+                    inbreeding: 0,
+                  },
+                  error: null,
+                }),
+              }),
             }),
           }),
         };
@@ -179,6 +194,12 @@ function createMockSupabase(overrides?: {
               ],
               error: null,
             }),
+            eq: vi.fn().mockReturnValue({
+              maybeSingle: vi.fn().mockResolvedValue({
+                data: { id: "item-drop-id-1", def_key: "ancient_wood" },
+                error: null,
+              }),
+            }),
           }),
         };
       }
@@ -191,6 +212,10 @@ function createMockSupabase(overrides?: {
                   data: { qty: 10 },
                   error: null,
                 }),
+                maybeSingle: vi.fn().mockResolvedValue({
+                  data: { qty: 10 },
+                  error: null,
+                }),
               }),
             }),
           }),
@@ -198,6 +223,13 @@ function createMockSupabase(overrides?: {
             eq: vi.fn().mockReturnValue({
               eq: vi.fn().mockResolvedValue({ error: null }),
             }),
+          }),
+        };
+      }
+      if (table === "codex_entries") {
+        return {
+          insert: vi.fn().mockReturnValue({
+            select: vi.fn().mockResolvedValue({ error: null }),
           }),
         };
       }
@@ -809,6 +841,63 @@ describe("Command Gateway (Edge Function handleCommand)", () => {
 
       const body = await res.json();
       expect(body.error.code).toBe("RECIPE_NOT_FOUND");
+    });
+  });
+
+  describe("creature.harvest command", () => {
+    it("successfully harvests materials from creature on planet", async () => {
+      const mockSupabase = createMockSupabase();
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "creature.harvest",
+          idempotency_key: "harvest-valid-1",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            creature_id: "11111111-2222-3333-4444-555555555551",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(200);
+
+      const body = await res.json();
+      expect(body.ok).toBe(true);
+      expect(body.type).toBe("creature.harvest");
+      expect(body.item_key).toBeDefined();
+      expect(body.qty).toBeGreaterThanOrEqual(1);
+    });
+
+    it("rejects creature.harvest with NOT_OWNER when targeting foreign planet", async () => {
+      const mockSupabase = createMockSupabase({
+        planetOwnerId: "other-user-uuid",
+      });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "creature.harvest",
+          idempotency_key: "harvest-alien-planet",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            creature_id: "11111111-2222-3333-4444-555555555551",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(403);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("NOT_OWNER");
     });
   });
 });
