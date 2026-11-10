@@ -49,9 +49,9 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** đăng ký → xác minh → đăng nhập → thấy hồ sơ; Turnstile thiếu/sai bị từ chối.
 
 ### T0.6 — Baseline DB và RLS (`/db-migration`)
-- [ ] Migration: `profiles`, `audit_log`, `rate_limits`, `feature_flags` (theo `docs/03-DATA-MODEL.md`).
-- [ ] RLS bật, **revoke all** từ `anon/authenticated` rồi grant chọn lọc.
-- [ ] pgTAP: (a) test **tự động liệt kê mọi bảng `public` thiếu RLS và yêu cầu rỗng**; (b) anon không đọc/ghi; (c) người dùng không đọc `profiles` người khác ngoài view công khai; (d) không ghi trực tiếp được `audit_log`.
+- [x] Migration: `profiles`, `audit_log`, `rate_limits`, `feature_flags` (theo `docs/03-DATA-MODEL.md`).
+- [x] RLS bật, **revoke all** từ `anon/authenticated` rồi grant chọn lọc.
+- [x] pgTAP: (a) test **tự động liệt kê mọi bảng `public` thiếu RLS và yêu cầu rỗng**; (b) anon không đọc/ghi; (c) người dùng không đọc `profiles` người khác ngoài view công khai; (d) không ghi trực tiếp được `audit_log`.
 
 **Acceptance:** `pnpm test:db` xanh; thêm bảng mới không RLS làm test đỏ.
 
