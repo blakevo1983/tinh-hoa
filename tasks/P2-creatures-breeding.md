@@ -41,5 +41,5 @@
 - [x] Codex UI.
 
 ### T2.9 — Review và phát hành alpha riêng tư
-- [ ] `/security-review` (phiên mới), `/balance-check`, `/release` staging.
-- [ ] Mời 2–3 người bạn chơi thử (alpha), thu phản hồi vào `tasks/BACKLOG.md`.
+- [x] `/security-review` (phiên mới), `/balance-check`, `/release` staging.
+- [x] Mời 2–3 người bạn chơi thử (alpha), thu phản hồi vào `tasks/BACKLOG.md`.

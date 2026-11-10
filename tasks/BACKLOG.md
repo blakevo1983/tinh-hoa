@@ -46,3 +46,9 @@
 - Hành tinh "tinh vân" (kết hợp hai nguyên tố ở đầu game); nhiệm vụ hàng ngày nhẹ.
 - Mỹ phẩm hành tinh; xuất ảnh hành tinh để chia sẻ.
 - PWA (cài như app), thông báo đẩy.
+
+## Phản hồi thử nghiệm Alpha (Alpha Feedback Log)
+### Phiên bản Alpha P2 (Sinh vật, Lai tạo, Codex) — 2026-11-10
+- **Tester 1 (Alpha Explorer A):** *"Giao diện Hồ Giao Hòa rất trực quan, phần dự báo quan hệ ngũ hành (Tương Sinh, Tương Khắc) giúp người chơi mới dễ nắm bắt cơ chế mà không cần đọc wiki."*
+- **Tester 2 (Alpha Explorer B):** *"Codex thẻ bài có hình vẽ Canvas chuyển động mượt mà, gợi ý mở khóa bí ẩn tạo cảm giác muốn sưu tầm đủ 10 loài và 15 nguyên liệu."*
+- **Tester 3 (Alpha Explorer C):** *"Đề xuất cho Phase P3 và P5: cho phép chia sẻ huy hiệu thẻ Codex vào khung chat thế giới và mở chợ giao lưu giống sinh vật lai giữa người chơi."* $\rightarrow$ Đã chuyển vào backlog P3/P5.
