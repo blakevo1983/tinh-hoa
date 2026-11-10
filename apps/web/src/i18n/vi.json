@@ -41,6 +41,22 @@
     "harmony": "Hòa hợp",
     "chaos": "Bất ổn"
   },
+  "auth": {
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "signOut": "Đăng xuất",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "displayName": "Tên hiển thị (3-20 ký tự)",
+    "switchToSignUp": "Chưa có tài khoản? Đăng ký ngay",
+    "switchToSignIn": "Đã có tài khoản? Đăng nhập",
+    "turnstileNotice": "Bảo vệ bởi Cloudflare Turnstile",
+    "verificationSent": "Đã gửi email xác nhận! Vui lòng kiểm tra hộp thư (Mailpit local tại cổng 54324).",
+    "welcome": "Người du hành: {name}",
+    "notConfigured": "Supabase chưa được cấu hình biến môi trường.",
+    "invalidTurnstile": "Mã xác minh bảo mật Turnstile không hợp lệ hoặc bị thiếu.",
+    "submitting": "Đang xử lý..."
+  },
   "a11y": {
     "selectElement": "Chọn nguyên tố {name}",
     "planetCanvasAlt": "Hình tròn mô phỏng hành tinh xoay tròn theo nguyên tố đã chọn",

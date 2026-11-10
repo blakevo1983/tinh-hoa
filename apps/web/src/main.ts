@@ -7,6 +7,7 @@ import {
 } from "@tinh-hoa/shared";
 import { t, getLocale, setLocale, onLocaleChange, type Locale } from "./i18n/index.js";
 import { renderPlanet, setupCanvasDpi, type PlanetState } from "./canvas/planet-renderer.js";
+import { createAuthPanel } from "./components/auth-panel.js";
 
 interface AppState {
   locale: Locale;
@@ -62,6 +63,10 @@ export function initApp(rootElement: HTMLElement): () => void {
   header.appendChild(brand);
   header.appendChild(langBtn);
   rootElement.appendChild(header);
+
+  // Auth Panel (Sign in / Sign up / Profile)
+  const authPanel = createAuthPanel();
+  rootElement.appendChild(authPanel);
 
   // 2. Main Stage
   const mainStage = document.createElement("main");

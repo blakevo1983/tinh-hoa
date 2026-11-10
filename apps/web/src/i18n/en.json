@@ -41,6 +41,22 @@
     "harmony": "Harmony",
     "chaos": "Chaos"
   },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "displayName": "Display Name (3-20 chars)",
+    "switchToSignUp": "Don't have an account? Sign up",
+    "switchToSignIn": "Already have an account? Sign in",
+    "turnstileNotice": "Protected by Cloudflare Turnstile",
+    "verificationSent": "Verification email sent! Check your inbox (Local Mailpit on port 54324).",
+    "welcome": "Voyager: {name}",
+    "notConfigured": "Supabase environment variables are not configured.",
+    "invalidTurnstile": "Turnstile verification token is invalid or missing.",
+    "submitting": "Processing..."
+  },
   "a11y": {
     "selectElement": "Select {name} element",
     "planetCanvasAlt": "Circular canvas simulating the rotating planet based on chosen element",

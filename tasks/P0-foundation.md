@@ -41,10 +41,10 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** `supabase start` + `supabase db reset` chạy sạch; client kết nối được local.
 
 ### T0.5 — Xác thực
-- [ ] Đăng ký/đăng nhập email (xác minh email bật), đăng xuất.
-- [ ] Cloudflare Turnstile ở form đăng ký/đăng nhập.
-- [ ] Trigger tạo `profiles` khi có user mới; `display_name` do người dùng chọn, validate.
-- [ ] Không lưu thông tin nhạy cảm ở `localStorage` ngoài phiên do SDK quản lý.
+- [x] Đăng ký/đăng nhập email (xác minh email bật), đăng xuất.
+- [x] Cloudflare Turnstile ở form đăng ký/đăng nhập.
+- [x] Trigger tạo `profiles` khi có user mới; `display_name` do người dùng chọn, validate.
+- [x] Không lưu thông tin nhạy cảm ở `localStorage` ngoài phiên do SDK quản lý.
 
 **Acceptance:** đăng ký → xác minh → đăng nhập → thấy hồ sơ; Turnstile thiếu/sai bị từ chối.
 
