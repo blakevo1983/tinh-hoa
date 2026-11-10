@@ -1,0 +1,49 @@
+{
+  "app": {
+    "title": "Tinh Hoa",
+    "subtitle": "Web game tiến hóa hành tinh",
+    "tagline": "Gieo mầm hành tinh nguyên tố, nuôi dưỡng sinh thái và mở rộng thiên hà"
+  },
+  "nav": {
+    "language": "Ngôn ngữ",
+    "switchLanguage": "Chuyển sang tiếng Anh"
+  },
+  "planet": {
+    "preview": "Hành tinh nguyên sơ",
+    "selectedElement": "Nguyên tố chủ đạo",
+    "radius": "Bán kính quy chuẩn",
+    "rotationSpeed": "Tốc độ tự quay"
+  },
+  "elements": {
+    "title": "Tám Đại Nguyên Tố",
+    "subtitle": "Mỗi nguyên tố sở hữu tính cách và biểu tượng hình học riêng biệt",
+    "metal": "Kim",
+    "wood": "Mộc",
+    "water": "Thủy",
+    "fire": "Hỏa",
+    "earth": "Thổ",
+    "light": "Quang",
+    "dark": "Ám",
+    "thunder": "Lôi",
+    "metal_desc": "Bền, chắc, chậm thích nghi",
+    "wood_desc": "Sinh trưởng, cộng sinh tốt",
+    "water_desc": "Linh hoạt, hợp tác",
+    "fire_desc": "Mạnh nhưng bất ổn",
+    "earth_desc": "Chậm, rất bền, ổn định",
+    "light_desc": "Hòa hợp cao, hợp tác",
+    "dark_desc": "Tấn công mạnh, khó kết giao",
+    "thunder_desc": "Nhanh, phá luật, rất bất ổn"
+  },
+  "stats": {
+    "qi": "Nguyên khí",
+    "guard": "Hộ thể",
+    "agility": "Linh động",
+    "harmony": "Hòa hợp",
+    "chaos": "Bất ổn"
+  },
+  "a11y": {
+    "selectElement": "Chọn nguyên tố {name}",
+    "planetCanvasAlt": "Hình tròn mô phỏng hành tinh xoay tròn theo nguyên tố đã chọn",
+    "languageToggle": "Đổi ngôn ngữ giao diện"
+  }
+}

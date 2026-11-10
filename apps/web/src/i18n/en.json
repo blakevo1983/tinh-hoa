@@ -1,0 +1,49 @@
+{
+  "app": {
+    "title": "Tinh Hoa",
+    "subtitle": "Planet Evolution Web Game",
+    "tagline": "Sow elemental seeds, nurture ecology, and expand into the cosmos"
+  },
+  "nav": {
+    "language": "Language",
+    "switchLanguage": "Switch to Vietnamese"
+  },
+  "planet": {
+    "preview": "Primordial Planet",
+    "selectedElement": "Primary Element",
+    "radius": "Standard Radius",
+    "rotationSpeed": "Rotation Speed"
+  },
+  "elements": {
+    "title": "The Eight Elements",
+    "subtitle": "Each element possesses distinct personality and geometric symbol",
+    "metal": "Metal",
+    "wood": "Wood",
+    "water": "Water",
+    "fire": "Fire",
+    "earth": "Earth",
+    "light": "Light",
+    "dark": "Dark",
+    "thunder": "Thunder",
+    "metal_desc": "Durable, resilient, slow to adapt",
+    "wood_desc": "Growth, flourishing symbiosis",
+    "water_desc": "Fluid, adaptable, cooperative",
+    "fire_desc": "Powerful yet volatile",
+    "earth_desc": "Deliberate, grounded, steadfast",
+    "light_desc": "Harmonious, elevated synergy",
+    "dark_desc": "Aggressive, challenging bond",
+    "thunder_desc": "Swift, disruptive, chaotic"
+  },
+  "stats": {
+    "qi": "Qi",
+    "guard": "Guard",
+    "agility": "Agility",
+    "harmony": "Harmony",
+    "chaos": "Chaos"
+  },
+  "a11y": {
+    "selectElement": "Select {name} element",
+    "planetCanvasAlt": "Circular canvas simulating the rotating planet based on chosen element",
+    "languageToggle": "Toggle interface language"
+  }
+}

@@ -26,10 +26,10 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** test chứng minh RNG xác định theo seed; ma trận khắc/sinh khớp GDD; kiểu `Genome` từ chối chỉ số ngoài biên.
 
 ### T0.3 — Client khung
-- [ ] Vite + TS; màn hình trống vẽ một hành tinh tròn bằng Canvas.
-- [ ] i18n `vi.json` (mặc định) và `en.json`; mọi chuỗi qua khóa.
-- [ ] Biểu tượng hình dạng cho 8 nguyên tố (đủ để phân biệt không cần màu).
-- [ ] Không `innerHTML` với dữ liệu động.
+- [x] Vite + TS; màn hình trống vẽ một hành tinh tròn bằng Canvas.
+- [x] i18n `vi.json` (mặc định) và `en.json`; mọi chuỗi qua khóa.
+- [x] Biểu tượng hình dạng cho 8 nguyên tố (đủ để phân biệt không cần màu).
+- [x] Không `innerHTML` với dữ liệu động.
 
 **Acceptance:** `pnpm dev` hiển thị hành tinh; chuyển ngôn ngữ vi/en hoạt động.
 

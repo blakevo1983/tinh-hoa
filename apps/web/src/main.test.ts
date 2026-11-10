@@ -1,7 +1,18 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { initApp } from "./main.js";
 
-describe("web client", () => {
-  it("initializes without throwing", () => {
-    expect(true).toBe(true);
+describe("main client initialization", () => {
+  beforeEach(() => {
+    // Stub requestAnimationFrame and cancelAnimationFrame
+    vi.stubGlobal("requestAnimationFrame", (fn: (time: number) => void) => {
+      return setTimeout(() => fn(Date.now()), 16);
+    });
+    vi.stubGlobal("cancelAnimationFrame", (id: number) => {
+      clearTimeout(id);
+    });
+  });
+
+  it("exports initApp function", () => {
+    expect(typeof initApp).toBe("function");
   });
 });
