@@ -24,6 +24,9 @@ export * from "./schemas/social.js";
 export * from "./schemas/chat.js";
 export * from "./schemas/alliance.js";
 export * from "./schemas/party.js";
+export * from "./schemas/expedition.js";
+export * from "./schemas/trade.js";
+export * from "./schemas/diplomacy.js";
 
 // Alliance & Synergy
 export * from "./alliance/elemental-buff.js";
@@ -38,6 +41,7 @@ export * from "./generation/planet-expansion.js";
 // Economy
 export * from "./economy/resource-settler.js";
 export * from "./economy/job-settler.js";
+export * from "./economy/npc-trade.js";
 
 // Breeding
 export * from "./breeding/breed.js";
