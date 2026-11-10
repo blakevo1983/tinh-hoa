@@ -38,10 +38,10 @@
 - [x] RPC đánh dấu đã đọc `mark_notification_read`.
 
 ### T3.7 — Kiểm thử đối kháng an ninh (Security Exploits)
-- [ ] Test chống XSS injection trong nội dung chat.
-- [ ] Test chống flood / spam lặp tin liên tiếp.
-- [ ] Test đọc lén kênh riêng tư hoặc DM người khác khi không phải thành viên.
-- [ ] Test gửi tin khi bị đối phương chặn (blocked).
+- [x] Test chống XSS injection trong nội dung chat.
+- [x] Test chống flood / spam lặp tin liên tiếp.
+- [x] Test đọc lén kênh riêng tư hoặc DM người khác khi không phải thành viên.
+- [x] Test gửi tin khi bị đối phương chặn (blocked).
 
 ### T3.8 — Security Review & Đóng Phase P3
 - [ ] Báo cáo đánh giá an ninh tại `docs/security-reviews/P3.md`.
