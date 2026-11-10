@@ -51,7 +51,7 @@
     "switchToSignUp": "Don't have an account? Sign up",
     "switchToSignIn": "Already have an account? Sign in",
     "turnstileNotice": "Protected by Cloudflare Turnstile",
-    "verificationSent": "Verification email sent! Check your inbox (Local Mailpit on port 54324).",
+    "verificationSent": "Verification email sent! Please check your inbox (including Spam folder) to activate your account.",
     "welcome": "Voyager: {name}",
     "notConfigured": "Supabase environment variables are not configured.",
     "invalidTurnstile": "Turnstile verification token is invalid or missing.",

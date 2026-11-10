@@ -51,7 +51,7 @@
     "switchToSignUp": "Chưa có tài khoản? Đăng ký ngay",
     "switchToSignIn": "Đã có tài khoản? Đăng nhập",
     "turnstileNotice": "Bảo vệ bởi Cloudflare Turnstile",
-    "verificationSent": "Đã gửi email xác nhận! Vui lòng kiểm tra hộp thư (Mailpit local tại cổng 54324).",
+    "verificationSent": "Đã gửi email xác nhận! Vui lòng kiểm tra hộp thư của bạn (kể cả mục Thư rác/Spam) để kích hoạt tài khoản.",
     "welcome": "Người du hành: {name}",
     "notConfigured": "Supabase chưa được cấu hình biến môi trường.",
     "invalidTurnstile": "Mã xác minh bảo mật Turnstile không hợp lệ hoặc bị thiếu.",
