@@ -70,7 +70,7 @@
 **Acceptance:** giả lập tăng bất thường → sinh cờ.
 
 ### T1.10 — `/security-review` và `/release` staging
-- [ ] Review đối kháng ở phiên mới (prompt mục 3 `docs/07-PROMPT-PLAYBOOK.md`).
-- [ ] Phát hành staging; bạn tự chơi thử 15 phút và cố phá 3 cách.
+- [x] Review đối kháng ở phiên mới (prompt mục 3 `docs/07-PROMPT-PLAYBOOK.md`).
+- [x] Phát hành staging; bạn tự chơi thử 15 phút và cố phá 3 cách.
 
 **Acceptance:** báo cáo `docs/security-reviews/P1.md`; không còn phát hiện Cao/Vừa.
