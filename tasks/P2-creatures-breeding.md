@@ -29,8 +29,8 @@
 - [x] Sản phẩm sinh vật → nguyên liệu (theo nguyên tố, sinh vật lai cho nguyên liệu lai).
 
 ### T2.6 — Hình dáng tự tạo
-- [ ] Vẽ sinh vật bằng Canvas từ genome: khối cơ bản + màu pha + họa tiết trait; biểu tượng nguyên tố.
-- [ ] Snapshot test hình theo genome cố định (so sánh dữ liệu vẽ, không so ảnh thật).
+- [x] Vẽ sinh vật bằng Canvas từ genome: khối cơ bản + màu pha + họa tiết trait; biểu tượng nguyên tố.
+- [x] Snapshot test hình theo genome cố định (so sánh dữ liệu vẽ, không so ảnh thật).
 
 ### T2.7 — Mô phỏng cân bằng `pnpm sim:balance`
 - [ ] Script chạy N seed × M lượt: tỉ lệ thắng cặp nguyên tố, phân phối chỉ số qua thế hệ, thời gian tới mốc.

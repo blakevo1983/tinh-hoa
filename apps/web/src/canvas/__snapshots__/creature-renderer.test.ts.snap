@@ -1,0 +1,102 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Procedural Creature Renderer (T2.6) > renders a hybrid Water + Wood creature with dual-element blend and traits matching snapshot 1`] = `
+{
+  "operations": [
+    {
+      "op": "gradient",
+      "params": {
+        "primaryColor": "#7EC8F0",
+        "radius": 42,
+        "secondaryColor": "#8FD694",
+      },
+    },
+    {
+      "op": "arc",
+      "params": {
+        "radius": 42,
+        "shape": "circle",
+      },
+    },
+    {
+      "op": "stroke",
+      "params": {
+        "lineWidth": 3,
+      },
+    },
+    {
+      "op": "arc",
+      "params": {
+        "color": "#52C41A",
+        "trait": "photosynthesis",
+      },
+    },
+    {
+      "op": "arc",
+      "params": {
+        "eyeRadius": 6.72,
+        "eyeType": "gentle",
+      },
+    },
+    {
+      "op": "badge",
+      "params": {
+        "badgeRadius": 7.56,
+        "element": "water",
+      },
+    },
+  ],
+  "primaryElement": "water",
+  "secondaryElement": "wood",
+}
+`;
+
+exports[`Procedural Creature Renderer (T2.6) > renders a pure Metal creature and outputs structured draw operations matching snapshot 1`] = `
+{
+  "operations": [
+    {
+      "op": "gradient",
+      "params": {
+        "primaryColor": "#C9CED6",
+        "radius": 35,
+        "secondaryColor": "#FFFFFF",
+      },
+    },
+    {
+      "op": "polygon",
+      "params": {
+        "radius": 35,
+        "sides": 6,
+      },
+    },
+    {
+      "op": "stroke",
+      "params": {
+        "lineWidth": 3,
+      },
+    },
+    {
+      "op": "stroke",
+      "params": {
+        "trait": "iron_skin",
+      },
+    },
+    {
+      "op": "arc",
+      "params": {
+        "eyeRadius": 5.6000000000000005,
+        "eyeType": "gentle",
+      },
+    },
+    {
+      "op": "badge",
+      "params": {
+        "badgeRadius": 6.3,
+        "element": "metal",
+      },
+    },
+  ],
+  "primaryElement": "metal",
+  "secondaryElement": null,
+}
+`;
