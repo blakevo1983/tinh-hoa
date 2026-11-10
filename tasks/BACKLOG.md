@@ -32,10 +32,11 @@
 - [x] Toàn bộ tiêu chí đạt 100%, bảo mật và kiểm thử đối kháng hoàn tất (Chi tiết trong `tasks/P5-expedition-trade-diplomacy.md`).
 
 ## P6 — Chiến tranh
-- [ ] Bộ máy chiến đấu tự động theo lượt, hàm thuần + property test; sinh vật lai tham chiến.
-- [ ] Lá chắn sau khi bị đánh, hạn mức cướp 20%, bảo vệ người mới, giảm lợi khi đánh người quá yếu.
-- [ ] Chiến lợi phẩm và đồng hóa sinh vật; nhật ký trận; chiến tranh liên minh.
-- [ ] Mô phỏng cân bằng chống snowball; test exploit (tự đánh clone, chia nhỏ lực lượng...).
+- [x] Bộ máy chiến đấu tự động theo lượt, hàm thuần + property test; sinh vật lai tham chiến.
+- [x] Lá chắn sau khi bị đánh, hạn mức cướp 20%, bảo vệ người mới, giảm lợi khi đánh người quá yếu.
+- [x] Chiến lợi phẩm và đồng hóa sinh vật; nhật ký trận; chiến tranh liên minh.
+- [x] Mô phỏng cân bằng chống snowball; test exploit (tự đánh clone, chia nhỏ lực lượng...).
+- [x] Toàn bộ tiêu chí đạt 100%, bảo mật và kiểm thử đối kháng hoàn tất (Chi tiết trong `tasks/P6-warfare.md`).
 
 ## P7 — Củng cố và ra mắt
 - [ ] Pentest nội bộ toàn hệ thống; thử tải k6; thử khôi phục backup.

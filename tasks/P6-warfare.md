@@ -48,6 +48,6 @@
 - [x] Test sử dụng sinh vật không thuộc sở hữu vào đội hình công/thủ.
 
 ### T6.8 — Security Review & Đóng Phase P6
-- [ ] Báo cáo đánh giá an ninh tại `docs/security-reviews/P6.md`.
-- [ ] Chạy `pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm secret-scan`.
-- [ ] Cập nhật `tasks/BACKLOG.md` và đóng Phase P6.
+- [x] Báo cáo đánh giá an ninh tại `docs/security-reviews/P6.md`.
+- [x] Chạy `pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm secret-scan`.
+- [x] Cập nhật `tasks/BACKLOG.md` và đóng Phase P6.
