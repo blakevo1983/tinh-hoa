@@ -27,10 +27,10 @@
 - [x] Unit tests cho Edge function với kịch bản kiểm tra quyền, flood và từ cấm.
 
 ### T3.5 — Client ChatTransport & Giao diện Chat
-- [ ] Giao diện `ChatTransport` (`send`, `subscribe`, `getHistory`).
-- [ ] Component UI Chat Panel (`chat-panel.ts`): chuyển kênh `planet`, `dm`, `global` (Liên Tinh), phân trang cursor `before_id`.
-- [ ] Tuân thủ Rule 25: min touch target 44px, tương phản cao $\ge 4.5:1$, aria attributes, không dùng emoji làm icon điều khiển.
-- [ ] Unit test UI Chat.
+- [x] Giao diện `ChatTransport` (`send`, `subscribe`, `getHistory`).
+- [x] Component UI Chat Panel (`chat-panel.ts`): chuyển kênh `planet`, `dm`, `global` (Liên Tinh), phân trang cursor `before_id`.
+- [x] Tuân thủ Rule 25: min touch target 44px, tương phản cao $\ge 4.5:1$, aria attributes, không dùng emoji làm icon điều khiển.
+- [x] Unit test UI Chat.
 
 ### T3.6 — Báo cáo vi phạm & Thông báo offline (Notifications)
 - [ ] Lệnh gửi báo cáo vi phạm lưu vào `chat_reports` kèm ảnh chụp 20 tin xung quanh.

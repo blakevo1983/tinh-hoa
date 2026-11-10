@@ -15,6 +15,8 @@ import {
 } from "./components/planet-creation-panel.js";
 import { createBreedingPanel, type AvailableCreature } from "./components/breeding-panel.js";
 import { createCodexPanel } from "./components/codex-panel.js";
+import { createChatPanel } from "./components/chat-panel.js";
+import { SupabaseChatTransport } from "./lib/chat-transport.js";
 
 interface AppState {
   locale: Locale;
@@ -362,6 +364,15 @@ export function initApp(rootElement: HTMLElement): () => void {
     unlockedItemKeys: ["raw_metal_ore", "raw_water_drop", "iron_essence"],
   });
   paletteSection.appendChild(codexPanel);
+
+  // Chat Panel (T3.5)
+  const chatTransport = new SupabaseChatTransport();
+  const chatPanel = createChatPanel({
+    currentUserId: "guest-voyager",
+    planetId: state.activePlanet?.id,
+    transport: chatTransport,
+  });
+  paletteSection.appendChild(chatPanel);
 
   mainStage.appendChild(paletteSection);
   rootElement.appendChild(mainStage);

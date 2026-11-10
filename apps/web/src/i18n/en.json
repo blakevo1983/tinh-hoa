@@ -96,5 +96,21 @@
     "generation": "Generation {gen}",
     "inbreedingLevel": "Inbreeding: Lvl {level}",
     "discoveredOn": "Discovered at: {date}"
+  },
+  "chat": {
+    "title": "Transmission Relay (Chat)",
+    "subtitle": "Communicate across celestial voyagers and alliances",
+    "channelGlobal": "Interstellar (Global)",
+    "channelPlanet": "Planet",
+    "channelDm": "Whisper (DM)",
+    "sendPlaceholder": "Type transmission (up to 300 chars)...",
+    "btnSend": "Transmit",
+    "loadMore": "Load earlier messages",
+    "report": "Report",
+    "reportReason": "Reason for violation report:",
+    "reportSubmit": "Submit Report",
+    "cooldownActive": "Please wait {sec}s before transmitting another message.",
+    "noMessages": "No transmissions recorded in this channel yet. Be the first voice!",
+    "reportedSuccess": "Violation report submitted successfully."
   }
 }

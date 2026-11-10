@@ -96,5 +96,21 @@
     "generation": "Thế hệ {gen}",
     "inbreedingLevel": "Cận huyết: Cấp {level}",
     "discoveredOn": "Khám phá lúc: {date}"
+  },
+  "chat": {
+    "title": "Kênh Truyền Tin (Chat)",
+    "subtitle": "Liên lạc giữa các người du hành và đồng minh trong thiên hà",
+    "channelGlobal": "Liên Tinh (Toàn Cầu)",
+    "channelPlanet": "Hành Tinh",
+    "channelDm": "Thì Thầm (DM)",
+    "sendPlaceholder": "Nhập tin nhắn (tối đa 300 ký tự)...",
+    "btnSend": "Gửi Tin",
+    "loadMore": "Tải thêm tin cũ",
+    "report": "Báo cáo",
+    "reportReason": "Lý do báo cáo vi phạm:",
+    "reportSubmit": "Gửi Báo Cáo",
+    "cooldownActive": "Vui lòng đợi {sec}s trước khi gửi tin tiếp theo.",
+    "noMessages": "Chưa có tin nhắn nào trong kênh này. Hãy là người đầu tiên lên tiếng!",
+    "reportedSuccess": "Đã gửi báo cáo vi phạm thành công."
   }
 }
