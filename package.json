@@ -14,7 +14,7 @@
     "secret-scan": "node scripts/protect-secrets.mjs",
     "prepare": "lefthook install",
     "supabase": "supabase",
-    "sim:balance": "echo \"Balance simulation available in P2\"",
+    "sim:balance": "pnpm --filter @tinh-hoa/shared build && node scripts/sim-balance.mjs",
     "build": "pnpm --filter @tinh-hoa/shared build && pnpm --filter @tinh-hoa/web build"
   },
   "devDependencies": {

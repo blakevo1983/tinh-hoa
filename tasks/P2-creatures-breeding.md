@@ -33,8 +33,8 @@
 - [x] Snapshot test hình theo genome cố định (so sánh dữ liệu vẽ, không so ảnh thật).
 
 ### T2.7 — Mô phỏng cân bằng `pnpm sim:balance`
-- [ ] Script chạy N seed × M lượt: tỉ lệ thắng cặp nguyên tố, phân phối chỉ số qua thế hệ, thời gian tới mốc.
-- [ ] Báo cáo ra `docs/balance/`. Chạy `/balance-check` và chỉnh config tới khi đạt tiêu chí trong workflow.
+- [x] Script chạy N seed × M lượt: tỉ lệ thắng cặp nguyên tố, phân phối chỉ số qua thế hệ, thời gian tới mốc.
+- [x] Báo cáo ra `docs/balance/`. Chạy `/balance-check` và chỉnh config tới khi đạt tiêu chí trong workflow.
 
 ### T2.8 — Giao diện lai tạo
 - [ ] Kéo hai sinh vật/nguyên liệu vào hai ô → "Kết hợp"; hiệu ứng nhẹ; gợi ý mờ khi tổ hợp khả dụng; không có thất bại cứng.
