@@ -1,0 +1,12 @@
+# Lefthook Git Hooks configuration
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: false
+  commands:
+    secrets:
+      run: node scripts/protect-secrets.mjs
+    lint:
+      run: pnpm lint
+    typecheck:
+      run: pnpm typecheck

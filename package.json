@@ -11,6 +11,8 @@
     "typecheck": "pnpm -r exec tsc --noEmit",
     "test": "vitest run",
     "test:db": "supabase test db",
+    "secret-scan": "node scripts/protect-secrets.mjs",
+    "prepare": "lefthook install",
     "supabase": "supabase",
     "sim:balance": "echo \"Balance simulation available in P2\"",
     "build": "pnpm --filter @tinh-hoa/shared build && pnpm --filter @tinh-hoa/web build"
@@ -20,6 +22,7 @@
     "@supabase/supabase-js": "^2.119.0",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.1",
+    "lefthook": "^2.2.2",
     "prettier": "^3.5.2",
     "supabase": "^3.0.0",
     "typescript": "^5.7.3",

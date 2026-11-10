@@ -73,7 +73,7 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** PR thử đỏ khi cố tình commit một secret giả/bảng thiếu RLS.
 
 ### T0.9 — Pre-commit và quét secret
-- [ ] Lefthook/Husky: `lint`, `typecheck` nhanh, `gitleaks protect --staged`.
+- [x] Lefthook/Husky: `lint`, `typecheck` nhanh, `gitleaks protect --staged`.
 
 **Acceptance:** commit có secret giả bị chặn.
 
