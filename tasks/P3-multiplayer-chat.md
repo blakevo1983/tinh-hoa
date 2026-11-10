@@ -22,9 +22,9 @@
 - [x] Unit test và property test cho bộ lọc từ cấm.
 
 ### T3.4 — Edge Function `chat-send`
-- [ ] Deno function tiếp nhận yêu cầu gửi tin: JWT → zod validate → rate limiter → kiểm tra quyền kênh → kiểm tra bị chặn/mute → lọc từ ngữ → `INSERT chat_messages` (kèm `client_msg_id` chống trùng tin) → broadcast Realtime.
-- [ ] Client không bao giờ phát trực tiếp vào kênh realtime (kênh server-only broadcast).
-- [ ] Unit tests cho Edge function với kịch bản kiểm tra quyền, flood và từ cấm.
+- [x] Deno function tiếp nhận yêu cầu gửi tin: JWT → zod validate → rate limiter → kiểm tra quyền kênh → kiểm tra bị chặn/mute → lọc từ ngữ → `INSERT chat_messages` (kèm `client_msg_id` chống trùng tin) → broadcast Realtime.
+- [x] Client không bao giờ phát trực tiếp vào kênh realtime (kênh server-only broadcast).
+- [x] Unit tests cho Edge function với kịch bản kiểm tra quyền, flood và từ cấm.
 
 ### T3.5 — Client ChatTransport & Giao diện Chat
 - [ ] Giao diện `ChatTransport` (`send`, `subscribe`, `getHistory`).
