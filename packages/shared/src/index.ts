@@ -12,6 +12,7 @@ export * from "./config/biomes.js";
 export * from "./config/buildings.js";
 export * from "./config/species.js";
 export * from "./config/items.js";
+export * from "./config/recipes.js";
 
 // Schemas
 export * from "./schemas/element.js";

@@ -7,6 +7,7 @@ import {
   breed,
   seededRng,
   ITEMS_BY_KEY,
+  RECIPES_BY_KEY,
   ELEMENT_KEYS,
   getBuildingCost,
   getBuildingTimeSec,
@@ -739,6 +740,166 @@ export async function handleCommand(
         hatch_duration_sec: breedResult.hatchDurationSec,
         finish_at: breedResult.finishAtIso,
         child_species_key: breedResult.childSpeciesKey,
+        new_version: commitResult.state_version,
+      };
+      break;
+    }
+
+    case "craft.start": {
+      const { planet_id, recipe_key } = command.payload;
+
+      const recipe = RECIPES_BY_KEY[recipe_key];
+      if (!recipe) {
+        return createErrorResponse(404, "RECIPE_NOT_FOUND", "crafting.recipe_not_found", requestId);
+      }
+
+      // Settle offline jobs and resources first
+      await supabase.rpc("settle_planet_jobs", { p_planet_id: planet_id });
+      await supabase.rpc("settle_planet_resources", { p_planet_id: planet_id });
+
+      const { data: planet } = await supabase
+        .from("planets")
+        .select("id, owner_id, state_version")
+        .eq("id", planet_id)
+        .single();
+
+      if (!planet || planet.owner_id !== user.id) {
+        return createErrorResponse(403, "NOT_OWNER", "command.not_owner", requestId);
+      }
+
+      // Check Crafting Furnace building
+      const { count: furnaceCount } = await supabase
+        .from("buildings")
+        .select("id", { count: "exact", head: true })
+        .eq("planet_id", planet_id)
+        .eq("kind", "crafting_furnace");
+
+      if (!furnaceCount || furnaceCount < 1) {
+        return createErrorResponse(
+          400,
+          "MISSING_CRAFTING_FURNACE",
+          "crafting.missing_furnace",
+          requestId,
+        );
+      }
+
+      // Check elemental resource cost
+      const { data: balance } = await supabase
+        .from("resource_balances")
+        .select("amount")
+        .eq("planet_id", planet_id)
+        .eq("resource_key", recipe.elementalCost.resourceKey)
+        .single();
+
+      if (!balance || balance.amount < recipe.elementalCost.amount) {
+        return createErrorResponse(
+          400,
+          "INSUFFICIENT_RESOURCES",
+          "resource.insufficient",
+          requestId,
+          { required: recipe.elementalCost.amount, current: balance?.amount ?? 0 },
+        );
+      }
+
+      // Check materials in inventory
+      const { data: items } = await supabase
+        .from("items")
+        .select("id, def_key")
+        .in("def_key", [recipe.inputA.itemKey, recipe.inputB.itemKey]);
+
+      const itemA = items?.find((i) => i.def_key === recipe.inputA.itemKey);
+      const itemB = items?.find((i) => i.def_key === recipe.inputB.itemKey);
+
+      if (!itemA || !itemB) {
+        return createErrorResponse(
+          400,
+          "INSUFFICIENT_MATERIALS",
+          "crafting.missing_materials",
+          requestId,
+        );
+      }
+
+      const { data: inventoryA } = await supabase
+        .from("inventory")
+        .select("qty")
+        .eq("planet_id", planet_id)
+        .eq("item_id", itemA.id)
+        .single();
+
+      const { data: inventoryB } = await supabase
+        .from("inventory")
+        .select("qty")
+        .eq("planet_id", planet_id)
+        .eq("item_id", itemB.id)
+        .single();
+
+      if (
+        !inventoryA ||
+        inventoryA.qty < recipe.inputA.qty ||
+        !inventoryB ||
+        inventoryB.qty < recipe.inputB.qty
+      ) {
+        return createErrorResponse(
+          400,
+          "INSUFFICIENT_MATERIALS",
+          "crafting.missing_materials",
+          requestId,
+        );
+      }
+
+      // Deduct materials from inventory
+      await supabase
+        .from("inventory")
+        .update({ qty: inventoryA.qty - recipe.inputA.qty })
+        .eq("planet_id", planet_id)
+        .eq("item_id", itemA.id);
+
+      await supabase
+        .from("inventory")
+        .update({ qty: inventoryB.qty - recipe.inputB.qty })
+        .eq("planet_id", planet_id)
+        .eq("item_id", itemB.id);
+
+      const finishAtIso = new Date(Date.now() + recipe.craftTimeSec * 1000).toISOString();
+
+      const effects = [
+        {
+          type: "resource_delta",
+          resource_key: recipe.elementalCost.resourceKey,
+          delta: -recipe.elementalCost.amount,
+        },
+        {
+          type: "create_job",
+          kind: "craft",
+          payload: {
+            recipe_key: recipe.key,
+            output_key: recipe.outputKey,
+            output_qty: recipe.outputQty,
+          },
+          finish_at: finishAtIso,
+        },
+      ];
+
+      const { data: commitResult, error: commitError } = await supabase.rpc("commit_effects", {
+        p_planet_id: planet_id,
+        p_expected_version: command.expected_version ?? planet.state_version,
+        p_effects: effects,
+        p_idempotency_key: toValidUuid(command.idempotency_key),
+        p_reason: `craft_${recipe.outputKey}`,
+      });
+
+      if (commitError) {
+        return createErrorResponse(400, "COMMIT_FAILED", commitError.message, requestId);
+      }
+
+      responsePayload = {
+        ok: true,
+        type: "craft.start",
+        recipe_key: recipe.key,
+        output_key: recipe.outputKey,
+        output_qty: recipe.outputQty,
+        craft_time_sec: recipe.craftTimeSec,
+        finish_at: finishAtIso,
         new_version: commitResult.state_version,
       };
       break;

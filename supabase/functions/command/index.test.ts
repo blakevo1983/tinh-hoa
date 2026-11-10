@@ -169,6 +169,38 @@ function createMockSupabase(overrides?: {
           }),
         };
       }
+      if (table === "items") {
+        return {
+          select: vi.fn().mockReturnValue({
+            in: vi.fn().mockResolvedValue({
+              data: [
+                { id: "item-iron-ore", def_key: "iron_ore" },
+                { id: "item-flame-coal", def_key: "flame_coal" },
+              ],
+              error: null,
+            }),
+          }),
+        };
+      }
+      if (table === "inventory") {
+        return {
+          select: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              eq: vi.fn().mockReturnValue({
+                single: vi.fn().mockResolvedValue({
+                  data: { qty: 10 },
+                  error: null,
+                }),
+              }),
+            }),
+          }),
+          update: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              eq: vi.fn().mockResolvedValue({ error: null }),
+            }),
+          }),
+        };
+      }
       return {};
     }),
     rpc: vi.fn().mockImplementation((fn: string) => {
@@ -722,6 +754,61 @@ describe("Command Gateway (Edge Function handleCommand)", () => {
 
       const body = await res.json();
       expect(body.error.code).toBe("NOT_OWNER");
+    });
+  });
+
+  describe("craft.start command", () => {
+    it("successfully creates crafting job when requirements are satisfied", async () => {
+      const mockSupabase = createMockSupabase({ resourceBalance: 100 });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "craft.start",
+          idempotency_key: "craft-valid-key-1",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            recipe_key: "recipe_alloy_ingot",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(200);
+
+      const body = await res.json();
+      expect(body.ok).toBe(true);
+      expect(body.type).toBe("craft.start");
+      expect(body.output_key).toBe("alloy_ingot");
+      expect(body.craft_time_sec).toBe(20);
+    });
+
+    it("rejects craft.start when recipe does not exist (404)", async () => {
+      const mockSupabase = createMockSupabase();
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "craft.start",
+          idempotency_key: "craft-unknown-recipe",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            recipe_key: "recipe_non_existent",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(404);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("RECIPE_NOT_FOUND");
     });
   });
 });

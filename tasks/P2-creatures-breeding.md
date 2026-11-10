@@ -20,9 +20,9 @@
 - [x] Test exploit: lặp lệnh để reroll; lai sinh vật của người khác; truyền chỉ số từ client → đều bị chặn.
 
 ### T2.4 — Chế tác nguyên liệu
-- [ ] Quy tắc nguyên tố + vài công thức bí mật; Lò Chế Tác; sink cân bằng nguồn.
-- [ ] Codex ghi tổ hợp mới; hiển thị "đã tìm x/y".
-- [ ] Test: không có vòng chế → lợi nhuận dương vô hạn.
+- [x] Quy tắc nguyên tố + vài công thức bí mật; Lò Chế Tác; sink cân bằng nguồn.
+- [x] Codex ghi tổ hợp mới; hiển thị "đã tìm x/y".
+- [x] Test: không có vòng chế → lợi nhuận dương vô hạn.
 
 ### T2.5 — Sinh vật trên hành tinh
 - [ ] Sinh vật xuất hiện theo mốc tiến hóa và biome; hệ sinh thái cân bằng (quá đông → suy thoái ô).

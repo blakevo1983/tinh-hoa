@@ -1,6 +1,6 @@
 import { type ElementKey, isGenerativeRelation, isOvercomingRelation } from "./elements.js";
 
-export const BUILDING_KINDS = ["harvester", "storage", "harmony_pool"] as const;
+export const BUILDING_KINDS = ["harvester", "storage", "harmony_pool", "crafting_furnace"] as const;
 export type BuildingKind = (typeof BUILDING_KINDS)[number];
 
 export interface BuildingCost {
@@ -43,6 +43,15 @@ export const BUILDING_DEFINITIONS: Record<BuildingKind, BuildingDefinition> = {
       "Nơi giao hòa linh khí và nguyên tố giữa các sinh vật để thực hiện nghi thức lai tạo giống mới.",
     baseBuildTimeSec: 30,
     baseCost: 60,
+  },
+  crafting_furnace: {
+    kind: "crafting_furnace",
+    nameVi: "Lò Chế Tác",
+    nameEn: "Crafting Furnace",
+    descriptionVi:
+      "Nung kết và hòa trộn các nguyên liệu thô để chế tác thành hợp chất và vật phẩm cao cấp.",
+    baseBuildTimeSec: 25,
+    baseCost: 50,
   },
 };
 
