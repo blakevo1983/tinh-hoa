@@ -7,8 +7,8 @@
 ---
 
 ### T1.1 — Sinh hành tinh (hàm thuần)
-- [ ] `generatePlanet(seed, element, gridSize)` trong `packages/shared`: 60–70% ô nguyên tố chủ đạo thành mảng liền (noise), phần còn lại ngoại lai ngẫu nhiên; biome theo nguyên tố; `richness`.
-- [ ] Test snapshot theo seed cố định; **property test**: cùng seed → cùng kết quả, tỉ lệ ô chủ đạo trong [0,6; 0,7] ± dung sai, mọi ô hợp lệ.
+- [x] `generatePlanet(seed, element, gridSize)` trong `packages/shared`: 60–70% ô nguyên tố chủ đạo thành mảng liền (noise), phần còn lại ngoại lai ngẫu nhiên; biome theo nguyên tố; `richness`.
+- [x] Test snapshot theo seed cố định; **property test**: cùng seed → cùng kết quả, tỉ lệ ô chủ đạo trong [0,6; 0,7] ± dung sai, mọi ô hợp lệ.
 
 **Acceptance:** 1.000 seed ngẫu nhiên đều thỏa bất biến; tạo lại đúng từ seed.
 

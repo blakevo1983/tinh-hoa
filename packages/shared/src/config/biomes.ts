@@ -1,0 +1,196 @@
+import type { ElementKey } from "./elements.js";
+
+export interface BiomeDefinition {
+  readonly key: string;
+  readonly elementKey: ElementKey;
+  readonly nameVi: string;
+  readonly nameEn: string;
+  readonly descriptionVi: string;
+}
+
+export const BIOMES_BY_ELEMENT: Record<ElementKey, readonly BiomeDefinition[]> = {
+  metal: [
+    {
+      key: "iron_crags",
+      elementKey: "metal",
+      nameVi: "Vách Sắt Cứng",
+      nameEn: "Iron Crags",
+      descriptionVi: "Dãy vách đá dựng đứng giàu quặng sắt thô và kim loại kiên cố.",
+    },
+    {
+      key: "mercury_basin",
+      elementKey: "metal",
+      nameVi: "Bồn Trũng Thủy Ngân",
+      nameEn: "Mercury Basin",
+      descriptionVi: "Vùng trũng kim loại lỏng ánh bạc lấp lánh phản chiếu không gian.",
+    },
+    {
+      key: "alloy_ridge",
+      elementKey: "metal",
+      nameVi: "Sống Núi Hợp Kim",
+      nameEn: "Alloy Ridge",
+      descriptionVi: "Dãy núi kết tinh khoáng vật hợp kim bền bỉ qua ngàn năm.",
+    },
+  ],
+  wood: [
+    {
+      key: "verdant_forest",
+      elementKey: "wood",
+      nameVi: "Rừng Thâm U",
+      nameEn: "Verdant Forest",
+      descriptionVi: "Cánh rừng đại ngàn cổ thụ xanh ngắt với hệ sinh thái cộng sinh dồi dào.",
+    },
+    {
+      key: "vital_swamp",
+      elementKey: "wood",
+      nameVi: "Đầm Lầy Sinh Mệnh",
+      nameEn: "Vital Swamp",
+      descriptionVi: "Vùng ngập nước giàu mùn thực vật và rêu mốc sinh trưởng mãnh liệt.",
+    },
+    {
+      key: "flowering_meadow",
+      elementKey: "wood",
+      nameVi: "Đồng Cỏ Nở Hoa",
+      nameEn: "Flowering Meadow",
+      descriptionVi: "Bình nguyên hoa cỏ xanh tươi với hương thơm thu hút vạn vật.",
+    },
+  ],
+  water: [
+    {
+      key: "abyssal_trench",
+      elementKey: "water",
+      nameVi: "Rãnh Biển Sâu",
+      nameEn: "Abyssal Trench",
+      descriptionVi: "Hải vực sâu thẳm tĩnh mịch chứa đựng nguyên khí thủy tinh khiết.",
+    },
+    {
+      key: "coral_shallows",
+      elementKey: "water",
+      nameVi: "Bãi San Hô",
+      nameEn: "Coral Shallows",
+      descriptionVi: "Vùng nước nông ấm áp rực rỡ sắc màu san hô đầy sức sống.",
+    },
+    {
+      key: "mist_lake",
+      elementKey: "water",
+      nameVi: "Hồ Sương Mù",
+      nameEn: "Mist Lake",
+      descriptionVi: "Mặt hồ phẳng lặng luôn phủ làn sương mờ ảo huyền bí.",
+    },
+  ],
+  fire: [
+    {
+      key: "lava_field",
+      elementKey: "fire",
+      nameVi: "Cánh Đồng Dung Nham",
+      nameEn: "Lava Field",
+      descriptionVi: "Mặt đất nứt nẻ rực đỏ dòng chảy magma sôi sục năng lượng hỏa.",
+    },
+    {
+      key: "volcanic_peak",
+      elementKey: "fire",
+      nameVi: "Đỉnh Núi Lửa",
+      nameEn: "Volcanic Peak",
+      descriptionVi: "Ngọn núi cao phun trào tro bụi và nhiệt lượng mãnh liệt.",
+    },
+    {
+      key: "ash_desert",
+      elementKey: "fire",
+      nameVi: "Sa Mạc Tro Tàn",
+      nameEn: "Ash Desert",
+      descriptionVi: "Bình nguyên tro nóng khô khốc tích tụ nhiệt năng tiềm tàng.",
+    },
+  ],
+  earth: [
+    {
+      key: "clay_plateau",
+      elementKey: "earth",
+      nameVi: "Cao Nguyên Đất Sét",
+      nameEn: "Clay Plateau",
+      descriptionVi: "Vùng cao nguyên đất dày vững chắc, nơi bồi đắp ngàn lớp địa tầng.",
+    },
+    {
+      key: "crystal_canyon",
+      elementKey: "earth",
+      nameVi: "Hẻm Núi Pha Lê",
+      nameEn: "Crystal Canyon",
+      descriptionVi: "Hẻm vực sâu lấp lánh tinh thể thạch anh và khoáng chất quý hiếm.",
+    },
+    {
+      key: "ancient_monolith",
+      elementKey: "earth",
+      nameVi: "Bãi Đá Cổ Đại",
+      nameEn: "Ancient Monoliths",
+      descriptionVi: "Khu vực tập trung những cột đá khổng lồ bền vững cùng tuế nguyệt.",
+    },
+  ],
+  light: [
+    {
+      key: "aurora_plains",
+      elementKey: "light",
+      nameVi: "Bình Nguyên Cực Quang",
+      nameEn: "Aurora Plains",
+      descriptionVi: "Cánh đồng tỏa ánh sáng diệu kỳ rực rỡ với năng lượng quang thanh khiết.",
+    },
+    {
+      key: "radiant_grove",
+      elementKey: "light",
+      nameVi: "Rừng Tỏa Sáng",
+      nameEn: "Radiant Grove",
+      descriptionVi: "Quần thể cây cối phát quang ấm áp, nơi nuôi dưỡng sự hòa hợp.",
+    },
+    {
+      key: "sunlit_spires",
+      elementKey: "light",
+      nameVi: "Tháp Đá Ánh Dương",
+      nameEn: "Sunlit Spires",
+      descriptionVi: "Những trụ đá cao vút hấp thụ trọn vẹn tinh hoa ánh sáng vũ trụ.",
+    },
+  ],
+  dark: [
+    {
+      key: "shadow_abyss",
+      elementKey: "dark",
+      nameVi: "Vực Thẳm Bóng Tối",
+      nameEn: "Shadow Abyss",
+      descriptionVi: "Vùng không gian tăm tối sâu thẳm nơi ánh sáng không thể chạm tới.",
+    },
+    {
+      key: "obsidian_mire",
+      elementKey: "dark",
+      nameVi: "Vũng Lầy Hắc Diện",
+      nameEn: "Obsidian Mire",
+      descriptionVi: "Khu vực đầm đá đen bóng bí ẩn chứa sức mạnh công phá tiềm ẩn.",
+    },
+    {
+      key: "void_crater",
+      elementKey: "dark",
+      nameVi: "Hố Sâu Hư Vô",
+      nameEn: "Void Crater",
+      descriptionVi: "Miệng hố va chạm cổ xưa bao phủ bởi màn sương hắc ám tịch mịch.",
+    },
+  ],
+  thunder: [
+    {
+      key: "plasma_steppe",
+      elementKey: "thunder",
+      nameVi: "Thảo Nguyên Điện Ly",
+      nameEn: "Plasma Steppe",
+      descriptionVi: "Bình nguyên rộng lớn thường xuyên phóng ra những tia hồ quang điện.",
+    },
+    {
+      key: "volt_valley",
+      elementKey: "thunder",
+      nameVi: "Thung Lũng Tích Điện",
+      nameEn: "Volt Valley",
+      descriptionVi: "Thung lũng đá từ tính tích tụ điện thế cực cao và biến động liên tục.",
+    },
+    {
+      key: "fulgurite_crags",
+      elementKey: "thunder",
+      nameVi: "Vách Đá Sét Đánh",
+      nameEn: "Fulgurite Crags",
+      descriptionVi: "Địa hình kết tinh từ cát nóng chảy do sấm sét giáng xuống ngàn năm.",
+    },
+  ],
+};
