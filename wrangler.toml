@@ -1,0 +1,7 @@
+name = "tinh-hoa"
+compatibility_date = "2026-11-10"
+
+# Cloudflare Static Assets configuration for SPA
+[assets]
+directory = "apps/web/dist"
+not_found_handling = "single-page-application"
