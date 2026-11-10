@@ -48,6 +48,6 @@
 - [x] Test cố tình gia nhập 2 liên minh cùng lúc.
 
 ### T4.8 — Security Review & Đóng Phase P4
-- [ ] Báo cáo đánh giá an ninh tại `docs/security-reviews/P4.md`.
-- [ ] Chạy `pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm secret-scan`.
-- [ ] Cập nhật `tasks/BACKLOG.md` và đóng Phase P4.
+- [x] Báo cáo đánh giá an ninh tại `docs/security-reviews/P4.md`.
+- [x] Chạy `pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm secret-scan`.
+- [x] Cập nhật `tasks/BACKLOG.md` và đóng Phase P4.

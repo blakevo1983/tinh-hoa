@@ -16,12 +16,13 @@
 - [x] Bật bằng feature flag `chat_enabled`; `/security-review` + `/release`. (Chi tiết trong `tasks/P3-multiplayer-chat.md`)
 
 ## P4 — Liên minh và Party (`docs/05` mục 3, 4)
-- [ ] Bảng alliance/party (`/db-migration`), RPC theo vai trò, kho chung + `alliance_ledger`.
-- [ ] Mời/chấp nhận/rời/kick/thăng chức/chuyển quyền, cooldown, hạn mức rút/góp.
-- [ ] Buff liên minh, nhiệm vụ liên minh, chat `alliance`.
-- [ ] Party: lập, mời, hết hạn, chia thưởng (server tính), chat `party`.
-- [ ] Chống clone/chuyển tài nguyên lậu: hạn mức theo tuổi tài khoản; cờ đồ thị chuyển.
-- [ ] Test quyền theo vai trò gọi RPC trực tiếp; test race kick/rút kho.
+- [x] Bảng alliance/party (`/db-migration`), RPC theo vai trò, kho chung + `alliance_ledger`.
+- [x] Mời/chấp nhận/rời/kick/thăng chức/chuyển quyền, cooldown, hạn mức rút/góp.
+- [x] Buff liên minh, nhiệm vụ liên minh, chat `alliance`.
+- [x] Party: lập, mời, hết hạn, chia thưởng (server tính), chat `party`.
+- [x] Chống clone/chuyển tài nguyên lậu: hạn mức theo tuổi tài khoản; cờ đồ thị chuyển.
+- [x] Test quyền theo vai trò gọi RPC trực tiếp; test race kick/rút kho.
+- [x] Toàn bộ tiêu chí đạt 100%, bảo mật và kiểm thử đối kháng hoàn tất (Chi tiết trong `tasks/P4-alliances-party.md`).
 
 ## P5 — Thăm dò, giao thương, ngoại giao
 - [ ] Hành tinh NPC sinh theo seed, tính cách theo nguyên tố; Đài Quan Sát; lệnh `expedition.start` (job, kết quả lưu).
