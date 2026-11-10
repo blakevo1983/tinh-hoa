@@ -4,6 +4,9 @@ import {
   type Command,
   generatePlanet,
   generateExpandedTiles,
+  breed,
+  seededRng,
+  ITEMS_BY_KEY,
   ELEMENT_KEYS,
   getBuildingCost,
   getBuildingTimeSec,
@@ -576,6 +579,167 @@ export async function handleCommand(
         grid_size: evolveResult.new_grid_size,
         new_tiles_count: expandedTiles.length,
         new_version: evolveResult.state_version,
+      };
+      break;
+    }
+
+    case "breed.start": {
+      const { planet_id, parent_a_id, parent_b_id, catalyst_item_key } = command.payload;
+
+      if (parent_a_id === parent_b_id) {
+        return createErrorResponse(400, "INVALID_PARENTS", "breeding.same_parent", requestId);
+      }
+
+      // Settle offline jobs and resources first
+      await supabase.rpc("settle_planet_jobs", { p_planet_id: planet_id });
+      await supabase.rpc("settle_planet_resources", { p_planet_id: planet_id });
+
+      const { data: planet } = await supabase
+        .from("planets")
+        .select("id, owner_id, state_version, seed, primary_element")
+        .eq("id", planet_id)
+        .single();
+
+      if (!planet || planet.owner_id !== user.id) {
+        return createErrorResponse(403, "NOT_OWNER", "command.not_owner", requestId);
+      }
+
+      // Check required Harmony Pool building
+      const { count: poolCount } = await supabase
+        .from("buildings")
+        .select("id", { count: "exact", head: true })
+        .eq("planet_id", planet_id)
+        .eq("kind", "harmony_pool");
+
+      if (!poolCount || poolCount < 1) {
+        return createErrorResponse(
+          400,
+          "MISSING_HARMONY_POOL",
+          "breeding.missing_harmony_pool",
+          requestId,
+        );
+      }
+
+      // Fetch both parents on this planet
+      const { data: creatures } = await supabase
+        .from("creatures")
+        .select(
+          "id, species_key, primary_element, secondary_element, stats, traits, generation, inbreeding, parent_a, parent_b",
+        )
+        .eq("planet_id", planet_id)
+        .in("id", [parent_a_id, parent_b_id]);
+
+      if (!creatures || creatures.length < 2) {
+        return createErrorResponse(
+          404,
+          "CREATURE_NOT_FOUND",
+          "breeding.creature_not_found",
+          requestId,
+        );
+      }
+
+      const parentAData = creatures.find((c) => c.id === parent_a_id)!;
+      const parentBData = creatures.find((c) => c.id === parent_b_id)!;
+
+      // Check harmony >= 3 for both parents
+      const harmonyA = (parentAData.stats as { harmony?: number })?.harmony ?? 0;
+      const harmonyB = (parentBData.stats as { harmony?: number })?.harmony ?? 0;
+
+      if (harmonyA < 3 || harmonyB < 3) {
+        return createErrorResponse(400, "HARMONY_TOO_LOW", "breeding.harmony_too_low", requestId, {
+          required: 3,
+          parentA: harmonyA,
+          parentB: harmonyB,
+        });
+      }
+
+      // Check primary resource balance (cost 20)
+      const { data: balance } = await supabase
+        .from("resource_balances")
+        .select("amount")
+        .eq("planet_id", planet_id)
+        .eq("resource_key", planet.primary_element)
+        .single();
+
+      if (!balance || balance.amount < 20) {
+        return createErrorResponse(
+          400,
+          "INSUFFICIENT_RESOURCES",
+          "resource.insufficient",
+          requestId,
+          { required: 20, current: balance?.amount ?? 0 },
+        );
+      }
+
+      // Catalyst validation if provided
+      let catalyst: { itemKey: string; element: (typeof ELEMENT_KEYS)[number] } | undefined;
+      if (catalyst_item_key) {
+        const itemDef = ITEMS_BY_KEY[catalyst_item_key];
+        if (itemDef) {
+          catalyst = { itemKey: catalyst_item_key, element: itemDef.element };
+        }
+      }
+
+      // Server-authoritative deterministic seed calculation
+      const serverSeed = `${planet.seed}:breed:${parent_a_id}:${parent_b_id}:${Date.now()}`;
+      const rng = seededRng(serverSeed);
+      const clock = { now: () => Date.now() };
+
+      const breedResult = breed({
+        parentA: {
+          id: parentAData.id,
+          speciesKey: parentAData.species_key,
+          genome: {
+            primary: parentAData.primary_element,
+            secondary: parentAData.secondary_element,
+            stats: parentAData.stats,
+            traits: parentAData.traits,
+            generation: parentAData.generation,
+            inbreeding: parentAData.inbreeding,
+          },
+          parentAId: parentAData.parent_a,
+          parentBId: parentAData.parent_b,
+        },
+        parentB: {
+          id: parentBData.id,
+          speciesKey: parentBData.species_key,
+          genome: {
+            primary: parentBData.primary_element,
+            secondary: parentBData.secondary_element,
+            stats: parentBData.stats,
+            traits: parentBData.traits,
+            generation: parentBData.generation,
+            inbreeding: parentBData.inbreeding,
+          },
+          parentAId: parentBData.parent_a,
+          parentBId: parentBData.parent_b,
+        },
+        catalyst,
+        rng,
+        clock,
+        planetId: planet_id,
+      });
+
+      const { data: commitResult, error: commitError } = await supabase.rpc("commit_effects", {
+        p_planet_id: planet_id,
+        p_expected_version: command.expected_version ?? planet.state_version,
+        p_effects: breedResult.effects,
+        p_idempotency_key: toValidUuid(command.idempotency_key),
+        p_reason: "breed_creature",
+      });
+
+      if (commitError) {
+        return createErrorResponse(400, "COMMIT_FAILED", commitError.message, requestId);
+      }
+
+      responsePayload = {
+        ok: true,
+        type: "breed.start",
+        relation: breedResult.relation,
+        hatch_duration_sec: breedResult.hatchDurationSec,
+        finish_at: breedResult.finishAtIso,
+        child_species_key: breedResult.childSpeciesKey,
+        new_version: commitResult.state_version,
       };
       break;
     }

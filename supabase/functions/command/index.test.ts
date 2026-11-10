@@ -136,6 +136,39 @@ function createMockSupabase(overrides?: {
           insert: vi.fn().mockResolvedValue({ error: null }),
         };
       }
+      if (table === "creatures") {
+        return {
+          select: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              in: vi.fn().mockResolvedValue({
+                data: [
+                  {
+                    id: "11111111-2222-3333-4444-555555555551",
+                    species_key: "verdant_sprout",
+                    primary_element: "wood",
+                    secondary_element: null,
+                    stats: { qi: 30, guard: 20, agility: 25, harmony: 5, chaos: 10 },
+                    traits: ["photosynthesis"],
+                    generation: 1,
+                    inbreeding: 0,
+                  },
+                  {
+                    id: "11111111-2222-3333-4444-555555555552",
+                    species_key: "aqua_slime",
+                    primary_element: "water",
+                    secondary_element: null,
+                    stats: { qi: 28, guard: 22, agility: 30, harmony: 4, chaos: 12 },
+                    traits: ["fluid_form"],
+                    generation: 1,
+                    inbreeding: 0,
+                  },
+                ],
+                error: null,
+              }),
+            }),
+          }),
+        };
+      }
       return {};
     }),
     rpc: vi.fn().mockImplementation((fn: string) => {
@@ -604,6 +637,91 @@ describe("Command Gateway (Edge Function handleCommand)", () => {
 
       const body = await res.json();
       expect(body.error.code).toBe("INSUFFICIENT_RESOURCES");
+    });
+  });
+
+  describe("breed.start command", () => {
+    it("successfully creates breeding job when requirements are satisfied", async () => {
+      const mockSupabase = createMockSupabase({ resourceBalance: 100 });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "breed.start",
+          idempotency_key: "breed-valid-key-1",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            parent_a_id: "11111111-2222-3333-4444-555555555551",
+            parent_b_id: "11111111-2222-3333-4444-555555555552",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(200);
+
+      const body = await res.json();
+      expect(body.ok).toBe(true);
+      expect(body.type).toBe("breed.start");
+      expect(body.hatch_duration_sec).toBeGreaterThanOrEqual(60);
+      expect(body.relation).toBeDefined();
+    });
+
+    it("rejects breed.start when parent A and parent B are the exact same creature", async () => {
+      const mockSupabase = createMockSupabase();
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "breed.start",
+          idempotency_key: "breed-clone-attempt",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            parent_a_id: "11111111-2222-3333-4444-555555555551",
+            parent_b_id: "11111111-2222-3333-4444-555555555551",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(400);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("INVALID_PARENTS");
+    });
+
+    it("rejects breed.start with NOT_OWNER when targeting foreign planet", async () => {
+      const mockSupabase = createMockSupabase({
+        planetOwnerId: "other-user-uuid",
+      });
+      const req = new Request("http://localhost/command", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer valid-token",
+        },
+        body: JSON.stringify({
+          type: "breed.start",
+          idempotency_key: "breed-foreign-planet",
+          payload: {
+            planet_id: "11111111-1111-1111-1111-111111111111",
+            parent_a_id: "11111111-2222-3333-4444-555555555551",
+            parent_b_id: "11111111-2222-3333-4444-555555555552",
+          },
+        }),
+      });
+
+      const res = await handleCommand(req, { supabaseClient: mockSupabase });
+      expect(res.status).toBe(403);
+
+      const body = await res.json();
+      expect(body.error.code).toBe("NOT_OWNER");
     });
   });
 });

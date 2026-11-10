@@ -15,9 +15,9 @@
 - [x] Hàm trả `Effect[]` (tạo sinh vật, trừ nguyên liệu, tạo job ấp).
 
 ### T2.3 — Lệnh `breed.start` / hoàn tất ấp
-- [ ] Điều kiện: cùng giai đoạn, `harmony ≥ 3`, có Hồ Giao Hòa, đủ tài nguyên.
-- [ ] RNG seed phía server theo `hash(secret, entity_id, counter)`; kết quả lưu ngay lần cam kết đầu.
-- [ ] Test exploit: lặp lệnh để reroll; lai sinh vật của người khác; truyền chỉ số từ client → đều bị chặn.
+- [x] Điều kiện: cùng giai đoạn, `harmony ≥ 3`, có Hồ Giao Hòa, đủ tài nguyên.
+- [x] RNG seed phía server theo `hash(secret, entity_id, counter)`; kết quả lưu ngay lần cam kết đầu.
+- [x] Test exploit: lặp lệnh để reroll; lai sinh vật của người khác; truyền chỉ số từ client → đều bị chặn.
 
 ### T2.4 — Chế tác nguyên liệu
 - [ ] Quy tắc nguyên tố + vài công thức bí mật; Lò Chế Tác; sink cân bằng nguồn.
