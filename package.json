@@ -27,6 +27,6 @@
     "supabase": "^3.0.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.25.0",
-    "vitest": "^3.0.7"
+    "vitest": "^5.1.0"
   }
 }
