@@ -20,9 +20,9 @@
 **Acceptance:** `pnpm test:db` xanh, gồm test song song.
 
 ### T1.3 — Lệnh `planet.create`
-- [ ] Người dùng chọn nguyên tố và tên; **server** sinh seed (không nhận từ client).
-- [ ] Mỗi người một hành tinh chính (ràng buộc DB `unique(owner_id)` cho hành tinh chính).
-- [ ] Hiển thị hành tinh bằng Canvas từ dữ liệu server.
+- [x] Người dùng chọn nguyên tố và tên; **server** sinh seed (không nhận từ client).
+- [x] Mỗi người một hành tinh chính (ràng buộc DB `unique(owner_id)` cho hành tinh chính).
+- [x] Hiển thị hành tinh bằng Canvas từ dữ liệu server.
 
 **Acceptance:** tạo được một hành tinh; tạo lần hai bị từ chối; không thể ép seed từ client (test).
 

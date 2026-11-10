@@ -61,4 +61,67 @@ describe("CommandSchema", () => {
     const result = CommandSchema.safeParse(raw);
     expect(result.success).toBe(false);
   });
+
+  describe("PlanetCreateCommandSchema", () => {
+    it("parses valid planet.create command", () => {
+      const raw = {
+        type: "planet.create",
+        idempotency_key: "seed-create-1",
+        payload: {
+          name: "Tinh Cầu Mộc",
+          primary_element: "wood",
+        },
+      };
+
+      const result = CommandSchema.safeParse(raw);
+      expect(result.success).toBe(true);
+      if (result.success && result.data.type === "planet.create") {
+        expect(result.data.payload.name).toBe("Tinh Cầu Mộc");
+        expect(result.data.payload.primary_element).toBe("wood");
+      }
+    });
+
+    it("rejects payload attempting to inject client seed", () => {
+      const raw = {
+        type: "planet.create",
+        idempotency_key: "seed-create-hack",
+        payload: {
+          name: "CheatWorld",
+          primary_element: "fire",
+          seed: 9999999, // Injected seed should be rejected by strict schema
+        },
+      };
+
+      const result = CommandSchema.safeParse(raw);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects invalid primary_element", () => {
+      const raw = {
+        type: "planet.create",
+        idempotency_key: "seed-create-invalid",
+        payload: {
+          name: "InvalidWorld",
+          primary_element: "kryptonite",
+        },
+      };
+
+      const result = CommandSchema.safeParse(raw);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects empty planet name", () => {
+      const raw = {
+        type: "planet.create",
+        idempotency_key: "seed-create-empty-name",
+        payload: {
+          name: "   ",
+          primary_element: "metal",
+        },
+      };
+
+      const result = CommandSchema.safeParse(raw);
+      expect(result.success).toBe(false);
+    });
+  });
 });

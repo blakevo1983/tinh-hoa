@@ -4,16 +4,24 @@ import {
   ELEMENT_DEFINITIONS,
   type ElementKey,
   type ElementDefinition,
+  type PlanetTile,
 } from "@tinh-hoa/shared";
 import { t, getLocale, setLocale, onLocaleChange, type Locale } from "./i18n/index.js";
 import { renderPlanet, setupCanvasDpi, type PlanetState } from "./canvas/planet-renderer.js";
 import { createAuthPanel } from "./components/auth-panel.js";
+import {
+  createPlanetCreationPanel,
+  type CreatedPlanetData,
+} from "./components/planet-creation-panel.js";
 
 interface AppState {
   locale: Locale;
   selectedElement: ElementKey;
   rotation: number;
   pulsePhase: number;
+  activePlanet: CreatedPlanetData | null;
+  viewMode: "sphere" | "grid";
+  selectedTile: PlanetTile | null;
 }
 
 const state: AppState = {
@@ -21,6 +29,9 @@ const state: AppState = {
   selectedElement: "water",
   rotation: 0,
   pulsePhase: 0,
+  activePlanet: null,
+  viewMode: "sphere",
+  selectedTile: null,
 };
 
 export function initApp(rootElement: HTMLElement): () => void {
@@ -47,7 +58,7 @@ export function initApp(rootElement: HTMLElement): () => void {
   brand.appendChild(title);
   brand.appendChild(subtitle);
 
-  // Language Toggle Button (Rule 25: min 44x44px, semantic label)
+  // Language Toggle Button (Rule 25: min 44x44px)
   const langBtn = document.createElement("button");
   langBtn.className = "lang-toggle-btn";
   langBtn.type = "button";
@@ -76,12 +87,115 @@ export function initApp(rootElement: HTMLElement): () => void {
   const viewport = document.createElement("div");
   viewport.className = "planet-viewport";
 
+  // View Mode Switcher Toolbar
+  const toolbar = document.createElement("div");
+  toolbar.style.display = "flex";
+  toolbar.style.gap = "8px";
+  toolbar.style.marginBottom = "12px";
+
+  const sphereBtn = document.createElement("button");
+  sphereBtn.type = "button";
+  sphereBtn.className = "btn-secondary";
+  sphereBtn.style.minHeight = "44px";
+  sphereBtn.style.padding = "8px 16px";
+  sphereBtn.style.borderRadius = "8px";
+  sphereBtn.style.border = "1px solid #475569";
+  sphereBtn.style.backgroundColor = state.viewMode === "sphere" ? "#38bdf8" : "#1e293b";
+  sphereBtn.style.color = state.viewMode === "sphere" ? "#0f172a" : "#f8fafc";
+  sphereBtn.style.cursor = "pointer";
+  sphereBtn.textContent = "Toàn Cảnh Cầu";
+
+  const gridBtn = document.createElement("button");
+  gridBtn.type = "button";
+  gridBtn.className = "btn-secondary";
+  gridBtn.style.minHeight = "44px";
+  gridBtn.style.padding = "8px 16px";
+  gridBtn.style.borderRadius = "8px";
+  gridBtn.style.border = "1px solid #475569";
+  gridBtn.style.backgroundColor = state.viewMode === "grid" ? "#38bdf8" : "#1e293b";
+  gridBtn.style.color = state.viewMode === "grid" ? "#0f172a" : "#f8fafc";
+  gridBtn.style.cursor = "pointer";
+  gridBtn.textContent = "Bản Đồ Lưới (12x12)";
+
+  function updateViewButtons(): void {
+    sphereBtn.style.backgroundColor = state.viewMode === "sphere" ? "#38bdf8" : "#1e293b";
+    sphereBtn.style.color = state.viewMode === "sphere" ? "#0f172a" : "#f8fafc";
+    gridBtn.style.backgroundColor = state.viewMode === "grid" ? "#38bdf8" : "#1e293b";
+    gridBtn.style.color = state.viewMode === "grid" ? "#0f172a" : "#f8fafc";
+  }
+
+  sphereBtn.addEventListener("click", () => {
+    state.viewMode = "sphere";
+    updateViewButtons();
+  });
+
+  gridBtn.addEventListener("click", () => {
+    state.viewMode = "grid";
+    updateViewButtons();
+  });
+
+  toolbar.appendChild(sphereBtn);
+  toolbar.appendChild(gridBtn);
+  viewport.appendChild(toolbar);
+
+  // Active Planet Info Tag
+  const planetBanner = document.createElement("div");
+  planetBanner.style.marginBottom = "8px";
+  planetBanner.style.fontSize = "0.95rem";
+  planetBanner.style.fontWeight = "600";
+  planetBanner.style.color = "#38bdf8";
+  planetBanner.textContent = "Chưa có hành tinh. Vui lòng gieo mầm bên dưới.";
+  viewport.appendChild(planetBanner);
+
   const canvas = document.createElement("canvas");
   canvas.className = "planet-canvas";
   canvas.setAttribute("role", "img");
   canvas.setAttribute("aria-label", t("a11y.planetCanvasAlt"));
+  canvas.style.cursor = "crosshair";
   viewport.appendChild(canvas);
+
+  // Tile Info Inspector
+  const tileInspector = document.createElement("div");
+  tileInspector.style.marginTop = "8px";
+  tileInspector.style.padding = "10px 14px";
+  tileInspector.style.borderRadius = "8px";
+  tileInspector.style.backgroundColor = "#1e293b";
+  tileInspector.style.border = "1px solid #334155";
+  tileInspector.style.fontSize = "0.85rem";
+  tileInspector.style.color = "#cbd5e1";
+  tileInspector.textContent = "Nhấp chuột vào một ô trên bản đồ lưới để xem thông tin địa hình.";
+  viewport.appendChild(tileInspector);
+
   mainStage.appendChild(viewport);
+
+  // Canvas Click Handler to inspect tile
+  canvas.addEventListener("click", (e) => {
+    if (state.viewMode !== "grid" || !state.activePlanet) return;
+    const rect = canvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
+    const w = rect.width || 360;
+    const h = rect.height || 360;
+    const gridSize = state.activePlanet.grid_size || 12;
+    const padding = 16;
+    const availableSize = Math.min(w, h) - padding * 2;
+    const cellSize = availableSize / gridSize;
+    const startX = (w - availableSize) / 2;
+    const startY = (h - availableSize) / 2;
+
+    const tileX = Math.floor((clickX - startX) / cellSize);
+    const tileY = Math.floor((clickY - startY) / cellSize);
+
+    if (tileX >= 0 && tileX < gridSize && tileY >= 0 && tileY < gridSize) {
+      const tile = state.activePlanet.tiles.find((t) => t.x === tileX && t.y === tileY);
+      if (tile) {
+        state.selectedTile = tile;
+        const elemDef = ELEMENT_DEFINITIONS[tile.element];
+        tileInspector.textContent = `Ô (${tile.x}, ${tile.y}) — Nguyên tố: ${elemDef.nameVi} ${elemDef.symbol} | Địa hình: ${tile.biome} | Độ giàu: ${tile.richness}/5`;
+      }
+    }
+  });
 
   // Element Palette Section
   const paletteSection = document.createElement("section");
@@ -166,6 +280,28 @@ export function initApp(rootElement: HTMLElement): () => void {
   infoCard.appendChild(infoDesc);
   paletteSection.appendChild(infoCard);
 
+  // Planet Creation Panel
+  const creationPanel = createPlanetCreationPanel({
+    selectedElement: state.selectedElement,
+    onSelectElement: (elem) => {
+      state.selectedElement = elem;
+      updateActiveButton();
+      updateInfoCard();
+    },
+    onPlanetCreated: (planetData) => {
+      state.activePlanet = planetData;
+      state.selectedElement = planetData.primary_element;
+      state.viewMode = "grid";
+      updateViewButtons();
+      updateActiveButton();
+      updateInfoCard();
+
+      planetBanner.textContent = `★ Tinh Cầu: ${planetData.name} (${ELEMENT_DEFINITIONS[planetData.primary_element].nameVi}) — Seed: ${planetData.seed}`;
+      creationPanel.style.display = "none";
+    },
+  });
+  paletteSection.appendChild(creationPanel);
+
   mainStage.appendChild(paletteSection);
   rootElement.appendChild(mainStage);
 
@@ -215,12 +351,11 @@ export function initApp(rootElement: HTMLElement): () => void {
 
   function resizeCanvas(): void {
     const rect = canvas.getBoundingClientRect();
-    const width = Math.max(rect.width || 320, 240);
-    const height = Math.max(rect.height || 320, 240);
+    const width = Math.max(rect.width || 360, 240);
+    const height = Math.max(rect.height || 360, 240);
     try {
       ctx = setupCanvasDpi(canvas, width, height);
     } catch {
-      // Gracefully handle in testing/headless environments without 2D canvas context
       ctx = null;
     }
   }
@@ -235,14 +370,20 @@ export function initApp(rootElement: HTMLElement): () => void {
     state.pulsePhase = (timestamp * 0.002) % (Math.PI * 2);
 
     const rect = canvas.getBoundingClientRect();
-    const w = rect.width || 320;
-    const h = rect.height || 320;
+    const w = rect.width || 360;
+    const h = rect.height || 360;
 
     if (ctx) {
       const planetState: PlanetState = {
         element: state.selectedElement,
         rotation: state.rotation,
         pulsePhase: state.pulsePhase,
+        tiles: state.activePlanet?.tiles,
+        gridSize: state.activePlanet?.grid_size || 12,
+        viewMode: state.viewMode,
+        selectedTile: state.selectedTile
+          ? { x: state.selectedTile.x, y: state.selectedTile.y }
+          : null,
       };
       renderPlanet(ctx, w, h, planetState);
     }

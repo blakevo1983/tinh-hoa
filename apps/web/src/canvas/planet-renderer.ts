@@ -1,9 +1,13 @@
-import { ELEMENT_DEFINITIONS, type ElementKey } from "@tinh-hoa/shared";
+import { ELEMENT_DEFINITIONS, type ElementKey, type PlanetTile } from "@tinh-hoa/shared";
 
 export interface PlanetState {
   element: ElementKey;
   rotation: number;
   pulsePhase: number;
+  tiles?: PlanetTile[];
+  gridSize?: number;
+  viewMode?: "sphere" | "grid";
+  selectedTile?: { x: number; y: number } | null;
 }
 
 export interface PlanetRendererOptions {
@@ -99,42 +103,38 @@ export function drawElementSymbol(
       break;
     }
     case "earth": {
-      // ■ Square
-      const s = size * 0.7;
-      ctx.fillRect(x - s / 2, y - s / 2, s, s);
+      // ■ Solid square
+      ctx.fillRect(x - half * 0.75, y - half * 0.75, size * 0.75, size * 0.75);
       break;
     }
     case "light": {
-      // ✦ Four-pointed star
+      // ✦ 4-pointed star
       ctx.beginPath();
-      for (let i = 0; i < 8; i++) {
-        const radius = i % 2 === 0 ? half : half * 0.35;
-        const angle = (i * Math.PI) / 4 - Math.PI / 2;
-        const px = x + Math.cos(angle) * radius;
-        const py = y + Math.sin(angle) * radius;
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
+      ctx.moveTo(x, y - half);
+      ctx.quadraticCurveTo(x, y, x + half, y);
+      ctx.quadraticCurveTo(x, y, x, y + half);
+      ctx.quadraticCurveTo(x, y, x - half, y);
+      ctx.quadraticCurveTo(x, y, x, y - half);
       ctx.closePath();
       ctx.fill();
       break;
     }
     case "dark": {
-      // ● Solid circle
+      // ● Circle
       ctx.beginPath();
-      ctx.arc(x, y, half * 0.65, 0, Math.PI * 2);
+      ctx.arc(x, y, half * 0.75, 0, Math.PI * 2);
       ctx.fill();
       break;
     }
     case "thunder": {
-      // ϟ Lightning bolt
+      // ϟ Lightning zigzag
       ctx.beginPath();
-      ctx.moveTo(x + half * 0.2, y - half);
-      ctx.lineTo(x - half * 0.4, y);
-      ctx.lineTo(x + half * 0.1, y);
-      ctx.lineTo(x - half * 0.2, y + half);
-      ctx.lineTo(x + half * 0.4, y - half * 0.1);
-      ctx.lineTo(x - half * 0.1, y - half * 0.1);
+      ctx.moveTo(x + half * 0.3, y - half);
+      ctx.lineTo(x - half * 0.4, y - half * 0.05);
+      ctx.lineTo(x + half * 0.1, y - half * 0.05);
+      ctx.lineTo(x - half * 0.3, y + half);
+      ctx.lineTo(x + half * 0.4, y + half * 0.05);
+      ctx.lineTo(x - half * 0.1, y + half * 0.05);
       ctx.closePath();
       ctx.fill();
       break;
@@ -145,47 +145,106 @@ export function drawElementSymbol(
 }
 
 /**
- * Pure rendering function for planet canvas.
+ * Render 2D Grid of planet tiles.
  */
-export function renderPlanet(
+export function renderPlanetGrid(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
   state: PlanetState,
 ): void {
-  ctx.clearRect(0, 0, width, height);
+  const tiles = state.tiles;
+  if (!tiles || tiles.length === 0) return;
 
+  const gridSize = state.gridSize || 12;
+  const padding = 16;
+  const availableSize = Math.min(width, height) - padding * 2;
+  const cellSize = availableSize / gridSize;
+
+  const startX = (width - availableSize) / 2;
+  const startY = (height - availableSize) / 2;
+
+  ctx.save();
+
+  for (const tile of tiles) {
+    const tx = startX + tile.x * cellSize;
+    const ty = startY + tile.y * cellSize;
+
+    const elementDef = ELEMENT_DEFINITIONS[tile.element];
+    const isSelected = state.selectedTile?.x === tile.x && state.selectedTile?.y === tile.y;
+
+    // Tile Background
+    ctx.fillStyle = isSelected ? "#ffffff" : `${elementDef.pastelColor}33`; // 20% opacity
+    ctx.strokeStyle = isSelected ? elementDef.pastelColor : "rgba(255, 255, 255, 0.15)";
+    ctx.lineWidth = isSelected ? 2 : 1;
+
+    // Rounded rectangle tile
+    const r = 3;
+    ctx.beginPath();
+    ctx.roundRect(tx + 1, ty + 1, cellSize - 2, cellSize - 2, r);
+    ctx.fill();
+    ctx.stroke();
+
+    // Element geometric symbol at center
+    const symbolColor = isSelected ? "#0f172a" : elementDef.pastelColor;
+    drawElementSymbol(
+      ctx,
+      tile.element,
+      tx + cellSize / 2,
+      ty + cellSize / 2,
+      Math.max(10, cellSize * 0.45),
+      symbolColor,
+    );
+
+    // Richness dots in top-right corner
+    if (cellSize >= 20) {
+      ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+      for (let dot = 0; dot < tile.richness; dot++) {
+        ctx.beginPath();
+        ctx.arc(tx + cellSize - 4 - dot * 3.5, ty + 4, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+
+  ctx.restore();
+}
+
+/**
+ * Render 3D Sphere view of planet.
+ */
+export function renderPlanetSphere(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  state: PlanetState,
+): void {
   const cx = width / 2;
   const cy = height / 2;
-  const baseRadius = Math.min(width, height) * 0.32;
-  const pulseScale = 1 + Math.sin(state.pulsePhase) * 0.02;
-  const radius = baseRadius * pulseScale;
+  const baseRadius = Math.min(width, height) * 0.35;
+  const pulseOffset = Math.sin(state.pulsePhase) * 2;
+  const radius = baseRadius + pulseOffset;
 
-  const def = ELEMENT_DEFINITIONS[state.element];
-  const primaryColor = def.pastelColor;
+  const elementDef = ELEMENT_DEFINITIONS[state.element];
+  const primaryColor = elementDef.pastelColor;
 
-  // 1. Atmosphere / Outer Aura Glow
-  const glowGradient = ctx.createRadialGradient(cx, cy, radius * 0.8, cx, cy, radius * 1.4);
-  glowGradient.addColorStop(0, `${primaryColor}44`); // 27% opacity
-  glowGradient.addColorStop(0.6, `${primaryColor}18`); // 10% opacity
-  glowGradient.addColorStop(1, `${primaryColor}00`); // transparent
+  ctx.save();
 
-  ctx.fillStyle = glowGradient;
+  // 1. Atmosphere Aura (Soft outer glow)
+  const auraGradient = ctx.createRadialGradient(cx, cy, radius * 0.9, cx, cy, radius * 1.35);
+  auraGradient.addColorStop(0, `${primaryColor}66`);
+  auraGradient.addColorStop(0.5, `${primaryColor}22`);
+  auraGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+  ctx.fillStyle = auraGradient;
   ctx.beginPath();
-  ctx.arc(cx, cy, radius * 1.4, 0, Math.PI * 2);
+  ctx.arc(cx, cy, radius * 1.35, 0, Math.PI * 2);
   ctx.fill();
 
-  // 2. Main Planet Body (Circular Flat Surface with subtle soft radial shading)
-  ctx.save();
+  // 2. Planet Sphere Body
   ctx.beginPath();
   ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-  ctx.clip();
 
-  // Base background
-  ctx.fillStyle = "#161b22";
-  ctx.fill();
-
-  // Planet shading gradient
   const bodyGradient = ctx.createRadialGradient(
     cx - radius * 0.35,
     cy - radius * 0.35,
@@ -201,7 +260,7 @@ export function renderPlanet(
   ctx.fillStyle = bodyGradient;
   ctx.fill();
 
-  // 3. Continental / Biome Patches (Soft flat segments according to GDD 13)
+  // 3. Biome Patches
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(state.rotation);
@@ -216,12 +275,12 @@ export function renderPlanet(
     ctx.fill();
   }
 
-  // 4. Center Core Emblem: The element's geometric symbol
+  // 4. Center Core Emblem
   drawElementSymbol(ctx, state.element, 0, 0, radius * 0.48, "rgba(20, 24, 33, 0.85)");
 
   ctx.restore();
 
-  // 5. Delicate rim highlight (lighting from top-left)
+  // 5. Rim highlight
   ctx.beginPath();
   ctx.arc(cx, cy, radius - 1, 0, Math.PI * 2);
   ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
@@ -229,6 +288,24 @@ export function renderPlanet(
   ctx.stroke();
 
   ctx.restore();
+}
+
+/**
+ * Primary render function, routing to Sphere or Grid based on state.viewMode.
+ */
+export function renderPlanet(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  state: PlanetState,
+): void {
+  ctx.clearRect(0, 0, width, height);
+
+  if (state.viewMode === "grid" && state.tiles && state.tiles.length > 0) {
+    renderPlanetGrid(ctx, width, height, state);
+  } else {
+    renderPlanetSphere(ctx, width, height, state);
+  }
 }
 
 /**

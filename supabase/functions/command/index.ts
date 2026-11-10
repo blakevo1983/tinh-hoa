@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { CommandSchema, type Command } from "@tinh-hoa/shared";
+import { CommandSchema, type Command, generatePlanet, ELEMENT_KEYS } from "@tinh-hoa/shared";
 
 export const MAX_BODY_BYTES = 32 * 1024; // 32 KB payload limit
 
@@ -31,6 +31,23 @@ export function createErrorResponse(
       },
     },
   );
+}
+
+function toValidUuid(str: string): string {
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)) {
+    return str.toLowerCase();
+  }
+  let hash1 = 5381;
+  let hash2 = 52711;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash1 = (hash1 * 33) ^ char;
+    hash2 = (hash2 * 33) ^ char;
+  }
+  const hex1 = (hash1 >>> 0).toString(16).padStart(8, "0");
+  const hex2 = (hash2 >>> 0).toString(16).padStart(8, "0");
+  const hex3 = ((hash1 ^ hash2) >>> 0).toString(16).padStart(8, "0");
+  return `${hex1}-${hex2.slice(0, 4)}-4${hex2.slice(4, 7)}-8${hex3.slice(0, 3)}-${hex3}${hex1.slice(0, 4)}`;
 }
 
 export async function handleCommand(
@@ -166,6 +183,109 @@ export async function handleCommand(
         type: "system.ping",
         server_time: Date.now(),
         client_timestamp: command.payload.client_timestamp ?? null,
+      };
+      break;
+    }
+
+    case "planet.create": {
+      // 9.1 Check if user already owns a primary planet
+      const { data: existingPlanet } = await supabase
+        .from("planets")
+        .select("id")
+        .eq("owner_id", user.id)
+        .eq("is_primary", true)
+        .maybeSingle();
+
+      if (existingPlanet) {
+        return createErrorResponse(409, "ALREADY_EXISTS", "planet.already_exists", requestId);
+      }
+
+      // 9.2 Server generates random seed (never trusted from client)
+      const randomBytes = new Uint32Array(1);
+      crypto.getRandomValues(randomBytes);
+      const serverSeed = randomBytes[0]!;
+
+      // 9.3 Pure planet generation
+      const gridSize = 12;
+      const generated = generatePlanet({
+        seed: serverSeed,
+        primaryElement: command.payload.primary_element,
+        gridSize,
+      });
+
+      // 9.4 Create planet record
+      const { data: newPlanet, error: insertPlanetError } = await supabase
+        .from("planets")
+        .insert({
+          owner_id: user.id,
+          name: command.payload.name,
+          primary_element: command.payload.primary_element,
+          seed: serverSeed,
+          grid_size: gridSize,
+          stage: 1,
+          state_version: 0,
+          is_primary: true,
+        })
+        .select("id, name, primary_element, seed, grid_size, stage, state_version")
+        .single();
+
+      if (insertPlanetError || !newPlanet) {
+        return createErrorResponse(
+          500,
+          "DATABASE_ERROR",
+          "planet.create_failed",
+          requestId,
+          insertPlanetError?.message,
+        );
+      }
+
+      // 9.5 Bulk insert planet tiles
+      const tilesToInsert = generated.tiles.map((tile) => ({
+        planet_id: newPlanet.id,
+        x: tile.x,
+        y: tile.y,
+        element: tile.element,
+        biome: tile.biome,
+        richness: tile.richness,
+      }));
+
+      const { error: insertTilesError } = await supabase.from("planet_tiles").insert(tilesToInsert);
+
+      if (insertTilesError) {
+        return createErrorResponse(
+          500,
+          "DATABASE_ERROR",
+          "planet.tiles_create_failed",
+          requestId,
+          insertTilesError.message,
+        );
+      }
+
+      // 9.6 Initialize starter resource balances
+      const initialBalances = ELEMENT_KEYS.map((elem) => ({
+        planet_id: newPlanet.id,
+        resource_key: elem,
+        amount: elem === command.payload.primary_element ? 50 : 10,
+        rate_per_sec: elem === command.payload.primary_element ? 0.5 : 0.1,
+        cap: 500,
+      }));
+
+      await supabase.from("resource_balances").insert(initialBalances);
+
+      // 9.7 Record genesis event in append-only resource_ledger
+      await supabase.from("resource_ledger").insert({
+        planet_id: newPlanet.id,
+        resource_key: command.payload.primary_element,
+        delta: 50,
+        reason: "planet_genesis",
+        idempotency_key: toValidUuid(command.idempotency_key),
+      });
+
+      responsePayload = {
+        ok: true,
+        type: "planet.create",
+        planet: newPlanet,
+        tiles: generated.tiles,
       };
       break;
     }

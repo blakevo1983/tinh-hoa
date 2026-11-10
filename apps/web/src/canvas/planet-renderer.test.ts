@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { ELEMENT_KEYS } from "@tinh-hoa/shared";
+import { ELEMENT_KEYS, generatePlanet } from "@tinh-hoa/shared";
 import { renderPlanet, drawElementSymbol } from "./planet-renderer.js";
 
 function createMockContext(): CanvasRenderingContext2D {
@@ -14,6 +14,8 @@ function createMockContext(): CanvasRenderingContext2D {
     arc: vi.fn(),
     fill: vi.fn(),
     fillRect: vi.fn(),
+    roundRect: vi.fn(),
+    quadraticCurveTo: vi.fn(),
     moveTo: vi.fn(),
     lineTo: vi.fn(),
     closePath: vi.fn(),
@@ -54,5 +56,24 @@ describe("planet-renderer", () => {
         drawElementSymbol(ctx, element, 100, 100, 40, "#ffffff");
       }).not.toThrow();
     }
+  });
+
+  it("renders 12x12 grid view cleanly when tiles are present", () => {
+    const ctx = createMockContext();
+    const planet = generatePlanet({ seed: 777, primaryElement: "wood", gridSize: 12 });
+
+    expect(() => {
+      renderPlanet(ctx, 360, 360, {
+        element: "wood",
+        rotation: 0,
+        pulsePhase: 0,
+        viewMode: "grid",
+        gridSize: 12,
+        tiles: planet.tiles,
+      });
+    }).not.toThrow();
+
+    expect(ctx.clearRect).toHaveBeenCalled();
+    expect(ctx.roundRect).toHaveBeenCalled();
   });
 });
