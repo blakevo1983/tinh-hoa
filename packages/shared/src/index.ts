@@ -21,6 +21,10 @@ export * from "./schemas/command.js";
 export * from "./schemas/auth.js";
 export * from "./schemas/planet.js";
 export * from "./schemas/social.js";
+export * from "./schemas/chat.js";
+
+// Moderation
+export * from "./moderation/profanity-filter.js";
 
 // Generation
 export * from "./generation/planet-generator.js";

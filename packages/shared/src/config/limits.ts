@@ -22,3 +22,14 @@ export const GAME_LIMITS = {
   maxDisplayNameLength: 32,
   minDisplayNameLength: 3,
 } as const;
+
+export const CHAT_LIMITS = {
+  maxContentLength: 300,
+  minIntervalSec: 2, // Maximum 1 message per 2 seconds
+  maxMessagesPerMinute: 20,
+  globalMinIntervalSec: 10, // Global channel interval: 1 message per 10s
+  minAccountAgeHoursForGlobal: 24, // Requires account age >= 24h for global chat
+  minAccountAgeHoursForDm: 24, // Requires account age >= 24h for DM with strangers
+  maxRepeatedMessages: 2, // Block 2+ identical consecutive messages
+  historyPageLimit: 50,
+} as const;

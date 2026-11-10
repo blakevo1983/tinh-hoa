@@ -10,16 +10,16 @@
 - [x] Migration SQL, RLS deny-by-default, pgTAP test bảo vệ quyền riêng tư.
 
 ### T3.2 — Cơ sở dữ liệu Chat & Thông báo
-- [ ] Bảng `chat_channels`, `chat_members`, `chat_messages`, `chat_reports`, `notifications`.
-- [ ] Hàm PostgreSQL `is_channel_member(channel_id, user_id)` an toàn (`SECURITY DEFINER set search_path = ''`).
-- [ ] RLS: Chỉ thành viên kênh mới được `SELECT` tin nhắn; client không có quyền `INSERT/UPDATE/DELETE` trực tiếp vào `chat_messages`.
-- [ ] Migration SQL, pgTAP test RLS kênh kín, kênh toàn cục và DM.
+- [x] Bảng `chat_channels`, `chat_members`, `chat_messages`, `chat_reports`, `notifications`.
+- [x] Hàm PostgreSQL `is_channel_member(channel_id, user_id)` an toàn (`SECURITY DEFINER set search_path = ''`).
+- [x] RLS: Chỉ thành viên kênh mới được `SELECT` tin nhắn; client không có quyền `INSERT/UPDATE/DELETE` trực tiếp vào `chat_messages`.
+- [x] Migration SQL, pgTAP test RLS kênh kín, kênh toàn cục và DM.
 
 ### T3.3 — Zod Schemas & Bộ lọc từ cấm tiếng Việt thuần túy
-- [ ] Zod schema cho gửi tin chat (`ChatMessageSchema`, `ChatSendRequestSchema`, `ChatReportSchema`).
-- [ ] Hàm thuần `filterProfanity(text)` chuẩn hóa unicode dấu tiếng Việt và ký tự thay thế (leetspeak: vkl, dmm, cmn, ...).
-- [ ] Giới hạn cấu hình trong `packages/shared/src/config/limits.ts`: độ dài tin $\le 300$, rate limit, hạn mức theo tuổi tài khoản.
-- [ ] Unit test và property test cho bộ lọc từ cấm.
+- [x] Zod schema cho gửi tin chat (`ChatMessageSchema`, `ChatSendRequestSchema`, `ChatReportSchema`).
+- [x] Hàm thuần `filterProfanity(text)` chuẩn hóa unicode dấu tiếng Việt và ký tự thay thế (leetspeak: vkl, dmm, cmn, ...).
+- [x] Giới hạn cấu hình trong `packages/shared/src/config/limits.ts`: độ dài tin $\le 300$, rate limit, hạn mức theo tuổi tài khoản.
+- [x] Unit test và property test cho bộ lọc từ cấm.
 
 ### T3.4 — Edge Function `chat-send`
 - [ ] Deno function tiếp nhận yêu cầu gửi tin: JWT → zod validate → rate limiter → kiểm tra quyền kênh → kiểm tra bị chặn/mute → lọc từ ngữ → `INSERT chat_messages` (kèm `client_msg_id` chống trùng tin) → broadcast Realtime.
