@@ -78,9 +78,9 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** commit có secret giả bị chặn.
 
 ### T0.10 — Triển khai staging và header bảo mật
-- [ ] Cloudflare Pages: preview cho PR, staging từ `main`.
-- [ ] `_headers`: CSP chặt, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `frame-ancestors 'none'`.
-- [ ] Biến môi trường đặt trên Cloudflare, không trong repo.
+- [x] Cloudflare Pages: preview cho PR, staging từ `main`.
+- [x] `_headers`: CSP chặt, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `frame-ancestors 'none'`.
+- [x] Biến môi trường đặt trên Cloudflare, không trong repo.
 
 **Acceptance:** truy cập URL staging; công cụ kiểm header xác nhận CSP; không lỗi CSP ở console.
 

@@ -128,3 +128,42 @@ pnpm supabase db push
      - Tích chọn job `database` (Supabase start, DB reset, pgTAP RLS tests).
    - **Require branches to be up to date before merging:** Đảm bảo nhánh PR luôn đồng bộ với `main` mới nhất trước khi merge.
 
+---
+
+## 7. Triển khai Cloudflare Pages (Staging & Preview Deployments)
+
+Dự án sử dụng Cloudflare Pages để host client (SPA static) với chi phí hạ tầng 0đ.
+
+### Bước 7.1: Tạo Cloudflare Pages Project
+1. Đăng nhập [Cloudflare Dashboard](https://dash.cloudflare.com/) (đảm bảo đã bật 2FA).
+2. Vào **Compute (Workers & Pages)** → **Create application** → Thẻ **Pages** → **Connect to Git**.
+3. Chọn GitHub repository `tinh-hoa`.
+
+### Bước 7.2: Cấu hình Build Settings
+- **Project name:** `tinh-hoa` (hoặc `tinh-hoa-staging`)
+- **Production branch:** `main` (tự động triển khai Staging/Live khi merge vào `main`)
+- **Framework preset:** `None` (hoặc `Vite`)
+- **Build command:** `pnpm --filter @tinh-hoa/shared build && pnpm --filter @tinh-hoa/web build`
+- **Build output directory:** `apps/web/dist`
+- **Root directory:** `/`
+
+### Bước 7.3: Cấu hình Biến môi trường (Environment Variables)
+Đặt biến môi trường trực tiếp trên Cloudflare Dashboard (**Settings → Environment variables**), tuyệt đối không commit vào repo:
+
+| Tên biến | Môi trường Preview | Môi trường Production | Ghi chú |
+|---|---|---|---|
+| `NODE_VERSION` | `22` | `22` | Phiên bản Node.js build |
+| `PNPM_VERSION` | `12.4.1` | `12.4.1` | Phiên bản pnpm đồng nhất |
+| `VITE_SUPABASE_URL` | URL Supabase Staging | URL Supabase Production | Endpoint Kong Gateway |
+| `VITE_SUPABASE_ANON_KEY` | Anon Key Staging | Anon Key Production | Key công khai của client |
+| `VITE_TURNSTILE_SITE_KEY` | Turnstile Site Key | Turnstile Site Key | Key CAPTCHA form |
+
+### Bước 7.4: Header bảo mật tự động (`_headers`)
+File cấu hình header bảo mật nằm tại `apps/web/public/_headers`. Khi Vite build, file này tự động được copy vào `apps/web/dist/_headers` và Cloudflare Pages sẽ tự động áp dụng các header sau cho mọi response:
+- **CSP (Content-Security-Policy):** Chặn XSS, chỉ cho phép script nội bộ và widget Cloudflare Turnstile, chặn nhúng frame trái phép.
+- **X-Content-Type-Options: nosniff:** Chặn MIME type sniffing.
+- **X-Frame-Options: DENY** & **frame-ancestors 'none':** Chống Clickjacking.
+- **Referrer-Policy: strict-origin-when-cross-origin:** Bảo vệ thông tin chuyển hướng.
+- **Permissions-Policy:** Tắt toàn bộ API phần cứng nhạy cảm (camera, micro, geolocation...).
+
+
