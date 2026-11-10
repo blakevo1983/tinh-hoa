@@ -92,6 +92,6 @@ Quy ước: `[ ]` chưa làm · `[x]` xong. Một task = một PR.
 **Acceptance:** người mới (hoặc phiên agent mới) dựng được môi trường chỉ từ `docs/setup.md`.
 
 ### T0.12 — `/security-review` cho P0
-- [ ] Chạy workflow `/security-review` trên toàn P0 trong một phiên mới; xử lý hết mức Cao/Vừa.
+- [x] Chạy workflow `/security-review` trên toàn P0 trong một phiên mới; xử lý hết mức Cao/Vừa.
 
 **Acceptance:** báo cáo lưu ở `docs/security-reviews/P0.md`, không còn phát hiện Cao/Vừa mở.
