@@ -36,7 +36,7 @@ jobs:
             echo "service_role found in client bundle"; exit 1
           fi
       - name: Secret scan
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
