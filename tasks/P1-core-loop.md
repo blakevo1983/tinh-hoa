@@ -13,9 +13,9 @@
 **Acceptance:** 1.000 seed ngẫu nhiên đều thỏa bất biến; tạo lại đúng từ seed.
 
 ### T1.2 — Bảng game và RPC `commit_effects` (`/db-migration`)
-- [ ] Migration: `planets`, `planet_tiles`, `resource_balances`, `resource_ledger` (trigger bất biến), `buildings`, `jobs`.
-- [ ] `commit_effects` hoàn chỉnh: kiểm owner, `state_version`, idempotency, áp effect (số dư ± + ledger), tăng version.
-- [ ] pgTAP: không ghi trực tiếp; số dư không âm; lặp `idempotency_key` trả kết quả cũ; sai `expected_version` bị từ chối; hai giao dịch song song không làm âm số dư.
+- [x] Migration: `planets`, `planet_tiles`, `resource_balances`, `resource_ledger` (trigger bất biến), `buildings`, `jobs`.
+- [x] `commit_effects` hoàn chỉnh: kiểm owner, `state_version`, idempotency, áp effect (số dư ± + ledger), tăng version.
+- [x] pgTAP: không ghi trực tiếp; số dư không âm; lặp `idempotency_key` trả kết quả cũ; sai `expected_version` bị từ chối; hai giao dịch song song không làm âm số dư.
 
 **Acceptance:** `pnpm test:db` xanh, gồm test song song.
 
