@@ -64,8 +64,8 @@
 **Acceptance:** lên Sơ khai thành công; dữ liệu cũ không đổi.
 
 ### T1.9 — Giám sát và flag gian lận
-- [ ] Ghi `audit_log` cho lệnh quan trọng; `cheat_flags` khi tăng tài nguyên vượt tối đa lý thuyết (từ ledger).
-- [ ] Trang nội bộ (chỉ bạn) liệt kê cờ — có thể là truy vấn SQL ghi trong `docs/`.
+- [x] Ghi `audit_log` cho lệnh quan trọng; `cheat_flags` khi tăng tài nguyên vượt tối đa lý thuyết (từ ledger).
+- [x] Trang nội bộ (chỉ bạn) liệt kê cờ — có thể là truy vấn SQL ghi trong `docs/`.
 
 **Acceptance:** giả lập tăng bất thường → sinh cờ.
 
