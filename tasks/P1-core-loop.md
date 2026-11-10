@@ -42,11 +42,11 @@
 **Acceptance:** xây → chờ → nhận; thiếu tài nguyên bị từ chối với `INSUFFICIENT_RESOURCES`.
 
 ### T1.6 — Bộ test exploit P1
-- [ ] Double-spend: hai lệnh xây song song cùng số dư → chỉ một thành công.
-- [ ] Replay: gửi lại cùng `idempotency_key` → không áp hai lần.
-- [ ] Đặt công trình lên ô người khác/ô đã có công trình/ngoài lưới → từ chối.
-- [ ] Số lượng âm, `NaN`, quá lớn, kiểu sai → `INVALID_INPUT`.
-- [ ] Gửi `planet_id` của người khác → `NOT_OWNER`.
+- [x] Double-spend: hai lệnh xây song song cùng số dư → chỉ một thành công.
+- [x] Replay: gửi lại cùng `idempotency_key` → không áp hai lần.
+- [x] Đặt công trình lên ô người khác/ô đã có công trình/ngoài lưới → từ chối.
+- [x] Số lượng âm, `NaN`, quá lớn, kiểu sai → `INVALID_INPUT`.
+- [x] Gửi `planet_id` của người khác → `NOT_OWNER`.
 
 **Acceptance:** toàn bộ test exploit xanh.
 
